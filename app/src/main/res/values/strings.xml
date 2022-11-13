@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">Vocantastic</string>
+    <string name="hello_textfield_label">Enter text</string>
+    <string name="change_text_button">Change text</string>
+</resources>
