@@ -2,4 +2,11 @@
     <string name="app_name">Vocantastic</string>
     <string name="hello_textfield_label">Enter text</string>
     <string name="change_text_button">Change text</string>
+    <string name="welcome_image">Welcome picture with a few foreign languages around</string>
+    <string name="your_language">Your language</string>
+    <string name="your_language_supporter">This is your own language</string>
+    <string name="home_icon">Home</string>
+    <string name="add_icon">"Add new "</string>
+    <string name="show_list">show list</string>
+    <string name="quiz">quiz</string>
 </resources>
