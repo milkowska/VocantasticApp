@@ -6,7 +6,10 @@
     <string name="your_language">Your language</string>
     <string name="your_language_supporter">This is your own language</string>
     <string name="home_icon">Home</string>
-    <string name="add_icon">"Add new "</string>
-    <string name="show_list">show list</string>
-    <string name="quiz">quiz</string>
+    <string name="add_icon">"Add"</string>
+    <string name="show_list">Learn</string>
+    <string name="quiz">Test</string>
+    <string name="foreign_language">Foreign language</string>
+    <string name="foreign_language_supporter">The language you will learn</string>
+    <string name="save_configuration">Save this configuration</string>
 </resources>
