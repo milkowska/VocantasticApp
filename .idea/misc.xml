@@ -3,7 +3,23 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/Felicita/Desktop/VocantasticApp/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.1175" />
+        <entry key="..\:/Users/Felicita/Desktop/VocantasticApp/app/src/main/res/drawable/filled_add_icon_19.xml" value="0.1175" />
+        <entry key="..\:/Users/Felicita/Desktop/VocantasticApp/app/src/main/res/drawable/filled_add_icon_19v.xml" value="0.1175" />
+        <entry key="..\:/Users/Felicita/Desktop/VocantasticApp/app/src/main/res/drawable/filled_home_icon_19.xml" value="0.1175" />
+        <entry key="..\:/Users/Felicita/Desktop/VocantasticApp/app/src/main/res/drawable/filled_ic_baseline_add_circle_19.xml" value="0.1175" />
+        <entry key="..\:/Users/Felicita/Desktop/VocantasticApp/app/src/main/res/drawable/filled_ic_baseline_home_19.xml" value="0.1175" />
+        <entry key="..\:/Users/Felicita/Desktop/VocantasticApp/app/src/main/res/drawable/ic_baseline_add_circle_outline_19.xml" value="0.1175" />
+        <entry key="..\:/Users/Felicita/Desktop/VocantasticApp/app/src/main/res/drawable/ic_baseline_school_24.xml" value="0.1175" />
+        <entry key="..\:/Users/Felicita/Desktop/VocantasticApp/app/src/main/res/drawable/ic_launcher_background.xml" value="0.1175" />
+        <entry key="..\:/Users/Felicita/Desktop/VocantasticApp/app/src/main/res/drawable/ic_outline_home_19.xml" value="0.1175" />
+        <entry key="..\:/Users/Felicita/Desktop/VocantasticApp/app/src/main/res/drawable/ic_outline_school_19.xml" value="0.1175" />
+        <entry key="..\:/Users/Felicita/Desktop/VocantasticApp/app/src/main/res/drawable/ic_quiz_fill1_wght400_grad0_opsz20.xml" value="0.1175" />
         <entry key="..\:/Users/Felicita/Desktop/VocantasticApp/app/src/main/res/drawable/ic_quiz_outlined.xml" value="0.1175" />
+        <entry key="..\:/Users/Felicita/Desktop/VocantasticApp/app/src/main/res/drawable/outline_add_icon_19.xml" value="0.1175" />
+        <entry key="..\:/Users/Felicita/Desktop/VocantasticApp/app/src/main/res/drawable/outline_home_icon_19.xml" value="0.1175" />
+        <entry key="..\:/Users/Felicita/Desktop/VocantasticApp/app/src/main/res/drawable/outline_school_icon_19.xml" value="0.1175" />
+        <entry key="..\:/Users/Felicita/Desktop/VocantasticApp/app/src/main/res/drawable/outlined_quiz_icon.xml" value="0.1175" />
         <entry key="..\:/Users/Felicita/Desktop/VocantasticApp/app/src/main/res/drawable/quiz-48px.xml" value="0.1175" />
       </map>
     </option>
