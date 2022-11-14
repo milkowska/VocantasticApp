@@ -11,5 +11,7 @@
     <string name="quiz">Test</string>
     <string name="foreign_language">Foreign language</string>
     <string name="foreign_language_supporter">The language you will learn</string>
-    <string name="save_configuration">Save this configuration</string>
+    <string name="save_configuration">Save</string>
+    <string name="type_here">Type here...</string>
+    <string name="delete_configuration">Delete</string>
 </resources>
