@@ -63,7 +63,8 @@ private fun HomeScreenContent(
 
     ) {
 
-        //TODO center that
+        //TODO center that!!!!
+
         CurrentFirstLanguageText(
             firstLanguage = updatedValueNative.value,
             modifier = Modifier
@@ -118,16 +119,18 @@ private fun HomeScreenContent(
         ) {
             SaveConfigurationButton(
                 modifier = Modifier
-                    .weight(0.5f),
+                    .weight(0.5f)
+                .padding(15.dp),
                 onClick = {
                     updatedValueNative.value = textValueNative.value
                     updatedValueForeign.value = textValueForeign.value
                 }
             )
-
+//TODO one button has to be disabled the other enabled
             DeleteConfigurationButton(
                 modifier = Modifier
-                    .weight(0.5f),
+                    .weight(0.5f)
+                    .padding(15.dp),
                 onClick = {
                     updatedValueNative.value = ""
                     updatedValueForeign.value = ""
@@ -208,7 +211,7 @@ fun SaveConfigurationButton(
     Button(
         onClick = onClick,
         modifier = modifier
-            .width(236.dp)
+            .width(48.dp)
     ) {
         Text(stringResource(id = R.string.save_configuration))
     }
@@ -221,7 +224,7 @@ fun DeleteConfigurationButton(
     Button(
         onClick = onClick,
         modifier = modifier
-            .width(236.dp)
+            .width(48.dp)
     ) {
         Text(stringResource(id = R.string.delete_configuration))
     }
