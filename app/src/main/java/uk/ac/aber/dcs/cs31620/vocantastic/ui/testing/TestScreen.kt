@@ -76,7 +76,7 @@ fun TestScreenContent(
             fontWeight = FontWeight.Bold,
             modifier = modifier
         )
-        Spacer(modifier = Modifier.height(10.dp))
+        Spacer(modifier = Modifier.height(12.dp))
 
         AnagramTestButton(
             modifier = Modifier

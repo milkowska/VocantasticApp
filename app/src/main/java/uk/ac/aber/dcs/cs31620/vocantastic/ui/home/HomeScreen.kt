@@ -75,6 +75,7 @@ private fun HomeScreenContent(
 
         Spacer(modifier = Modifier.height(6.dp))
         //TODO center that
+
         CurrentForeignLanguageText(
             secondLanguage = updatedValueForeign.value,
             modifier = Modifier
