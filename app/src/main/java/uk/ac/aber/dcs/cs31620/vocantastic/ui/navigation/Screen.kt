@@ -9,9 +9,11 @@ sealed class Screen(val route: String) {
     object Score : Screen("score")
     object Test : Screen("test")
     object Words : Screen("add")
+    object Welcome : Screen("welcome")
 }
 
 val screens = listOf(
+    //Screen.Welcome,
     Screen.Home,
     Screen.Words,
     Screen.List,

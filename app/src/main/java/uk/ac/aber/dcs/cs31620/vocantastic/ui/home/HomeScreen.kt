@@ -8,15 +8,12 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -63,81 +60,44 @@ private fun HomeScreenContent(
 
     ) {
 
-        //TODO center that!!!!
-
-        CurrentFirstLanguageText(
-            firstLanguage = updatedValueNative.value,
-            modifier = Modifier
-                .align(Alignment.CenterHorizontally)
-                .padding(0.dp,0.dp,10.dp,5.dp)
-
-        )
-
         Spacer(modifier = Modifier.height(6.dp))
-        //TODO center that
 
-        CurrentForeignLanguageText(
-            secondLanguage = updatedValueForeign.value,
-            modifier = Modifier
-                .align(Alignment.CenterHorizontally)
-                .padding(0.dp,0.dp,10.dp,5.dp)
-
-        )
-        Spacer(modifier = Modifier.height(6.dp))
 
         Image(
             modifier = Modifier
-                .size(265.dp),
+                .size(340.dp),
             painter = painterResource(id = R.drawable.transparent_home_screen_image),
             contentDescription = stringResource(id = R.string.welcome_image),
             contentScale = ContentScale.Crop
         )
 
-        YourLanguageTextField(
-            modifier = Modifier,
-            textValue = textValueNative.value,
-            onValueChange = {
-                if (it.length <= maxChar) textValueNative.value = it
-            }
-        )
+        Spacer(modifier = Modifier.height(15.dp))
 
-        Spacer(modifier = Modifier.height(16.dp))
-
-        ForeignLanguageTextField(
-            textValue = textValueForeign.value,
-            onValueChange = {
-                if (it.length <= maxChar) textValueForeign.value = it
-            }
-        )
-
-        Spacer(modifier = Modifier.height(6.dp))
-
-        Row ( horizontalArrangement = Arrangement.SpaceEvenly,
-            verticalAlignment = Alignment.CenterVertically,
+        CurrentFirstLanguageText(
+            firstLanguage = updatedValueNative.value,
             modifier = Modifier
-            .padding(top = 10.dp),
+                .align(Alignment.CenterHorizontally)
+                .padding(0.dp, 0.dp, 10.dp, 5.dp)
 
-        ) {
-            SaveConfigurationButton(
-                modifier = Modifier
-                    .weight(0.5f)
+        )
+
+        Spacer(modifier = Modifier.height(15.dp))
+
+        CurrentForeignLanguageText(
+            secondLanguage = updatedValueForeign.value,
+            modifier = Modifier
+                .align(Alignment.CenterHorizontally)
+                .padding(0.dp, 0.dp, 10.dp, 5.dp)
+        )
+
+        Spacer(modifier = Modifier.height(25.dp))
+
+        SettingsButton(
+            modifier = Modifier
                 .padding(15.dp),
-                onClick = {
-                    updatedValueNative.value = textValueNative.value
-                    updatedValueForeign.value = textValueForeign.value
-                }
-            )
-//TODO one button has to be disabled the other enabled
-            DeleteConfigurationButton(
-                modifier = Modifier
-                    .weight(0.5f)
-                    .padding(15.dp),
-                onClick = {
-                    updatedValueNative.value = ""
-                    updatedValueForeign.value = ""
-                }
-            )
-        }
+            onClick = {
+            }
+        )
     }
 }
 
@@ -147,8 +107,8 @@ fun CurrentFirstLanguageText(
     modifier: Modifier = Modifier
 ) {
     Text(
-        text = "Your current first language selection is: $firstLanguage",
-        fontSize = 17.sp,
+        text = "I speak: $firstLanguage",
+        fontSize = 20.sp,
         modifier = modifier
     )
 }
@@ -159,8 +119,8 @@ fun CurrentForeignLanguageText(
     modifier: Modifier = Modifier
 ) {
     Text(
-        text = "Your current foreign language selection is: $secondLanguage",
-        fontSize = 17.sp,
+        text = "I want to learn: $secondLanguage",
+        fontSize = 20.sp,
         modifier = modifier
     )
 }
@@ -205,38 +165,25 @@ fun ForeignLanguageTextField(
 }
 
 @Composable
-fun SaveConfigurationButton(
+fun SettingsButton(
     modifier: Modifier = Modifier,
     onClick: () -> Unit = {}
 ) {
     Button(
         onClick = onClick,
         modifier = modifier
-            .width(48.dp)
+            .width(182.dp)
     ) {
-        Text(stringResource(id = R.string.save_configuration))
+        Text(stringResource(R.string.settings))
     }
 }
-@Composable
-fun DeleteConfigurationButton(
-    modifier: Modifier = Modifier,
-    onClick: () -> Unit = {}
-) {
-    Button(
-        onClick = onClick,
-        modifier = modifier
-            .width(48.dp)
-    ) {
-        Text(stringResource(id = R.string.delete_configuration))
-    }
 
-}
 
 @Preview
 @Composable
-fun SaveConfigBtnPreview() {
+fun SettingsBtnPreview() {
     VocantasticTheme(dynamicColor = false) {
-        SaveConfigurationButton()
+        SettingsButton()
     }
 }
 
