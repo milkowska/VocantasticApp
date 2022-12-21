@@ -19,18 +19,24 @@ class WordPairViewModel(application: Application) : AndroidViewModel(application
             repository.insert(wordPair)
         }
     }
+
     fun clearWordList() {
         viewModelScope.launch(Dispatchers.IO) {
             repository.clearWordList()
         }
     }
+
     fun deleteWordPair(wordPair: WordPair) {
         viewModelScope.launch(Dispatchers.IO) {
             repository.delete(wordPair)
         }
     }
 
-    private fun loadWordList() : LiveData<List<WordPair>> {
+    private fun loadWordList(): LiveData<List<WordPair>> {
         return repository.getWordList()
     }
+
+  /*  private fun loadWordPair(): LiveData<WordPair> {
+        return repository.
+    }*/
 }

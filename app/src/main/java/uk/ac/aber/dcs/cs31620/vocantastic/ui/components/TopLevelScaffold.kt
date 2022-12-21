@@ -1,11 +1,10 @@
 package uk.ac.aber.dcs.cs31620.vocantastic.ui.components
 
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
 
@@ -13,6 +12,10 @@ import kotlinx.coroutines.launch
 @Composable
 fun TopLevelScaffold(
     navController: NavHostController,
+    floatingActionButton: @Composable () -> Unit = { },
+    snackbarContent: @Composable (SnackbarData) -> Unit = {},
+    //coroutineScope: CoroutineScope,
+    snackbarHostState: SnackbarHostState? = null,
     pageContent: @Composable (innerPadding: PaddingValues) -> Unit = {}
 ){
     Scaffold(

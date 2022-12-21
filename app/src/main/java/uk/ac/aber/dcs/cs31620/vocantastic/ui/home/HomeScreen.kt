@@ -7,7 +7,10 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -17,17 +20,38 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import uk.ac.aber.dcs.cs31620.vocantastic.R
+import uk.ac.aber.dcs.cs31620.vocantastic.model.WordPair
+import uk.ac.aber.dcs.cs31620.vocantastic.model.WordPairViewModel
 import uk.ac.aber.dcs.cs31620.vocantastic.ui.components.TopLevelScaffold
 import uk.ac.aber.dcs.cs31620.vocantastic.ui.theme.VocantasticTheme
 
 
 @Composable
-fun HomeScreen(navController: NavHostController) {
+fun HomeScreenTopLevel(
+    navController: NavHostController,
+    wordPairViewModel: WordPairViewModel = viewModel()
+)
+{
+    val wordList by wordPairViewModel.wordList.observeAsState(listOf())
+
+    HomeScreen(
+        navController = navController,
+        wordList =  wordList
+    )
+}
+@Composable
+fun HomeScreen(navController: NavHostController,
+               wordList: List<WordPair>
+) {
+    val coroutineScope = rememberCoroutineScope()
+
     TopLevelScaffold(
         navController = navController,
+      //  coroutineScope = coroutineScope,
     ) { innerPadding ->
         Surface(
             modifier = Modifier
@@ -35,7 +59,8 @@ fun HomeScreen(navController: NavHostController) {
                 .fillMaxSize()
         ) {
             HomeScreenContent(
-                modifier = Modifier.padding(10.dp)
+                modifier = Modifier.padding(10.dp),
+                wordList
             )
         }
     }
@@ -43,14 +68,13 @@ fun HomeScreen(navController: NavHostController) {
 
 @Composable
 private fun HomeScreenContent(
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    wordList: List<WordPair>
 ) {
-
     val textValueNative = rememberSaveable { mutableStateOf("") }
     val textValueForeign = rememberSaveable { mutableStateOf("") }
     val updatedValueNative = rememberSaveable { mutableStateOf("") }
     val updatedValueForeign = rememberSaveable { mutableStateOf("") }
-    val maxChar = 20
 
     Column(
         modifier = modifier
@@ -200,6 +224,6 @@ fun YourLanguageTextFieldPreview() {
 fun HomeScreenPreview() {
     val navController = rememberNavController()
     VocantasticTheme(dynamicColor = false) {
-        HomeScreen(navController)
+        HomeScreen(navController, listOf() )
     }
 }

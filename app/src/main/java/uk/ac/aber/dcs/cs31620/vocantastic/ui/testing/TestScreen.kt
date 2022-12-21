@@ -15,15 +15,18 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import uk.ac.aber.dcs.cs31620.vocantastic.R
+import uk.ac.aber.dcs.cs31620.vocantastic.model.WordPairViewModel
 import uk.ac.aber.dcs.cs31620.vocantastic.ui.components.TopLevelScaffold
 
 
 @Composable
 fun TestScreen(
-    navController: NavHostController
+    navController: NavHostController,
+    wordPairViewModel: WordPairViewModel = viewModel()
 ) {
     TopLevelScaffold(
         navController = navController,

@@ -3,29 +3,21 @@ package uk.ac.aber.dcs.cs31620.vocantastic
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import uk.ac.aber.dcs.cs31620.vocantastic.ui.home.HomeScreen
-import uk.ac.aber.dcs.cs31620.vocantastic.ui.list.EmptyListScreen
-import uk.ac.aber.dcs.cs31620.vocantastic.ui.list.ViewList
+import uk.ac.aber.dcs.cs31620.vocantastic.model.WordPairViewModel
+import uk.ac.aber.dcs.cs31620.vocantastic.ui.home.HomeScreenTopLevel
+import uk.ac.aber.dcs.cs31620.vocantastic.ui.list.ViewListScreenTopLevel
 import uk.ac.aber.dcs.cs31620.vocantastic.ui.navigation.Screen
 import uk.ac.aber.dcs.cs31620.vocantastic.ui.testing.TestScreen
 import uk.ac.aber.dcs.cs31620.vocantastic.ui.theme.VocantasticTheme
-import uk.ac.aber.dcs.cs31620.vocantastic.ui.welcome.WelcomeScreen
 import uk.ac.aber.dcs.cs31620.vocantastic.ui.words.AddWordScreen
 
 class MainActivity : ComponentActivity() {
@@ -39,7 +31,7 @@ class MainActivity : ComponentActivity() {
                     color = MaterialTheme.colorScheme.background
                 ) {
 
-                    CreateNavigation()
+                    BuildNavigationGraph()
                 }
             }
         }
@@ -48,7 +40,9 @@ class MainActivity : ComponentActivity() {
 
 
 @Composable
-private fun CreateNavigation() {
+private fun BuildNavigationGraph(
+    wordPairViewModel: WordPairViewModel = viewModel()
+) {
 
     val navController = rememberNavController()
 
@@ -57,10 +51,10 @@ private fun CreateNavigation() {
         startDestination = Screen.Home.route
     ) {
        // composable(Screen.Welcome.route) { WelcomeScreen(navController) }
-        composable(Screen.Home.route) { HomeScreen(navController) }
-        composable(Screen.List.route) { EmptyListScreen(navController) }
-        composable(Screen.Test.route) { TestScreen(navController) }
-        composable(Screen.Words.route) { AddWordScreen(navController) }
+        composable(Screen.Home.route) { HomeScreenTopLevel(navController, wordPairViewModel) }
+        composable(Screen.List.route) { ViewListScreenTopLevel(navController, wordPairViewModel) }
+        composable(Screen.Test.route) { TestScreen(navController, wordPairViewModel) }
+        composable(Screen.Words.route) { AddWordScreen(navController,wordPairViewModel) }
     }
 }
 
@@ -68,6 +62,6 @@ private fun CreateNavigation() {
 @Composable
 fun DefaultPreview() {
     VocantasticTheme(dynamicColor = false) {
-        CreateNavigation()
+        BuildNavigationGraph()
     }
 }
