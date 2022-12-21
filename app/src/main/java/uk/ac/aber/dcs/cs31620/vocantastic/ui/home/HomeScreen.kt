@@ -36,16 +36,13 @@ fun HomeScreenTopLevel(
     wordPairViewModel: WordPairViewModel = viewModel()
 )
 {
-    val wordList by wordPairViewModel.wordList.observeAsState(listOf())
-
     HomeScreen(
-        navController = navController,
-        wordList =  wordList
+        navController = navController
     )
 }
 @Composable
 fun HomeScreen(navController: NavHostController,
-               wordList: List<WordPair>
+
 ) {
     val coroutineScope = rememberCoroutineScope()
 
@@ -60,7 +57,7 @@ fun HomeScreen(navController: NavHostController,
         ) {
             HomeScreenContent(
                 modifier = Modifier.padding(10.dp),
-                wordList
+
             )
         }
     }
@@ -69,7 +66,7 @@ fun HomeScreen(navController: NavHostController,
 @Composable
 private fun HomeScreenContent(
     modifier: Modifier = Modifier,
-    wordList: List<WordPair>
+
 ) {
     val textValueNative = rememberSaveable { mutableStateOf("") }
     val textValueForeign = rememberSaveable { mutableStateOf("") }
@@ -85,7 +82,6 @@ private fun HomeScreenContent(
     ) {
 
         Spacer(modifier = Modifier.height(6.dp))
-
 
         Image(
             modifier = Modifier
@@ -224,6 +220,6 @@ fun YourLanguageTextFieldPreview() {
 fun HomeScreenPreview() {
     val navController = rememberNavController()
     VocantasticTheme(dynamicColor = false) {
-        HomeScreen(navController, listOf() )
+        HomeScreen(navController )
     }
 }

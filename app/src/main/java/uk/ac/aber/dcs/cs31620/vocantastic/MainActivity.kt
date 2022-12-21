@@ -18,7 +18,8 @@ import uk.ac.aber.dcs.cs31620.vocantastic.ui.list.ViewListScreenTopLevel
 import uk.ac.aber.dcs.cs31620.vocantastic.ui.navigation.Screen
 import uk.ac.aber.dcs.cs31620.vocantastic.ui.testing.TestScreen
 import uk.ac.aber.dcs.cs31620.vocantastic.ui.theme.VocantasticTheme
-import uk.ac.aber.dcs.cs31620.vocantastic.ui.words.AddWordScreen
+
+import uk.ac.aber.dcs.cs31620.vocantastic.ui.words.AddWordScreenTopLevel
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -38,7 +39,6 @@ class MainActivity : ComponentActivity() {
     }
 }
 
-
 @Composable
 private fun BuildNavigationGraph(
     wordPairViewModel: WordPairViewModel = viewModel()
@@ -54,7 +54,7 @@ private fun BuildNavigationGraph(
         composable(Screen.Home.route) { HomeScreenTopLevel(navController, wordPairViewModel) }
         composable(Screen.List.route) { ViewListScreenTopLevel(navController, wordPairViewModel) }
         composable(Screen.Test.route) { TestScreen(navController, wordPairViewModel) }
-        composable(Screen.Words.route) { AddWordScreen(navController,wordPairViewModel) }
+        composable(Screen.Words.route) { AddWordScreenTopLevel(navController,wordPairViewModel) }
     }
 }
 

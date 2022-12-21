@@ -15,6 +15,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.em
 import androidx.compose.ui.unit.sp
@@ -24,6 +25,8 @@ import uk.ac.aber.dcs.cs31620.vocantastic.R
 import uk.ac.aber.dcs.cs31620.vocantastic.model.WordPair
 import uk.ac.aber.dcs.cs31620.vocantastic.model.WordPairViewModel
 import uk.ac.aber.dcs.cs31620.vocantastic.ui.components.TopLevelScaffold
+import androidx.compose.foundation.lazy.*
+import androidx.compose.material3.Divider
 
 @Composable
 fun ViewListScreenTopLevel(
@@ -34,7 +37,7 @@ fun ViewListScreenTopLevel(
 
     ViewListScreen(
         navController = navController,
-        wordList = wordsList,
+        wordList = wordsList
     )
 }
 
@@ -42,8 +45,7 @@ fun ViewListScreenTopLevel(
 @Composable
 fun ViewListScreen(
     navController: NavHostController,
-    wordList: List<WordPair>,
-
+    wordList: List<WordPair> = listOf()
 ) {
     TopLevelScaffold(
         navController = navController
@@ -53,26 +55,53 @@ fun ViewListScreen(
                 .padding(innerPadding)
                 .fillMaxSize()
         ) {
+            // the empty screen is displayed if the word list is empty.
             if (wordList.isEmpty()) {
+
                 EmptyScreenContent()
+
             } else {
-                LazyColumn {
-                    stickyHeader {
-                        PreferenceActivity.Header()
-                    }
-                    item(wordList) {
-                        WordPair(
-                            id = 0,
-                            entryWord = "",
-                            translatedWord = ""
-                        )
+
+                LazyColumn(
+                    modifier = Modifier
+                        .fillMaxSize(),
+                    contentPadding = PaddingValues(bottom = 18.dp)
+                ) {
+                    items(wordList) { word ->
+
+                        Row(
+                            horizontalArrangement = Arrangement.SpaceBetween,
+                            verticalAlignment = Alignment.CenterVertically,
+                            modifier = Modifier.fillMaxWidth()
+                        ) {
+                            Column() {
+                                Text(
+                                    text = word.entryWord,
+                                    modifier = Modifier.padding(start = 8.dp, top = 16.dp),
+                                    fontWeight = FontWeight.Bold,
+                                    fontSize = 20.sp,
+                                )
+
+                                Text(
+                                    text = word.translatedWord,
+                                    modifier = Modifier.padding(start = 8.dp, top = 8.dp),
+                                    fontSize = 16.sp,
+                                )
+                            }
+                        }
+                        Divider(startIndent = 8.dp, thickness = 1.dp)
                     }
                 }
+                WordPair(
+                    id = 0,
+                    entryWord = "",
+                    translatedWord = ""
+                )
             }
-
         }
     }
 }
+
 
 @Composable
 fun EmptyScreenContent(

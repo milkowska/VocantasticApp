@@ -7,6 +7,8 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.*
+import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
@@ -29,7 +31,13 @@ fun AddWordScreenTopLevel(
     navController: NavHostController,
     wordPairViewModel: WordPairViewModel = viewModel()
 ) {
+    val wordList by wordPairViewModel.wordList.observeAsState(listOf())
+
+    wordPairViewModel.insertWordPair(WordPair(entryWord = "Dupa", translatedWord = "Ass"))
+    wordPairViewModel.insertWordPair(WordPair(entryWord = "Dupaaaa", translatedWord = "Assaaa"))
+    wordPairViewModel.insertWordPair(WordPair(entryWord = "Dupa3", translatedWord = "Ass3"))
     AddWordScreen(navController = navController,
+        wordList =  wordList,
         insertWordPair = { wordPair ->
             wordPairViewModel.insertWordPair(wordPair)
         },
@@ -42,7 +50,7 @@ fun AddWordScreenTopLevel(
 @Composable
 fun AddWordScreen(
     navController: NavHostController,
-    wordPairViewModel: WordPairViewModel = viewModel(),
+    wordList: List<WordPair>,
     insertWordPair: (WordPair) -> Unit = {},
     deleteWordPair: (WordPair) -> Unit = {}
 ) {
@@ -57,6 +65,7 @@ fun AddWordScreen(
         ) {
             AddWordScreenContent(
                 modifier = Modifier.padding(10.dp),
+                wordList = wordList,
                 doInsert = { wordPair ->
                     insertWordPair(wordPair)
                 }
@@ -68,10 +77,12 @@ fun AddWordScreen(
 @Composable
 private fun AddWordScreenContent(
     modifier: Modifier = Modifier,
+    wordList: List<WordPair>,
     doInsert: (WordPair) -> Unit = {}
 ) {
-    var textValueNative by  remember { mutableStateOf("") }
-    var textValueForeign by  remember { mutableStateOf("") }
+    var id by rememberSaveable { mutableStateOf(0) }
+    var textValueNative by  rememberSaveable { mutableStateOf("") }
+    var textValueForeign by  rememberSaveable { mutableStateOf("") }
     val maxChar = 30
     Column(
         modifier = modifier
@@ -86,7 +97,11 @@ private fun AddWordScreenContent(
             fontWeight = FontWeight.Bold,
             modifier = modifier
         )
-
+        if(wordList.isNotEmpty()) {
+            Text(
+                "${wordList[0]}"
+            )
+        }
         Spacer(modifier = Modifier.height(20.dp))
 
         Text(
@@ -132,7 +147,9 @@ private fun AddWordScreenContent(
                           entryWord = textValueNative,
                           translatedWord = textValueForeign
                       )
+
                   )
+                  //insertWordPair() do listy??????????
               }
                 textValueNative = ""
                 textValueForeign = ""  // to clear after adding?
