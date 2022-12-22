@@ -15,6 +15,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.toUpperCase
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -33,9 +34,10 @@ fun AddWordScreenTopLevel(
 ) {
     val wordList by wordPairViewModel.wordList.observeAsState(listOf())
 
-    wordPairViewModel.insertWordPair(WordPair(entryWord = "Dupa", translatedWord = "Ass"))
+   /* wordPairViewModel.insertWordPair(WordPair(entryWord = "Dupa", translatedWord = "Ass"))
     wordPairViewModel.insertWordPair(WordPair(entryWord = "Dupaaaa", translatedWord = "Assaaa"))
-    wordPairViewModel.insertWordPair(WordPair(entryWord = "Dupa3", translatedWord = "Ass3"))
+    wordPairViewModel.insertWordPair(WordPair(entryWord = "Dupa3", translatedWord = "Ass3"))*/
+
     AddWordScreen(navController = navController,
         wordList =  wordList,
         insertWordPair = { wordPair ->
@@ -84,6 +86,7 @@ private fun AddWordScreenContent(
     var textValueNative by  rememberSaveable { mutableStateOf("") }
     var textValueForeign by  rememberSaveable { mutableStateOf("") }
     val maxChar = 30
+
     Column(
         modifier = modifier
             .fillMaxSize(),
@@ -144,8 +147,8 @@ private fun AddWordScreenContent(
               }else {
                   doInsert(
                       WordPair(
-                          entryWord = textValueNative,
-                          translatedWord = textValueForeign
+                          entryWord = textValueNative.uppercase().trim(),
+                          translatedWord = textValueForeign.toUpperCase().trim()
                       )
 
                   )

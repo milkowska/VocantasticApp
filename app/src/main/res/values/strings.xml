@@ -23,4 +23,6 @@
     <string name="brain_image">a thinking brain picture</string>
     <string name="logo_image">An application logo</string>
     <string name="list_empty">empty list image</string>
+    <string name="continueToNextScreen">Continue</string>
+    <string name="learning_journey_text">This is where your learning journey begins!</string>
 </resources>

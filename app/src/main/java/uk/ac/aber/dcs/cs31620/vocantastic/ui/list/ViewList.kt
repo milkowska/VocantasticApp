@@ -34,7 +34,7 @@ fun ViewListScreenTopLevel(
     wordPairViewModel: WordPairViewModel = viewModel()
 ) {
     val wordsList by wordPairViewModel.wordList.observeAsState(listOf())
-
+   // wordPairViewModel.clearWordList()
     ViewListScreen(
         navController = navController,
         wordList = wordsList
@@ -92,11 +92,11 @@ fun ViewListScreen(
                         Divider(startIndent = 8.dp, thickness = 1.dp)
                     }
                 }
-                WordPair(
+              /*  WordPair(
                     id = 0,
                     entryWord = "",
                     translatedWord = ""
-                )
+                )*/
             }
         }
     }
