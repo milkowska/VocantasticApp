@@ -12,10 +12,10 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.toUpperCase
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -25,6 +25,9 @@ import uk.ac.aber.dcs.cs31620.vocantastic.ui.components.TopLevelScaffold
 import uk.ac.aber.dcs.cs31620.vocantastic.R
 import uk.ac.aber.dcs.cs31620.vocantastic.model.WordPair
 import uk.ac.aber.dcs.cs31620.vocantastic.model.WordPairViewModel
+import uk.ac.aber.dcs.cs31620.vocantastic.preferencesStorage.FOREIGN_LANGUAGE_KEY
+import uk.ac.aber.dcs.cs31620.vocantastic.preferencesStorage.NATIVE_LANGUAGE_KEY
+import uk.ac.aber.dcs.cs31620.vocantastic.preferencesStorage.Storage
 import uk.ac.aber.dcs.cs31620.vocantastic.ui.theme.VocantasticTheme
 
 @Composable
@@ -65,6 +68,16 @@ fun AddWordScreen(
                 .padding(innerPadding)
                 .fillMaxSize()
         ) {
+            val context = LocalContext.current
+            val dataStore = Storage(context)
+
+            val nativeLanguage = dataStore.getString(NATIVE_LANGUAGE_KEY).collectAsState(initial = "")
+            val foreignLanguage = dataStore.getString(FOREIGN_LANGUAGE_KEY).collectAsState(initial = "")
+           /* Text (
+                text = nativeLanguage.value,
+            )*/
+            Spacer(modifier = Modifier.height(20.dp))
+
             AddWordScreenContent(
                 modifier = Modifier.padding(10.dp),
                 wordList = wordList,

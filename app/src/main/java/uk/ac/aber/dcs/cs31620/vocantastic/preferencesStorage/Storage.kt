@@ -3,32 +3,53 @@ package uk.ac.aber.dcs.cs31620.vocantastic.preferencesStorage
 import android.content.Context
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
+import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.map
 
 
 private const val PREFERENCES = "Storage"
 
-private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = PREFERENCES)
+class Storage(private val context: Context) {
 
-class Storage (
-    private val context: Context
-) {
-
-    suspend fun getString(key: String): String? {
-        val key = stringPreferencesKey(key)
-        return context.dataStore.data.first()[key]
+    companion object {
+        private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(PREFERENCES)
     }
 
-    suspend fun saveString(name: String, key: String) {
-        val key = stringPreferencesKey(key)
+    fun getString(key: String): Flow<String> {
+        return context.dataStore.data
+            .map { preferences ->
+                preferences[stringPreferencesKey(key)] ?: ""
+            }
+    }
+
+    suspend fun saveString(value: String, key: String) {
         context.dataStore.edit { preferences ->
-            preferences[key] = name
+            preferences[stringPreferencesKey(key)] = value
         }
     }
 
+    suspend fun setBoolean(value: Boolean, key: String) {
+        context.dataStore.edit { preferences ->
+            preferences[booleanPreferencesKey(key)] = value
+        }
+    }
 
+    // or using flow?
+    suspend fun clearTable() {
+        context.dataStore.edit { preferences ->
+            preferences.clear()
+        }
+    }
 
+    suspend fun getBoolean(key: String): Boolean? {
+        val sharedPrefKey = booleanPreferencesKey(key)
+        return context.dataStore.data.first()[sharedPrefKey]
+    }
 }
+
+

@@ -15,14 +15,19 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import kotlinx.coroutines.launch
 import uk.ac.aber.dcs.cs31620.vocantastic.R
 import uk.ac.aber.dcs.cs31620.vocantastic.preferencesStorage.FOREIGN_LANGUAGE_KEY
 import uk.ac.aber.dcs.cs31620.vocantastic.preferencesStorage.NATIVE_LANGUAGE_KEY
 import uk.ac.aber.dcs.cs31620.vocantastic.preferencesStorage.Storage
+import uk.ac.aber.dcs.cs31620.vocantastic.preferencesStorage.WELCOME_SCREEN
 import uk.ac.aber.dcs.cs31620.vocantastic.ui.components.TopLevelScaffold
+import uk.ac.aber.dcs.cs31620.vocantastic.ui.home.welcomeDone
+import uk.ac.aber.dcs.cs31620.vocantastic.ui.navigation.Screen
 
 //TODO this file is not finished
 @Composable
@@ -37,8 +42,16 @@ fun WelcomeScreen(
                 .padding(innerPadding)
                 .fillMaxSize()
         ) {
+            val context = LocalContext.current
+            val dataStore = Storage(context)
+
+            val nativeLanguage =
+                dataStore.getString(NATIVE_LANGUAGE_KEY).collectAsState(initial = "")
+            val foreignLanguage =
+                dataStore.getString(FOREIGN_LANGUAGE_KEY).collectAsState(initial = "")
             WelcomeScreenContent(
-                modifier = Modifier.padding(10.dp)
+                modifier = Modifier.padding(10.dp),
+                navController
             )
 
         }
@@ -49,7 +62,8 @@ fun WelcomeScreen(
 
 @Composable
 private fun WelcomeScreenContent(
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    navController: NavHostController
 ) {
     val context = LocalContext.current
     val scope = rememberCoroutineScope()
@@ -57,7 +71,7 @@ private fun WelcomeScreenContent(
 
     var nativeLanguage by rememberSaveable { mutableStateOf("") }
     var secondLanguage by rememberSaveable { mutableStateOf("") }
-    val maxChar = 20
+
     Column(
         modifier = modifier
             .fillMaxSize(),
@@ -67,32 +81,58 @@ private fun WelcomeScreenContent(
     )
     {
 
+
         Image(
             modifier = Modifier
-                .size(265.dp),
+
+                .width(340.dp)
+                .height(190.dp),
             painter = painterResource(id = R.drawable.logo),
             contentDescription = stringResource(id = R.string.logo_image),
-            contentScale = ContentScale.Crop
+            contentScale = ContentScale.FillWidth,
+
+            )
+        Spacer(modifier = Modifier.height(15.dp))
+
+        Text(
+            text = stringResource(id = R.string.learning_journey_text),
+            fontSize = 19.sp,
+            textAlign = TextAlign.Center,
+            modifier = Modifier.width(360.dp)
         )
+
+        Spacer(modifier = Modifier.height(40.dp))
 
         YourLanguageTextField(
             modifier = Modifier,
             textValue = nativeLanguage,
             onValueChange = {
-                if (it.length <= maxChar) nativeLanguage = it
+                nativeLanguage = it
             }
+        )
+        Text(
+            text = "This is your own language",
+            textAlign = TextAlign.Left,
+            modifier = Modifier.padding(end = 60.dp)
         )
 
         Spacer(modifier = Modifier.height(16.dp))
 
         ForeignLanguageTextField(
+            modifier = Modifier,
             textValue = secondLanguage,
             onValueChange = {
-                if (it.length <= maxChar) secondLanguage = it
+                secondLanguage = it
             }
         )
 
-        Spacer(modifier = Modifier.height(6.dp))
+        Text(
+            text = "The language you will learn",
+            textAlign = TextAlign.Left,
+            modifier = Modifier.padding(end = 50.dp)
+        )
+
+        Spacer(modifier = Modifier.height(20.dp))
 
         Button(
             onClick = {
@@ -100,20 +140,26 @@ private fun WelcomeScreenContent(
                     Toast.makeText(context, "Invalid input", Toast.LENGTH_LONG).show()
                 } else {
                     scope.launch {
+
                         dataStore.saveString(nativeLanguage, NATIVE_LANGUAGE_KEY)
                         dataStore.saveString(secondLanguage, FOREIGN_LANGUAGE_KEY)
-
+                        /* dataStore.setBoolean(true, WELCOME_SCREEN)*/
                     }
                     Toast.makeText(context, "Languages are set", Toast.LENGTH_LONG).show()
 
+                    welcomeDone = true
+                    navController.navigate(route = Screen.Home.route)
                 }
+
+                // after the first language initialization it goes to Home screen
+
             },
             modifier = modifier
                 .width(220.dp)
+                .height(50.dp)
         ) {
             Text(stringResource(id = R.string.continueToNextScreen))
         }
-
 
     }
 }
@@ -125,10 +171,6 @@ fun YourLanguageTextField(
     textValue: String = "",
     onValueChange: (String) -> Unit = {}
 ) {
-
-    //TODO change UI so that current language selection is visible!!! eg. your first language choice is "english" and the one you want to learn is "polish"
-
-    //var text by remember { mutableStateOf(TextFieldValue("")) }
     OutlinedTextField(
         value = textValue,
         label = {
@@ -138,7 +180,9 @@ fun YourLanguageTextField(
         singleLine = true,
         modifier = modifier
     )
+
 }
+
 
 @Composable
 fun ForeignLanguageTextField(
