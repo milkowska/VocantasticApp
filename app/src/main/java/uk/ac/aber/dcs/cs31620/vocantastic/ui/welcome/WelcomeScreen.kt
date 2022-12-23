@@ -56,9 +56,7 @@ fun WelcomeScreen(
 
         }
     }
-
 }
-
 
 @Composable
 private fun WelcomeScreenContent(
@@ -140,9 +138,10 @@ private fun WelcomeScreenContent(
                     Toast.makeText(context, "Invalid input", Toast.LENGTH_LONG).show()
                 } else {
                     scope.launch {
-
-                        dataStore.saveString(nativeLanguage, NATIVE_LANGUAGE_KEY)
-                        dataStore.saveString(secondLanguage, FOREIGN_LANGUAGE_KEY)
+                        dataStore.save(nativeLanguage, NATIVE_LANGUAGE_KEY)
+                        dataStore.save(secondLanguage, FOREIGN_LANGUAGE_KEY)
+                        /*dataStore.saveString(nativeLanguage, NATIVE_LANGUAGE_KEY)
+                        dataStore.saveString(secondLanguage, FOREIGN_LANGUAGE_KEY)*/
                         /* dataStore.setBoolean(true, WELCOME_SCREEN)*/
                     }
                     Toast.makeText(context, "Languages are set", Toast.LENGTH_LONG).show()

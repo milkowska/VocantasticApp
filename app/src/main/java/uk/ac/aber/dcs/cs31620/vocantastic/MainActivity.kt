@@ -16,6 +16,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import kotlinx.coroutines.launch
+import uk.ac.aber.dcs.cs31620.vocantastic.model.EditorScreen
 import uk.ac.aber.dcs.cs31620.vocantastic.model.WordPairViewModel
 import uk.ac.aber.dcs.cs31620.vocantastic.preferencesStorage.Storage
 import uk.ac.aber.dcs.cs31620.vocantastic.preferencesStorage.WELCOME_SCREEN
@@ -23,6 +24,7 @@ import uk.ac.aber.dcs.cs31620.vocantastic.ui.home.HomeScreen
 import uk.ac.aber.dcs.cs31620.vocantastic.ui.home.HomeScreenTopLevel
 import uk.ac.aber.dcs.cs31620.vocantastic.ui.list.ViewListScreenTopLevel
 import uk.ac.aber.dcs.cs31620.vocantastic.ui.navigation.Screen
+import uk.ac.aber.dcs.cs31620.vocantastic.ui.testing.TestScoreScreenTopLevel
 import uk.ac.aber.dcs.cs31620.vocantastic.ui.testing.TestScreen
 import uk.ac.aber.dcs.cs31620.vocantastic.ui.theme.VocantasticTheme
 import uk.ac.aber.dcs.cs31620.vocantastic.ui.welcome.WelcomeScreen
@@ -39,6 +41,10 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
+                    //EditorScreen()
+                    val context = LocalContext.current
+                    val scope = rememberCoroutineScope()
+                    val dataStore = Storage(context)
 
                     BuildNavigationGraph()
                 }
@@ -52,17 +58,27 @@ private fun BuildNavigationGraph(
     wordPairViewModel: WordPairViewModel = viewModel()
 ) {
     //TODO change route to welcome first???
+    val welcomeIsFinished = false // change wit viewmodel
+    val configSet = welcomeIsFinished == null || welcomeIsFinished == false
     val navController = rememberNavController()
+    
+    var startRoute = Screen.Home.route
+
+    if (configSet) {
+        startRoute = Screen.Welcome.route
+    }
 
     NavHost(
         navController = navController,
-        startDestination = Screen.Home.route
+        startDestination = startRoute
     ) {
 
         composable(Screen.Home.route) { HomeScreenTopLevel(navController,wordPairViewModel) }
         composable(Screen.List.route) { ViewListScreenTopLevel(navController, wordPairViewModel) }
         composable(Screen.Test.route) { TestScreen(navController, wordPairViewModel) }
         composable(Screen.Words.route) { AddWordScreenTopLevel(navController, wordPairViewModel) }
+        composable(Screen.Welcome.route) { WelcomeScreen(navController = navController)}
+        composable(Screen.TestScore.route) {TestScoreScreenTopLevel(navController)}
     }
 }
 

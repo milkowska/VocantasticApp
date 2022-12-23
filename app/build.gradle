@@ -83,6 +83,8 @@ dependencies {
     implementation 'androidx.room:room-ktx:2.4.3'
     kapt 'androidx.room:room-compiler:2.4.3'
 
+
+
     //LiveData
     implementation "androidx.compose.runtime:runtime-livedata:$compose_version"
 

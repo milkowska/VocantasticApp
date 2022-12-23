@@ -20,6 +20,8 @@
     <string name="test_choice">Choose one test:</string>
     <string name="anagram">Solve the anagram</string>
     <string name="find_correct_answer">Find the correct answer</string>
+    <string name="the_anagram_text">The anagram for the word</string>
+    <string name="correct_answer">What is the correct answer?</string>
     <string name="brain_image">a thinking brain picture</string>
     <string name="logo_image">An application logo</string>
     <string name="list_empty">empty list image</string>

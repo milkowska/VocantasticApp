@@ -23,5 +23,6 @@ interface WordPairDao {
     @Query("SELECT * FROM wordpairs")
     fun getWordList(): LiveData<List<WordPair>>
 
-
+    @Query("SELECT * FROM wordpairs ORDER BY entryWord")
+    fun getAlphOrderList(): LiveData<List<WordPair>>
 }

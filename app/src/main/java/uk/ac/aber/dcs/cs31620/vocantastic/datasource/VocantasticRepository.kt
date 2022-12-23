@@ -20,4 +20,6 @@ class VocantasticRepository(application: Application) {
 
     fun getWordList() = wordPairDao.getWordList()
 
+    fun getAlphOrderList() = wordPairDao.getAlphOrderList()
+
 }

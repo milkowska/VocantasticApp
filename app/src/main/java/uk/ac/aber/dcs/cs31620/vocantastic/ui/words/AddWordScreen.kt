@@ -1,5 +1,6 @@
 package uk.ac.aber.dcs.cs31620.vocantastic.ui.words
 
+import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.Button
@@ -99,7 +100,7 @@ private fun AddWordScreenContent(
     var textValueNative by  rememberSaveable { mutableStateOf("") }
     var textValueForeign by  rememberSaveable { mutableStateOf("") }
     val maxChar = 30
-
+    val context = LocalContext.current
     Column(
         modifier = modifier
             .fillMaxSize(),
@@ -113,11 +114,10 @@ private fun AddWordScreenContent(
             fontWeight = FontWeight.Bold,
             modifier = modifier
         )
-        if(wordList.isNotEmpty()) {
-            Text(
-                "${wordList[0]}"
-            )
-        }
+
+       /* if(wordList.isNotEmpty()) {
+
+        }*/
         Spacer(modifier = Modifier.height(20.dp))
 
         Text(
@@ -156,19 +156,18 @@ private fun AddWordScreenContent(
         Button(
             onClick = {
               if( textValueNative.trim() == "" || textValueForeign.trim() == "") {
-
+                  Toast.makeText(context, "Invalid input", Toast.LENGTH_SHORT).show()
               }else {
                   doInsert(
                       WordPair(
-                          entryWord = textValueNative.uppercase().trim(),
-                          translatedWord = textValueForeign.toUpperCase().trim()
+                          entryWord = textValueNative.lowercase().trim(),
+                          translatedWord = textValueForeign.lowercase().trim()
                       )
-
                   )
-                  //insertWordPair() do listy??????????
+                  Toast.makeText(context, "New word pair has been added!", Toast.LENGTH_SHORT).show()
+                  textValueNative = ""
+                  textValueForeign = ""  // to clear after adding?
               }
-                textValueNative = ""
-                textValueForeign = ""  // to clear after adding?
             },
             modifier = modifier
                 .width(220.dp)
@@ -187,7 +186,6 @@ private fun AddWordScreenContent(
         )
 
     }
-
 }
 
 private fun insertWordPair(

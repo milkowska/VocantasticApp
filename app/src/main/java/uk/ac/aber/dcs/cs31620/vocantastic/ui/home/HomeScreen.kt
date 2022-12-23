@@ -74,9 +74,8 @@ fun HomeScreen(
             val foreignLanguage =
                 dataStore.getString(FOREIGN_LANGUAGE_KEY).collectAsState(initial = "")
 
-         Text (
-                text = foreignLanguage.value,
-            )
+
+
             /*   HomeScreenContent(
                 modifier = Modifier.padding(10.dp),
                 nativeLanguage.value,
