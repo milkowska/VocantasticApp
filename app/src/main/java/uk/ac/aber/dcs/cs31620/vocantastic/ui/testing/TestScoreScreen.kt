@@ -62,11 +62,11 @@ fun TestScoreScreen(
 
         Card(
             modifier = Modifier
-                .width(200.dp)
-                .height(100.dp)
+                .width(210.dp)
+                .height(105.dp)
         ) {
             Row(
-                horizontalArrangement = Arrangement.SpaceEvenly,
+                horizontalArrangement = Arrangement.Center,
                 verticalAlignment = Alignment.CenterVertically,
                 modifier = Modifier.fillMaxSize()
             ) {

@@ -1,6 +1,5 @@
 package uk.ac.aber.dcs.cs31620.vocantastic.ui.testing
 
-import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
@@ -8,11 +7,10 @@ import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -23,7 +21,6 @@ import uk.ac.aber.dcs.cs31620.vocantastic.model.WordPair
 import uk.ac.aber.dcs.cs31620.vocantastic.model.WordPairViewModel
 import uk.ac.aber.dcs.cs31620.vocantastic.preferencesStorage.Storage
 import uk.ac.aber.dcs.cs31620.vocantastic.ui.navigation.Screen
-import uk.ac.aber.dcs.cs31620.vocantastic.ui.theme.VocantasticTheme
 
 @Composable
 fun AnagramScreenTopLevel(
@@ -49,13 +46,14 @@ fun AnagramScreenTopLevel(
     )
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AnagramScreen(
     navController: NavHostController,
     wordPairViewModel: WordPairViewModel = viewModel(),
     wordList: List<WordPair>,
     number: Int,
-    ) {
+) {
 
     // test score displayed after the test is finished
     var resultScore by rememberSaveable { mutableStateOf(0) }
@@ -70,7 +68,7 @@ fun AnagramScreen(
     val storeUsedIndex = rememberSaveable { mutableListOf<Int>() }
 
     var hasNext by rememberSaveable { mutableStateOf(true) }
-
+    var anagramed by rememberSaveable { mutableStateOf("") }
 
     if (wordList.isNotEmpty() && hasNext) {
         val randomId = randomIndexGenerator(wordList.size - 1, storeUsedIndex)
@@ -81,6 +79,7 @@ fun AnagramScreen(
         correctFirstValue = thisWordPair.entryWord
         correctAnswer = thisWordPair.translatedWord
 
+        anagramed = anagramCreator(thisWordPair.translatedWord)
         hasNext = false
 
     }
@@ -103,19 +102,67 @@ fun AnagramScreen(
 
         LinearProgressIndicator(progressValue)
 
-        Spacer(modifier = Modifier.height(40.dp))
+        Spacer(modifier = Modifier.height(20.dp))
 
         Text(
             text = stringResource(id = R.string.the_anagram_text),
             fontSize = 20.sp
         )
+        Spacer(modifier = Modifier.height(20.dp))
 
-        Spacer(modifier = Modifier.height(40.dp))
+        Card(
+            modifier = Modifier
+                .width(240.dp)
+                .height(85.dp)
+        ) {
+            Row(
+                horizontalArrangement = Arrangement.Center,
+                verticalAlignment = Alignment.CenterVertically,
+                modifier = Modifier.fillMaxSize()
+            ) {
+                Text(
+                    text = correctFirstValue,
+                    textAlign = TextAlign.Center,
+                    fontSize = 22.sp
+                )
+            }
+        }
+
+        Spacer(modifier = Modifier.height(25.dp))
+
+        Text(
+            text = stringResource(id = R.string.is_word),
+            fontSize = 20.sp
+        )
+
+        Spacer(modifier = Modifier.height(25.dp))
+
+        Card(
+            modifier = Modifier
+                .width(240.dp)
+                .height(85.dp)
+        ) {
+            Row(
+                horizontalArrangement = Arrangement.Center,
+                verticalAlignment = Alignment.CenterVertically,
+                modifier = Modifier.fillMaxSize()
+            ) {
+                Text(
+                    text = anagramCreator(anagramed),
+                    textAlign = TextAlign.Center,
+                    fontSize = 22.sp
+                )
+            }
+        }
+
+        Spacer(modifier = Modifier.height(30.dp))
 
         Text(
             text = stringResource(id = R.string.correct_answer),
             fontSize = 20.sp
         )
+
+        Spacer(modifier = Modifier.height(15.dp))
 
         OutlinedTextField(
             value = userAnswer,
@@ -131,9 +178,6 @@ fun AnagramScreen(
 
         Spacer(modifier = Modifier.height(40.dp))
 
-
-        //CardWithBorder(nativeWord =)
-
         Row(horizontalArrangement = Arrangement.SpaceAround) {
 
             Button(modifier = Modifier
@@ -143,22 +187,23 @@ fun AnagramScreen(
                     navController.navigate(Screen.Test.route)
                 }
 
-            ){
+            ) {
                 Text(text = "Quit")
             }
+
+            Spacer(modifier = Modifier.height(40.dp))
 
             Button(modifier = Modifier
                 .height(60.dp)
                 .width(200.dp),
                 enabled = userAnswer.isNotEmpty(),
-                onClick = {
+                onClick = { // is equal to???
                     if (userAnswer.lowercase().trim() == correctAnswer.lowercase().trim()) {
                         resultScore++
                     }
                     if (step >= number) {
                         val finalScore = (resultScore * 100) / number
                         //store it by viewmodel
-
 
                         navController.navigate(Screen.TestScore.route)
 
@@ -175,19 +220,9 @@ fun AnagramScreen(
     }
 }
 
-
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-fun CardWithBorder(nativeWord: String) {
-
-    Card(
-        //  elevation = 10.dp,
-        border = BorderStroke(1.dp, Color.Blue),
-        modifier = Modifier
-            .padding(10.dp)
-    ) {
-        Text(text = nativeWord, modifier = Modifier)
-    }
+private fun anagramCreator(originalWord: String): String {
+    val stringValueToArray = originalWord.trim().toCharArray()
+    return stringValueToArray.sortedDescending().joinToString("")
 }
 
 private fun randomIndexGenerator(lastIndex: Int, idValues: List<Int>): Int {
