@@ -99,7 +99,7 @@ private fun AddWordScreenContent(
     var id by rememberSaveable { mutableStateOf(0) }
     var textValueNative by  rememberSaveable { mutableStateOf("") }
     var textValueForeign by  rememberSaveable { mutableStateOf("") }
-    val maxChar = 30
+
     val context = LocalContext.current
     Column(
         modifier = modifier
@@ -131,7 +131,7 @@ private fun AddWordScreenContent(
             modifier = Modifier,
             textValue = textValueNative,
             onValueChange = {
-                if (it.length <= maxChar) textValueNative = it
+               textValueNative = it
             }
         )
 
@@ -146,7 +146,7 @@ private fun AddWordScreenContent(
             modifier = Modifier,
             textValue = textValueForeign,
             onValueChange = {
-                if (it.length <= maxChar) textValueForeign = it
+                textValueForeign = it
             }
         )
 

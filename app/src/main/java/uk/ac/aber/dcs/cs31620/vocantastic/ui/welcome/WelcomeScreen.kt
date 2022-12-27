@@ -24,7 +24,6 @@ import uk.ac.aber.dcs.cs31620.vocantastic.R
 import uk.ac.aber.dcs.cs31620.vocantastic.preferencesStorage.FOREIGN_LANGUAGE_KEY
 import uk.ac.aber.dcs.cs31620.vocantastic.preferencesStorage.NATIVE_LANGUAGE_KEY
 import uk.ac.aber.dcs.cs31620.vocantastic.preferencesStorage.Storage
-import uk.ac.aber.dcs.cs31620.vocantastic.preferencesStorage.WELCOME_SCREEN
 import uk.ac.aber.dcs.cs31620.vocantastic.ui.components.TopLevelScaffold
 import uk.ac.aber.dcs.cs31620.vocantastic.ui.home.welcomeDone
 import uk.ac.aber.dcs.cs31620.vocantastic.ui.navigation.Screen
@@ -157,7 +156,7 @@ private fun WelcomeScreenContent(
                 .width(220.dp)
                 .height(50.dp)
         ) {
-            Text(stringResource(id = R.string.continueToNextScreen))
+            Text(stringResource(id = R.string.continue_to_next_screen))
         }
 
     }

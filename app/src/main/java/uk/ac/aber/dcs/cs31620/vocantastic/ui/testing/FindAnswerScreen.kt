@@ -11,20 +11,21 @@ import uk.ac.aber.dcs.cs31620.vocantastic.model.WordPairViewModel
 import uk.ac.aber.dcs.cs31620.vocantastic.ui.components.TopLevelScaffold
 
 @Composable
-fun FindAnswerScreenTopLevel(navController: NavHostController,
-                             wordPairViewModel: WordPairViewModel = viewModel()) {
+fun FindAnswerScreenTopLevel(
+    navController: NavHostController,
+    wordPairViewModel: WordPairViewModel = viewModel()
+) {
     val words by wordPairViewModel.wordList.observeAsState(listOf())
 
-
+    FindAnswerScreen(navController = navController, words = words)
 }
 
 
-
 @Composable
-fun FindAnswerScreen(navController: NavHostController,
+fun FindAnswerScreen(
+    navController: NavHostController,
     words: List<WordPair>,
-
-) {
+    ) {
     TopLevelScaffold(
         navController = navController,
     )

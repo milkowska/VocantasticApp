@@ -24,8 +24,7 @@ import uk.ac.aber.dcs.cs31620.vocantastic.ui.home.HomeScreen
 import uk.ac.aber.dcs.cs31620.vocantastic.ui.home.HomeScreenTopLevel
 import uk.ac.aber.dcs.cs31620.vocantastic.ui.list.ViewListScreenTopLevel
 import uk.ac.aber.dcs.cs31620.vocantastic.ui.navigation.Screen
-import uk.ac.aber.dcs.cs31620.vocantastic.ui.testing.TestScoreScreenTopLevel
-import uk.ac.aber.dcs.cs31620.vocantastic.ui.testing.TestScreen
+import uk.ac.aber.dcs.cs31620.vocantastic.ui.testing.*
 import uk.ac.aber.dcs.cs31620.vocantastic.ui.theme.VocantasticTheme
 import uk.ac.aber.dcs.cs31620.vocantastic.ui.welcome.WelcomeScreen
 
@@ -77,8 +76,10 @@ private fun BuildNavigationGraph(
         composable(Screen.List.route) { ViewListScreenTopLevel(navController, wordPairViewModel) }
         composable(Screen.Test.route) { TestScreen(navController, wordPairViewModel) }
         composable(Screen.Words.route) { AddWordScreenTopLevel(navController, wordPairViewModel) }
-        composable(Screen.Welcome.route) { WelcomeScreen(navController = navController)}
+        composable(Screen.Welcome.route) { WelcomeScreen(navController)}
         composable(Screen.TestScore.route) {TestScoreScreenTopLevel(navController)}
+        composable(Screen.AnagramTest.route) {AnagramScreenTopLevel(navController, wordPairViewModel)}
+        composable(Screen.FindTest.route) { FindAnswerScreenTopLevel( navController , wordPairViewModel) }
     }
 }
 

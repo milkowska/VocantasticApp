@@ -23,8 +23,12 @@
     <string name="the_anagram_text">The anagram for the word</string>
     <string name="correct_answer">What is the correct answer?</string>
     <string name="brain_image">a thinking brain picture</string>
+    <string name="test_finished">The test is finished!</string>
+    <string name="your_score">Your score is: </string>
     <string name="logo_image">An application logo</string>
+    <string name="score_image_description">Score image</string>
+
     <string name="list_empty">empty list image</string>
-    <string name="continueToNextScreen">Continue</string>
+    <string name="continue_to_next_screen">Continue</string>
     <string name="learning_journey_text">This is where your learning journey begins!</string>
 </resources>
