@@ -28,7 +28,6 @@ fun TestScoreScreenTopLevel(
     navController: NavHostController,
     wordPairViewModel: WordPairViewModel = viewModel()
 ) {
-
     TestScoreScreen(navController, wordPairViewModel)
 }
 
@@ -39,7 +38,7 @@ fun TestScoreScreen(
     wordPairViewModel: WordPairViewModel,
     modifier: Modifier = Modifier,
 ) {
-    val score = "25%" //
+    val score = 50
 
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -73,7 +72,7 @@ fun TestScoreScreen(
                 modifier = Modifier.fillMaxSize()
             ) {
                 Text(
-                    text = "$score",
+                    text = "$score%",
                     fontWeight = FontWeight.Bold,
                     fontSize = 30.sp,
                     textAlign = TextAlign.Center
@@ -83,20 +82,29 @@ fun TestScoreScreen(
 
         Spacer(modifier = Modifier.height(20.dp))
 
-        Image(
-            modifier = Modifier
-                .size(350.dp),
-            //if score is low change image?
-            painter = painterResource(id = R.drawable.score),
-            contentDescription = stringResource(id = R.string.score_image_description),
-            contentScale = ContentScale.Crop
-        )
+        if (score < 40) {
+            Image(
+                modifier = Modifier
+                    .size(350.dp),
+                painter = painterResource(id = R.drawable.nice_try),
+                contentDescription = stringResource(id = R.string.score_image_description),
+                contentScale = ContentScale.Crop
+            )
+        } else {
+            Image(
+                modifier = Modifier
+                    .size(350.dp),
+                painter = painterResource(id = R.drawable.score),
+                contentDescription = stringResource(id = R.string.score_image_description),
+                contentScale = ContentScale.Crop
+            )
+        }
 
         Button(
             onClick = {
                 navController.navigate(Screen.Test.route)
                 //TODO clear score
-            },  modifier = modifier
+            }, modifier = modifier
                 .width(220.dp)
                 .height(50.dp)
         ) {

@@ -26,7 +26,12 @@ import uk.ac.aber.dcs.cs31620.vocantastic.model.WordPairViewModel
 import uk.ac.aber.dcs.cs31620.vocantastic.ui.components.TopLevelScaffold
 import uk.ac.aber.dcs.cs31620.vocantastic.ui.navigation.Screen
 
-
+/**
+ * This is where the user can test their knowledge and begin a test. There are two tests to choose from, one of which requires at least four words in
+ * the vocabulary list to start. The "solving the anagram" test requires only one word in the dictionary to start a test. The user can read a short
+ * description of the test they are about to begin when clicked on the desired button. The user can quit at or proceed, during each step of a test there
+ * is a quitting option there as well.
+ */
 @Composable
 fun TestScreen(
     navController: NavHostController,
@@ -44,8 +49,8 @@ fun TestScreen(
         ) {
             TestScreenContent(
                 modifier = Modifier.padding(10.dp),
-                navController,
-                wordList
+                navController = navController,
+                wordList = wordList
             )
         }
     }
@@ -60,12 +65,12 @@ fun TestScreenContent(
     val context = LocalContext.current
     val openAnagramDialog = remember { mutableStateOf(false) }
     val openFindAnswerDialog = remember { mutableStateOf(false) }
+
     Column(
         modifier = modifier
             .fillMaxSize(),
         verticalArrangement = Arrangement.SpaceEvenly,
         horizontalAlignment = Alignment.CenterHorizontally
-
     ) {
         Text(
             text = stringResource(id = R.string.test_progress_title),
@@ -75,7 +80,6 @@ fun TestScreenContent(
         )
 
         Spacer(modifier = Modifier.height(10.dp))
-
 
         Image(
             modifier = Modifier
@@ -107,7 +111,10 @@ fun TestScreenContent(
                 }
             }
         ) {
-            Text(stringResource(id = R.string.anagram))
+            Text(
+                text = stringResource(id = R.string.anagram),
+                fontSize = 16.sp
+            )
         }
 
         if (openAnagramDialog.value) {
@@ -153,12 +160,20 @@ fun TestScreenContent(
                 .height(50.dp),
             onClick = {
                 if (wordList.size < 4) {
-                    Toast.makeText(context, "Add at least four word pairs to begin a test!", Toast.LENGTH_LONG).show()
+                    Toast.makeText(
+                        context,
+                        "Add at least four word pairs to begin a test!",
+                        Toast.LENGTH_LONG
+                    ).show()
                 } else {
                     openFindAnswerDialog.value = true
                 }
-            }) {
-            Text(stringResource(id = R.string.find_correct_answer))
+            }
+        ) {
+            Text(
+                text = stringResource(id = R.string.find_correct_answer),
+                fontSize = 16.sp
+            )
         }
         if (openFindAnswerDialog.value) {
 

@@ -85,7 +85,7 @@ fun SettingsScreen(
             contentScale = ContentScale.FillWidth
         )
 
-        Spacer(modifier = Modifier.height(25.dp))
+        Spacer(modifier = Modifier.height(15.dp))
 
         OutlinedTextField(
             value = nativeLanguage,
@@ -124,6 +124,7 @@ fun SettingsScreen(
         Spacer(modifier = Modifier.height(30.dp))
 
         Button(
+            enabled = nativeLanguage.isNotEmpty() || secondLanguage.isNotEmpty(),
             onClick = {
                 if (nativeLanguage.trim() == "" || secondLanguage.trim() == "") {
                     Toast.makeText(context, "Invalid input", Toast.LENGTH_LONG).show()
@@ -139,6 +140,7 @@ fun SettingsScreen(
         ) {
             Text(stringResource(id = R.string.save))
         }
+
         if (openAlert.value) {
 
             AlertDialog(

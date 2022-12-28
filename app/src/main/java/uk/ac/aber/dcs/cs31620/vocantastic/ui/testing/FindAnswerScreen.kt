@@ -22,6 +22,12 @@ import uk.ac.aber.dcs.cs31620.vocantastic.model.WordPair
 import uk.ac.aber.dcs.cs31620.vocantastic.model.WordPairViewModel
 import uk.ac.aber.dcs.cs31620.vocantastic.ui.navigation.Screen
 
+/**
+ * This is finding the correct answer test screen. The user is given a word in a native language and four answers, one of which is correct.
+ * The length of the test depends on the size of the vocabulary list. If it is larger than 15, there are fifteen steps in total. Otherwise,
+ * there are as many as there are word pairs in the dictionary.
+ */
+
 @Composable
 fun FindAnswerScreenTopLevel(
     navController: NavHostController,
@@ -29,19 +35,10 @@ fun FindAnswerScreenTopLevel(
 ) {
     val wordList by wordPairViewModel.wordList.observeAsState(listOf())
 
-    /* sets the number of steps in the test. If the list is large, the number of
-    * questions is set to 15 by default
-    */
-    val numberOfQuestions: Int = if (wordList.size >= 15) {
-        15
-    } else {
-        wordList.size
-    }
-
     FindAnswerScreen(
         navController = navController,
         wordList = wordList,
-        number = numberOfQuestions
+        number = getNumberOfQuestions(wordList)
     )
 }
 
@@ -52,58 +49,60 @@ fun FindAnswerScreen(
     wordList: List<WordPair>,
     number: Int
 ) {
-
+    // Indicates the question number, starts with 1
     var step by rememberSaveable { mutableStateOf(1) }
-    // test score displayed after the test is finished
-    var resultScore by rememberSaveable { mutableStateOf(0) }
 
+    // This is a word pair set, eg.  a window -> okno
+    var wordA by rememberSaveable { mutableStateOf("") } // a window
+    var wordB by rememberSaveable { mutableStateOf("") } // okno
 
-    // this is a word pair set, eg. A window = okno
-    var correctFirstValue by rememberSaveable { mutableStateOf("") } // a window
-    var correctAnswer by rememberSaveable { mutableStateOf("") } // okno
+    // Stores word pairs IDs that were already used in a test to avoid repeatability of questions.
+    val questionBank = rememberSaveable { mutableListOf<Int>() }
 
-    var userAnswer by rememberSaveable { mutableStateOf("") }
+    // Stores answers IDs to avoid repeatability of answers.
+    val answerBank = rememberSaveable { mutableListOf<Int>() }
 
-    //val storeUsedIndex = rememberSaveable { mutableListOf<Int>() }
-
-    var hasNext by rememberSaveable { mutableStateOf(true) }
-
-    //uniqueness of other questions and answers
-    val entryWordsList = rememberSaveable { mutableListOf<Int>() }
-    val answersList = rememberSaveable { mutableListOf<Int>() }
-
-    // a list of possible answers
+    // A list of possible answers including a correct one
     val multipleChoiceList = rememberSaveable { mutableListOf<WordPair>() }
 
+    // Stores the user's chosen answer
+    var userAnswer by rememberSaveable { mutableStateOf("") }
 
-    if (wordList.isNotEmpty() && hasNext) {
-        // generate next word pair
-        val nextWordPair = randomIndexGenerator(wordList.size - 1, entryWordsList)
+    // Test score displayed after the test is finished
+    var resultScore by rememberSaveable { mutableStateOf(0) }
 
-        entryWordsList.add(nextWordPair)
-        answersList.add(nextWordPair)
+    var hasNextStep by rememberSaveable { mutableStateOf(true) }
 
-        //randomly generated word pair
+    if (wordList.isNotEmpty() && hasNextStep) {
+        // Generate next word pair
+        val nextWordPair = randomIndexGenerator(wordList.size - 1, questionBank)
+
+        questionBank.add(nextWordPair)
+        answerBank.add(nextWordPair)
+
+        // Stores a randomly generated word pair that will be the shown in the current step
         val thisWordPair = wordList[nextWordPair]
 
-        correctFirstValue = thisWordPair.entryWord
-        correctAnswer = thisWordPair.translatedWord
+        wordA = thisWordPair.entryWord
+        wordB = thisWordPair.translatedWord
 
-        //the word pair is added to a multiple choices list
+        // The word pair is added to a multiple choices list so that correct answer is there
         multipleChoiceList.add(thisWordPair)
 
+        // The other word pairs are added that the current one so the possible choices will be unique (and incorrect)
         for (index in 1..3) {
-            val wrongAnswer = randomIndexGenerator(wordList.size - 1, answersList)
+            val wrongAnswer = randomIndexGenerator(wordList.size - 1, answerBank)
             multipleChoiceList.add(wordList[wrongAnswer])
-            answersList.add(wrongAnswer)
+            answerBank.add(wrongAnswer)
         }
-
+        // Shuffling the list of answers so that the correct answer is not displayed as first option every time
         multipleChoiceList.shuffle()
-        hasNext = false
+        hasNextStep = false
     }
 
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center,
         modifier = Modifier
             .fillMaxSize()
     ) {
@@ -111,20 +110,21 @@ fun FindAnswerScreen(
 
         Text(
             text = stringResource(id = R.string.find_correct_answer),
-            modifier = Modifier.padding(start = 8.dp, top = 16.dp),
             fontWeight = FontWeight.Bold,
-            fontSize = 24.sp
+            fontSize = 24.sp,
+            modifier = Modifier
+                .padding(start = 20.dp)
         )
 
-        Spacer(modifier = Modifier.height(50.dp))
+        Spacer(modifier = Modifier.height(45.dp))
 
         LinearProgressIndicator(progressValue)
 
-        Spacer(modifier = Modifier.height(50.dp))
+        Spacer(modifier = Modifier.height(45.dp))
 
         Card(
             modifier = Modifier
-                .width(240.dp)
+                .width(278.dp)
                 .height(100.dp)
         ) {
             Row(
@@ -133,9 +133,9 @@ fun FindAnswerScreen(
                 modifier = Modifier.fillMaxSize()
             ) {
                 Text(
-                    text = correctFirstValue,
+                    text = wordA,
                     textAlign = TextAlign.Center,
-                    fontSize = 22.sp
+                    fontSize = 24.sp,
                 )
             }
         }
@@ -171,7 +171,6 @@ fun FindAnswerScreen(
             verticalAlignment = Alignment.CenterVertically,
             modifier = Modifier.padding(all = 35.dp)
         ) {
-
             Button(modifier = Modifier
                 .height(60.dp)
                 .width(200.dp)
@@ -180,7 +179,10 @@ fun FindAnswerScreen(
                     navController.navigate(Screen.Test.route)
                 }
             ) {
-                Text(text = "Quit")
+                Text(
+                    text = stringResource(id = R.string.quit),
+                    fontSize = 16.sp
+                )
             }
 
             Spacer(modifier = Modifier.width(30.dp))
@@ -190,8 +192,8 @@ fun FindAnswerScreen(
                 .width(200.dp)
                 .weight(0.5f),
                 enabled = userAnswer.isNotEmpty(),
-                onClick = { // is equal to???
-                    if (userAnswer.lowercase().trim() == correctAnswer.lowercase().trim()) {
+                onClick = {
+                    if (userAnswer.lowercase().trim() == wordB.lowercase().trim()) {
                         resultScore++
                     }
                     if (step >= number) {
@@ -202,17 +204,18 @@ fun FindAnswerScreen(
 
                     } else if (wordList.isNotEmpty() && (step < number)) {
                         multipleChoiceList.clear()
-                        answersList.clear()
-                        hasNext = true
+                        answerBank.clear()
+                        hasNextStep = true
                         step++
                         userAnswer = ""
                     }
                 })
             {
-                Text(text = "Next")
+                Text(
+                    text = stringResource(id = R.string.next),
+                    fontSize = 16.sp
+                )
             }
         }
-
-
     }
 }

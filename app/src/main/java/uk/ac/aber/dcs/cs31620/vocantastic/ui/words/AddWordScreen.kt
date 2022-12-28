@@ -39,8 +39,9 @@ fun AddWordScreenTopLevel(
 ) {
     val wordList by wordPairViewModel.wordList.observeAsState(listOf())
 
-    AddWordScreen(navController = navController,
-        wordList =  wordList,
+    AddWordScreen(
+        navController = navController,
+        wordList = wordList,
         insertWordPair = { wordPair ->
             wordPairViewModel.insertWordPair(wordPair)
         }
@@ -65,8 +66,10 @@ fun AddWordScreen(
             val context = LocalContext.current
             val dataStore = Storage(context)
 
-            val nativeLanguage = dataStore.getString(NATIVE_LANGUAGE_KEY).collectAsState(initial = "")
-            val foreignLanguage = dataStore.getString(FOREIGN_LANGUAGE_KEY).collectAsState(initial = "")
+            val nativeLanguage =
+                dataStore.getString(NATIVE_LANGUAGE_KEY).collectAsState(initial = "")
+            val foreignLanguage =
+                dataStore.getString(FOREIGN_LANGUAGE_KEY).collectAsState(initial = "")
 
             Spacer(modifier = Modifier.height(20.dp))
 
@@ -88,17 +91,16 @@ private fun AddWordScreenContent(
     doInsert: (WordPair) -> Unit = {}
 ) {
 
-    var id by rememberSaveable { mutableStateOf(0) }
-    var textValueNative by  rememberSaveable { mutableStateOf("") }
-    var textValueForeign by  rememberSaveable { mutableStateOf("") }
+    var textValueNative by rememberSaveable { mutableStateOf("") }
+    var textValueForeign by rememberSaveable { mutableStateOf("") }
 
     val context = LocalContext.current
-    Column(
-        modifier = modifier
-            .fillMaxSize(),
-        verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally
 
+    Column(
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally,
+        modifier = modifier
+            .fillMaxSize()
     ) {
         Text(
             text = stringResource(id = R.string.add_word_title),
@@ -120,7 +122,7 @@ private fun AddWordScreenContent(
             modifier = Modifier,
             textValue = textValueNative,
             onValueChange = {
-               textValueNative = it
+                textValueNative = it
             }
         )
 
@@ -142,23 +144,26 @@ private fun AddWordScreenContent(
         Spacer(modifier = Modifier.height(20.dp))
 
         Button(
+            enabled = textValueNative.isNotEmpty() || textValueForeign.isNotEmpty(),
             onClick = {
-              if( textValueNative.trim() == "" || textValueForeign.trim() == "") {
-                  Toast.makeText(context, "Invalid input", Toast.LENGTH_SHORT).show()
-              }else {
-                  doInsert(
-                      WordPair(
-                          entryWord = textValueNative.lowercase().trim(),
-                          translatedWord = textValueForeign.lowercase().trim()
-                      )
-                  )
-                  Toast.makeText(context, "New word pair has been added!", Toast.LENGTH_SHORT).show()
-                  textValueNative = ""
-                  textValueForeign = ""
-              }
+                if (textValueNative.trim() == "" || textValueForeign.trim() == "") {
+                    Toast.makeText(context, "Invalid input", Toast.LENGTH_SHORT).show()
+                } else {
+                    doInsert(
+                        WordPair(
+                            entryWord = textValueNative.lowercase().trim(),
+                            translatedWord = textValueForeign.lowercase().trim()
+                        )
+                    )
+                    Toast.makeText(context, "New word pair has been added!", Toast.LENGTH_SHORT)
+                        .show()
+                    textValueNative = ""
+                    textValueForeign = ""
+                }
             },
             modifier = modifier
                 .width(220.dp)
+                .height(50.dp)
         ) {
             Text(stringResource(id = R.string.add_to_vocabulary_list))
         }

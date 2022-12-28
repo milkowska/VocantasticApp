@@ -33,14 +33,7 @@ import uk.ac.aber.dcs.cs31620.vocantastic.ui.navigation.Screen
 fun WelcomeScreen(
     navController: NavHostController
 ) {
-    TopLevelScaffold(
-        navController = navController,
-    ) { innerPadding ->
-        Surface(
-            modifier = Modifier
-                .padding(innerPadding)
-                .fillMaxSize()
-        ) {
+
             val context = LocalContext.current
             val dataStore = Storage(context)
 
@@ -52,10 +45,7 @@ fun WelcomeScreen(
                 modifier = Modifier.padding(10.dp),
                 navController
             )
-
-        }
     }
-}
 
 @Composable
 private fun WelcomeScreenContent(
@@ -108,7 +98,7 @@ private fun WelcomeScreenContent(
         )
 
         Text(
-            text = "This is your own language",
+            text = stringResource(id = R.string.your_own_language),
             textAlign = TextAlign.Left,
             modifier = Modifier.padding(end = 60.dp)
         )
@@ -124,7 +114,7 @@ private fun WelcomeScreenContent(
         )
 
         Text(
-            text = "The language you will learn",
+            text = stringResource(id = R.string.foreign_language_to_learn),
             textAlign = TextAlign.Left,
             modifier = Modifier.padding(end = 50.dp)
         )
@@ -132,6 +122,7 @@ private fun WelcomeScreenContent(
         Spacer(modifier = Modifier.height(20.dp))
 
         Button(
+            enabled = nativeLanguage.isNotEmpty() || secondLanguage.isNotEmpty(),
             onClick = {
                 if (nativeLanguage.trim() == "" || secondLanguage.trim() == "") {
                     Toast.makeText(context, "Invalid input", Toast.LENGTH_LONG).show()
@@ -155,7 +146,8 @@ private fun WelcomeScreenContent(
                 .width(220.dp)
                 .height(50.dp)
         ) {
-            Text(stringResource(id = R.string.continue_to_next_screen))
+            Text(stringResource(id = R.string.continue_to_next_screen),
+                fontSize = 16.sp)
         }
 
     }

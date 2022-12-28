@@ -93,31 +93,30 @@ fun HomeScreen(
 
                 Spacer(modifier = Modifier.height(15.dp))
 
-
                 Text(
-                    text = "I speak ${nativeLanguage.value}"
+                    text = "I speak ${nativeLanguage.value}" ,
+                    fontSize = 22.sp
                 )
 
                 Spacer(modifier = Modifier.height(15.dp))
 
                 Text(
-                    text = "I want to learn ${foreignLanguage.value}"
+                    text = "I want to learn ${foreignLanguage.value}",
+                    fontSize = 22.sp
                 )
 
-                Spacer(modifier = Modifier.height(25.dp))
+                Spacer(modifier = Modifier.height(35.dp))
 
                 SettingsButton(
                     modifier = Modifier
-                        .padding(15.dp),
+                        .height(50.dp),
                     onClick = {
                         navController.navigate(Screen.Settings.route)
                     }
                 )
-
             }
         }
     }
-
 
     @SuppressLint("CoroutineCreationDuringComposition")
     @Composable
@@ -134,8 +133,7 @@ fun HomeScreen(
             text = "I want to learn: $seclang",
             fontSize = 20.sp,
             modifier = modifier,
-
-            )
+        )
     }
 }
 
@@ -149,6 +147,9 @@ fun SettingsButton(
         modifier = modifier
             .width(182.dp)
     ) {
-        Text(stringResource(R.string.settings))
+        Text(
+            stringResource(R.string.settings),
+            fontSize = 16.sp
+        )
     }
 }

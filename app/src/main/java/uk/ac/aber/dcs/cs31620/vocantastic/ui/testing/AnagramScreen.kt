@@ -7,7 +7,6 @@ import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -17,30 +16,25 @@ import androidx.navigation.NavHostController
 import uk.ac.aber.dcs.cs31620.vocantastic.R
 import uk.ac.aber.dcs.cs31620.vocantastic.model.WordPair
 import uk.ac.aber.dcs.cs31620.vocantastic.model.WordPairViewModel
-import uk.ac.aber.dcs.cs31620.vocantastic.preferencesStorage.Storage
 import uk.ac.aber.dcs.cs31620.vocantastic.ui.navigation.Screen
+
+/**
+ * This is solving an anagram test screen. The user is given a word in a native language and the anagram of its translation. The user is prompted to
+ * enter the (translated word in a foreign language) that is correctly rearranged. The length of the test depends on the size of the vocabulary list.
+ * If it is larger than 15, there are fifteen steps in total. Otherwise, there are as many as there are word pairs in the dictionary.
+ */
 
 @Composable
 fun AnagramScreenTopLevel(
     navController: NavHostController,
     wordPairViewModel: WordPairViewModel
 ) {
-    val words by wordPairViewModel.wordList.observeAsState(listOf())
-
-    val context = LocalContext.current
-    val storage = Storage(context)
-
-    //sets the number of steps in the test by default
-    val numberOfQuestions: Int = if (words.size >= 15) {
-        15
-    } else {
-        words.size
-    }
+    val wordList by wordPairViewModel.wordList.observeAsState(listOf())
 
     AnagramScreen(
         navController = navController,
-        wordList = words,
-        number = numberOfQuestions,
+        wordList = wordList,
+        number = getNumberOfQuestions(wordList),
     )
 }
 
@@ -51,38 +45,44 @@ fun AnagramScreen(
     wordList: List<WordPair>,
     number: Int,
 ) {
-
-    // test score displayed after the test is finished
-    var resultScore by rememberSaveable { mutableStateOf(0) }
-
+    // Indicates the question number, starts with 1
     var step by rememberSaveable { mutableStateOf(1) }
 
+    // This is a word pair set, eg.  a window -> okno
+    var wordA by rememberSaveable { mutableStateOf("") } // a window
+    var wordB by rememberSaveable { mutableStateOf("") } // okno
 
+    // Stores the user's chosen answer
     var userAnswer by rememberSaveable { mutableStateOf("") }
-    var correctFirstValue by rememberSaveable { mutableStateOf("") }
-    var correctAnswer by rememberSaveable { mutableStateOf("") }
 
+    // Stores random IDs that were used in a test to avoid repeatability
     val storeUsedIndex = rememberSaveable { mutableListOf<Int>() }
 
-    var hasNext by rememberSaveable { mutableStateOf(true) }
+    //Stores the anagram of the translated word in a current step
     var anagramed by rememberSaveable { mutableStateOf("") }
 
-    if (wordList.isNotEmpty() && hasNext) {
+    // Test score displayed after the test is finished
+    var resultScore by rememberSaveable { mutableStateOf(0) }
+
+    var hasNextStep by rememberSaveable { mutableStateOf(true) }
+
+    if (wordList.isNotEmpty() && hasNextStep) {
         val randomId = randomIndexGenerator(wordList.size - 1, storeUsedIndex)
         storeUsedIndex.add(randomId)
 
+        // Stores a randomly generated word pair that will be the shown in the current step
         val thisWordPair = wordList[randomId]
 
-        correctFirstValue = thisWordPair.entryWord
-        correctAnswer = thisWordPair.translatedWord
+        wordA = thisWordPair.entryWord
+        wordB = thisWordPair.translatedWord
 
-        anagramed = anagramCreator(thisWordPair.translatedWord)
-        hasNext = false
-
+        anagramed = anagramCreator(thisWordPair.translatedWord.toUpperCase())
+        hasNextStep = false
     }
 
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center,
         modifier = Modifier
             .fillMaxSize()
     ) {
@@ -109,7 +109,7 @@ fun AnagramScreen(
 
         Card(
             modifier = Modifier
-                .width(240.dp)
+                .width(278.dp)
                 .height(85.dp)
         ) {
             Row(
@@ -118,7 +118,7 @@ fun AnagramScreen(
                 modifier = Modifier.fillMaxSize()
             ) {
                 Text(
-                    text = correctFirstValue,
+                    text = wordA,
                     textAlign = TextAlign.Center,
                     fontSize = 22.sp
                 )
@@ -136,7 +136,7 @@ fun AnagramScreen(
 
         Card(
             modifier = Modifier
-                .width(240.dp)
+                .width(278.dp)
                 .height(85.dp)
         ) {
             Row(
@@ -147,7 +147,8 @@ fun AnagramScreen(
                 Text(
                     text = anagramCreator(anagramed),
                     textAlign = TextAlign.Center,
-                    fontSize = 22.sp
+                    fontSize = 22.sp,
+                    modifier = Modifier.padding(all = 10.dp)
                 )
             }
         }
@@ -189,7 +190,10 @@ fun AnagramScreen(
                     navController.navigate(Screen.Test.route)
                 }
             ) {
-                Text(text = "Quit")
+                Text(
+                    text = stringResource(id = R.string.quit),
+                    fontSize = 16.sp
+                )
             }
 
             Spacer(modifier = Modifier.width(30.dp))
@@ -200,7 +204,7 @@ fun AnagramScreen(
                 .weight(0.5f),
                 enabled = userAnswer.isNotEmpty(),
                 onClick = { // is equal to???
-                    if (userAnswer.lowercase().trim() == correctAnswer.lowercase().trim()) {
+                    if (userAnswer.lowercase().trim() == wordB.lowercase().trim()) {
                         resultScore++
                     }
                     if (step >= number) {
@@ -210,13 +214,16 @@ fun AnagramScreen(
                         navController.navigate(Screen.TestScore.route)
 
                     } else if (wordList.isNotEmpty() && (step < number)) {
-                        hasNext = true
+                        hasNextStep = true
                         step++
                         userAnswer = ""
                     }
                 })
             {
-                Text(text = "Next")
+                Text(
+                    text = stringResource(id = R.string.next),
+                    fontSize = 16.sp
+                )
             }
         }
     }
