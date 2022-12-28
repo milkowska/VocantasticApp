@@ -152,8 +152,8 @@ fun TestScreenContent(
                 .width(250.dp)
                 .height(50.dp),
             onClick = {
-                if (wordList.isEmpty()) {
-                    Toast.makeText(context, "Add words to begin a test!", Toast.LENGTH_LONG).show()
+                if (wordList.size < 4) {
+                    Toast.makeText(context, "Add at least four word pairs to begin a test!", Toast.LENGTH_LONG).show()
                 } else {
                     openFindAnswerDialog.value = true
                 }

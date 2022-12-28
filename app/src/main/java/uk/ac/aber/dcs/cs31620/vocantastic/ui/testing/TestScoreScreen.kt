@@ -22,11 +22,13 @@ import uk.ac.aber.dcs.cs31620.vocantastic.R
 import uk.ac.aber.dcs.cs31620.vocantastic.model.WordPairViewModel
 import uk.ac.aber.dcs.cs31620.vocantastic.ui.navigation.Screen
 
+
 @Composable
 fun TestScoreScreenTopLevel(
     navController: NavHostController,
     wordPairViewModel: WordPairViewModel = viewModel()
 ) {
+
     TestScoreScreen(navController, wordPairViewModel)
 }
 
@@ -37,7 +39,7 @@ fun TestScoreScreen(
     wordPairViewModel: WordPairViewModel,
     modifier: Modifier = Modifier,
 ) {
-    val score = "25%" // wyrzuc to
+    val score = "25%" //
 
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,

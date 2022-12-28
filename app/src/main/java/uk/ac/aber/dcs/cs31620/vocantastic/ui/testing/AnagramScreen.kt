@@ -176,26 +176,31 @@ fun AnagramScreen(
             singleLine = true,
         )
 
-        Spacer(modifier = Modifier.height(40.dp))
+        Spacer(modifier = Modifier.height(10.dp))
 
-        Row(horizontalArrangement = Arrangement.SpaceAround) {
+        Row(
+            horizontalArrangement = Arrangement.SpaceEvenly,
+            verticalAlignment = Alignment.CenterVertically,
+            modifier = Modifier.padding(all = 35.dp)
+        ) {
 
             Button(modifier = Modifier
                 .height(60.dp)
-                .width(200.dp),
+                .width(200.dp)
+                .weight(0.5f),
                 onClick = {
                     navController.navigate(Screen.Test.route)
                 }
-
             ) {
                 Text(text = "Quit")
             }
 
-            Spacer(modifier = Modifier.height(40.dp))
+            Spacer(modifier = Modifier.width(30.dp))
 
             Button(modifier = Modifier
                 .height(60.dp)
-                .width(200.dp),
+                .width(200.dp)
+                .weight(0.5f),
                 enabled = userAnswer.isNotEmpty(),
                 onClick = { // is equal to???
                     if (userAnswer.lowercase().trim() == correctAnswer.lowercase().trim()) {
@@ -220,18 +225,3 @@ fun AnagramScreen(
     }
 }
 
-private fun anagramCreator(originalWord: String): String {
-    val stringValueToArray = originalWord.trim().toCharArray()
-    return stringValueToArray.sortedDescending().joinToString("")
-}
-
-private fun randomIndexGenerator(lastIndex: Int, idValues: List<Int>): Int {
-    while (true) {
-        // inclusive or exclusive?
-        val index = (0 until lastIndex + 1).random()
-        if (index !in idValues) {
-            return index
-        }
-    }
-
-}

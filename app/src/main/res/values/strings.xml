@@ -21,7 +21,7 @@
     <string name="anagram">Solve the anagram</string>
     <string name="find_correct_answer">Find the correct answer</string>
     <string name="the_anagram_text">The translated anagram for the word</string>
-    <string name="find_answer_description">In this test you will be given a word in the native language and a multiple choices. Select one correct answer which is the translated version of the word shown.</string>
+    <string name="find_answer_description">In this test, you will be given a word in the native language and multiple choices. Select one correct answer which is the translated version of the word shown.</string>
     <string name="correct_answer">What is the correct answer?</string>
     <string name="brain_image">a thinking brain picture</string>
     <string name="test_finished">The test is finished!</string>
@@ -32,9 +32,9 @@
     <string name="list_empty">empty list image</string>
     <string name="continue_to_next_screen">Continue</string>
     <string name="learning_journey_text">This is where your learning journey begins!</string>
-    <string name="anagram_description">In this test you will be given a word in the native language and the translated version as an anagram. Try to guess the meaning by rearranging the letters of the anagram!</string>
+    <string name="anagram_description">In this test, you will be given a word in the native language and the translated version as an anagram. Try to guess the meaning by rearranging the letters of the anagram!</string>
     <string name="anagram_title">Anagram solving test</string>
-    <string name="find_answer_title">Choose correct answer test</string>
+    <string name="find_answer_title">Choose correct answer</string>
     <string name="start_test">Start test</string>
     <string name="try_later">Try later</string>
 </resources>
