@@ -27,11 +27,16 @@ import uk.ac.aber.dcs.cs31620.vocantastic.model.WordPair
 import uk.ac.aber.dcs.cs31620.vocantastic.model.WordPairViewModel
 import uk.ac.aber.dcs.cs31620.vocantastic.ui.components.TopLevelScaffold
 import androidx.compose.foundation.lazy.*
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.Divider
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextAlign
 import androidx.constraintlayout.compose.ConstraintLayout
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 @Composable
 fun ViewListScreenTopLevel(
@@ -39,7 +44,7 @@ fun ViewListScreenTopLevel(
     wordPairViewModel: WordPairViewModel = viewModel()
 ) {
     val wordsList by wordPairViewModel.wordList.observeAsState(listOf())
-    /*wordPairViewModel.clearWordList()*/
+
     ViewListScreen(
         navController = navController,
         wordList = wordsList,
@@ -54,7 +59,8 @@ fun ViewListScreenTopLevel(
 fun ViewListScreen(
     navController: NavHostController,
     wordList: List<WordPair> = listOf(),
-    doDelete: (WordPair) -> Unit = {}
+    doDelete: (WordPair) -> Unit = {},
+
 ) {
     TopLevelScaffold(
         navController = navController
@@ -64,17 +70,19 @@ fun ViewListScreen(
                 .padding(innerPadding)
                 .fillMaxSize()
         ) {
+
+
             val context = LocalContext.current
             // the empty screen is displayed if the word list is empty.
             if (wordList.isEmpty()) {
                 EmptyScreenContent()
-
             } else {
 
                 LazyColumn(
                     modifier = Modifier
                         .fillMaxSize(),
                     contentPadding = PaddingValues(bottom = 18.dp)
+
                 ) {
 
                     items(wordList) { word ->
@@ -84,7 +92,8 @@ fun ViewListScreen(
                             verticalAlignment = Alignment.CenterVertically,
                             modifier = Modifier.fillMaxWidth()
                         ) {
-                            Column() {
+                            Column()
+                            {
                                 Text(
                                     text = word.entryWord,
                                     modifier = Modifier.padding(start = 8.dp, top = 16.dp),
@@ -125,6 +134,7 @@ fun ViewListScreen(
                             }
                         }
                         Divider(startIndent = 0.dp, thickness = 1.dp)
+
                     }
                 }
             }

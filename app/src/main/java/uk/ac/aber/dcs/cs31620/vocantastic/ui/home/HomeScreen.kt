@@ -21,6 +21,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
 import kotlinx.coroutines.launch
 import uk.ac.aber.dcs.cs31620.vocantastic.R
 import uk.ac.aber.dcs.cs31620.vocantastic.model.WordPair
@@ -29,6 +30,7 @@ import uk.ac.aber.dcs.cs31620.vocantastic.preferencesStorage.FOREIGN_LANGUAGE_KE
 import uk.ac.aber.dcs.cs31620.vocantastic.preferencesStorage.NATIVE_LANGUAGE_KEY
 import uk.ac.aber.dcs.cs31620.vocantastic.preferencesStorage.Storage
 import uk.ac.aber.dcs.cs31620.vocantastic.ui.components.TopLevelScaffold
+import uk.ac.aber.dcs.cs31620.vocantastic.ui.navigation.Screen
 import uk.ac.aber.dcs.cs31620.vocantastic.ui.theme.VocantasticTheme
 import uk.ac.aber.dcs.cs31620.vocantastic.ui.welcome.WelcomeScreen
 
@@ -38,8 +40,7 @@ var welcomeDone: Boolean = false
 @Composable
 fun HomeScreenTopLevel(
     navController: NavHostController,
-    wordPairViewModel: WordPairViewModel = viewModel()
-    ) {
+) {
 
 //TODO welcome key here
     if (!welcomeDone) {
@@ -56,7 +57,6 @@ fun HomeScreen(
 ) {
     TopLevelScaffold(
         navController = navController,
-        //  coroutineScope = coroutineScope,
     ) { innerPadding ->
         Surface(
             modifier = Modifier
@@ -68,19 +68,10 @@ fun HomeScreen(
             val dataStore = Storage(context)
             // val scope = rememberCoroutineScope()
 
-
             val nativeLanguage =
                 dataStore.getString(NATIVE_LANGUAGE_KEY).collectAsState(initial = "")
             val foreignLanguage =
                 dataStore.getString(FOREIGN_LANGUAGE_KEY).collectAsState(initial = "")
-
-
-
-            /*   HomeScreenContent(
-                modifier = Modifier.padding(10.dp),
-                nativeLanguage.value,
-                foreignLanguage.value
-            )*/
 
             Column(
                 modifier = modifier
@@ -113,85 +104,17 @@ fun HomeScreen(
                     text = "I want to learn ${foreignLanguage.value}"
                 )
 
-
                 Spacer(modifier = Modifier.height(25.dp))
 
-                Button(
-                    onClick = {
-
-                        Toast.makeText(context, "settingsss", Toast.LENGTH_LONG).show()
-                    },
-                    modifier = modifier
-                        .width(182.dp)
-                ) {
-                    Text(stringResource(R.string.settings))
-                }
-                /* SettingsButton(
+                SettingsButton(
                     modifier = Modifier
                         .padding(15.dp),
                     onClick = {
+                        navController.navigate(Screen.Settings.route)
                     }
-                )*/
+                )
 
             }
-        }
-    }
-
-
-    @Composable
-    fun HomeScreenContent(
-        modifier: Modifier = Modifier,
-        nativeLanguage: String,
-        foreignLanguage: String
-    ) {
-
-        val context = LocalContext.current
-
-        val updatedValueNative = rememberSaveable { mutableStateOf("") }
-        val updatedValueForeign = rememberSaveable { mutableStateOf("") }
-
-        Column(
-            modifier = modifier
-                .fillMaxSize(),
-            verticalArrangement = Arrangement.Center,
-            horizontalAlignment = Alignment.CenterHorizontally
-
-        ) {
-
-            Spacer(modifier = Modifier.height(6.dp))
-
-            Image(
-                modifier = Modifier
-                    .size(340.dp),
-                painter = painterResource(id = R.drawable.transparent_home_screen_image),
-                contentDescription = stringResource(id = R.string.welcome_image),
-                contentScale = ContentScale.Crop
-            )
-
-            Spacer(modifier = Modifier.height(15.dp))
-
-
-            Text(
-                text = "I speak $nativeLanguage"
-            )
-
-            Spacer(modifier = Modifier.height(15.dp))
-
-            Text(
-                text = "I want to learn $foreignLanguage"
-            )
-
-
-            Spacer(modifier = Modifier.height(25.dp))
-/*
-        SettingsButton(
-            modifier = Modifier
-                .padding(15.dp),
-            onClick = {
-            }
-        )*/
-
-
         }
     }
 
@@ -207,7 +130,6 @@ fun HomeScreen(
         val scope = rememberCoroutineScope()
         var seclang by rememberSaveable { mutableStateOf("") }
 
-
         Text(
             text = "I want to learn: $seclang",
             fontSize = 20.sp,
@@ -215,65 +137,18 @@ fun HomeScreen(
 
             )
     }
-
-    @Composable
-    fun YourLanguageTextField(
-        modifier: Modifier = Modifier,
-        textValue: String = "",
-        onValueChange: (String) -> Unit = {}
-    ) {
-
-        OutlinedTextField(
-            value = textValue,
-            label = {
-                Text(text = stringResource(id = R.string.your_language))
-            },
-            onValueChange = onValueChange,
-            singleLine = true,
-            modifier = modifier
-
-        )
-    }
-
-    @Composable
-    fun ForeignLanguageTextField(
-        modifier: Modifier = Modifier,
-        textValue: String = "",
-        onValueChange: (String) -> Unit = {}
-    ) {
-        OutlinedTextField(
-            value = textValue,
-            label = {
-                Text(text = stringResource(R.string.foreign_language))
-            },
-            onValueChange = onValueChange,
-            singleLine = true,
-            modifier = modifier,
-
-            )
-    }
-
-    @Composable
-    fun SettingsButton(
-        modifier: Modifier = Modifier,
-        onClick: () -> Unit = {}
-    ) {
-        Button(
-            onClick = onClick,
-            modifier = modifier
-                .width(182.dp)
-        ) {
-            Text(stringResource(R.string.settings))
-        }
-    }
 }
 
-/*
-@Preview
 @Composable
-fun HomeScreenPreview() {
-    val navController = rememberNavController()
-    VocantasticTheme(dynamicColor = false) {
-        HomeScreen(navController)
+fun SettingsButton(
+    modifier: Modifier = Modifier,
+    onClick: () -> Unit = {}
+) {
+    Button(
+        onClick = onClick,
+        modifier = modifier
+            .width(182.dp)
+    ) {
+        Text(stringResource(R.string.settings))
     }
-}*/
+}

@@ -153,9 +153,9 @@ fun FindAnswerScreen(
                         bottom = 20.dp
                     )
             ) {
-                RadioButton(
-                    selected = answer == userAnswer,
-                    onClick = {
+                Checkbox(
+                    checked = answer == userAnswer,
+                    onCheckedChange = {
                         userAnswer = answer
                     }
                 )

@@ -74,10 +74,8 @@ private fun WelcomeScreenContent(
             .fillMaxSize(),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
-
     )
     {
-
 
         Image(
             modifier = Modifier
@@ -89,6 +87,7 @@ private fun WelcomeScreenContent(
             contentScale = ContentScale.FillWidth,
 
             )
+
         Spacer(modifier = Modifier.height(15.dp))
 
         Text(
@@ -107,6 +106,7 @@ private fun WelcomeScreenContent(
                 nativeLanguage = it
             }
         )
+
         Text(
             text = "This is your own language",
             textAlign = TextAlign.Left,
@@ -148,7 +148,6 @@ private fun WelcomeScreenContent(
                     welcomeDone = true
                     navController.navigate(route = Screen.Home.route)
                 }
-
                 // after the first language initialization it goes to Home screen
 
             },
@@ -161,7 +160,6 @@ private fun WelcomeScreenContent(
 
     }
 }
-
 
 @Composable
 fun YourLanguageTextField(
@@ -180,7 +178,6 @@ fun YourLanguageTextField(
     )
 
 }
-
 
 @Composable
 fun ForeignLanguageTextField(

@@ -5,7 +5,7 @@ sealed class Screen(val route: String) {
     object List : Screen("list")
     object AnagramTest : Screen("anagram")
     object FindTest : Screen("findanswer")
-
+    object Settings : Screen("settings")
     object Test : Screen("test")
     object Words : Screen("add")
     object Welcome : Screen("welcome")

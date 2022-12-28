@@ -13,9 +13,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
-
 import uk.ac.aber.dcs.cs31620.vocantastic.R
 import uk.ac.aber.dcs.cs31620.vocantastic.model.WordPair
 import uk.ac.aber.dcs.cs31620.vocantastic.model.WordPairViewModel
@@ -50,7 +48,6 @@ fun AnagramScreenTopLevel(
 @Composable
 fun AnagramScreen(
     navController: NavHostController,
-    wordPairViewModel: WordPairViewModel = viewModel(),
     wordList: List<WordPair>,
     number: Int,
 ) {

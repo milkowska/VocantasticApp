@@ -18,6 +18,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -38,27 +39,19 @@ fun AddWordScreenTopLevel(
 ) {
     val wordList by wordPairViewModel.wordList.observeAsState(listOf())
 
-   /* wordPairViewModel.insertWordPair(WordPair(entryWord = "Dupa", translatedWord = "Ass"))
-    wordPairViewModel.insertWordPair(WordPair(entryWord = "Dupaaaa", translatedWord = "Assaaa"))
-    wordPairViewModel.insertWordPair(WordPair(entryWord = "Dupa3", translatedWord = "Ass3"))*/
-
     AddWordScreen(navController = navController,
         wordList =  wordList,
         insertWordPair = { wordPair ->
             wordPairViewModel.insertWordPair(wordPair)
-        },
-        deleteWordPair = { wordPair ->
-            wordPairViewModel.deleteWordPair(wordPair)
-        })
-
-
+        }
+    )
 }
+
 @Composable
 fun AddWordScreen(
     navController: NavHostController,
     wordList: List<WordPair>,
     insertWordPair: (WordPair) -> Unit = {},
-    deleteWordPair: (WordPair) -> Unit = {}
 ) {
     TopLevelScaffold(
         navController = navController,
@@ -74,9 +67,7 @@ fun AddWordScreen(
 
             val nativeLanguage = dataStore.getString(NATIVE_LANGUAGE_KEY).collectAsState(initial = "")
             val foreignLanguage = dataStore.getString(FOREIGN_LANGUAGE_KEY).collectAsState(initial = "")
-           /* Text (
-                text = nativeLanguage.value,
-            )*/
+
             Spacer(modifier = Modifier.height(20.dp))
 
             AddWordScreenContent(
@@ -96,6 +87,7 @@ private fun AddWordScreenContent(
     wordList: List<WordPair>,
     doInsert: (WordPair) -> Unit = {}
 ) {
+
     var id by rememberSaveable { mutableStateOf(0) }
     var textValueNative by  rememberSaveable { mutableStateOf("") }
     var textValueForeign by  rememberSaveable { mutableStateOf("") }
@@ -115,9 +107,6 @@ private fun AddWordScreenContent(
             modifier = modifier
         )
 
-       /* if(wordList.isNotEmpty()) {
-
-        }*/
         Spacer(modifier = Modifier.height(20.dp))
 
         Text(
@@ -152,7 +141,6 @@ private fun AddWordScreenContent(
 
         Spacer(modifier = Modifier.height(20.dp))
 
-        /*AddButton() */
         Button(
             onClick = {
               if( textValueNative.trim() == "" || textValueForeign.trim() == "") {
@@ -166,7 +154,7 @@ private fun AddWordScreenContent(
                   )
                   Toast.makeText(context, "New word pair has been added!", Toast.LENGTH_SHORT).show()
                   textValueNative = ""
-                  textValueForeign = ""  // to clear after adding?
+                  textValueForeign = ""
               }
             },
             modifier = modifier
@@ -184,23 +172,6 @@ private fun AddWordScreenContent(
             contentDescription = stringResource(id = R.string.add_word_image),
             contentScale = ContentScale.Crop
         )
-
-    }
-}
-
-private fun insertWordPair(
-    entryWord: String,
-    translatedWord: String,
-    doInsert: (WordPair) -> Unit = {}
-) {
-    if(entryWord.isNotEmpty() && translatedWord.isNotEmpty()){
-        val wordPair = WordPair(
-            id = 0,
-            entryWord = entryWord,
-            translatedWord = translatedWord
-
-        )
-        doInsert(wordPair)
     }
 }
 
@@ -239,20 +210,6 @@ fun TranslatedWordTextField(
 }
 
 @Composable
-fun AddButton(
-    modifier: Modifier = Modifier,
-    onClick: () -> Unit = {}
-) {
-    Button(
-        onClick = onClick,
-        modifier = modifier
-            .width(220.dp)
-    ) {
-        Text(stringResource(id = R.string.add_to_vocabulary_list))
-    }
-}
-
-@Composable
 @Preview
 fun FirstWordTxtFieldPreview() {
     VocantasticTheme(dynamicColor = false) {
@@ -265,14 +222,5 @@ fun FirstWordTxtFieldPreview() {
 fun TranslatedWordTxtFieldPreview() {
     VocantasticTheme(dynamicColor = false) {
         TranslatedWordTextField()
-    }
-}
-
-
-@Composable
-@Preview
-fun AddButtonPreview() {
-    VocantasticTheme(dynamicColor = false) {
-        AddButton()
     }
 }
