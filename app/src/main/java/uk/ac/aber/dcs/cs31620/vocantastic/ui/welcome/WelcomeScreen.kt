@@ -5,7 +5,6 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.Button
 import androidx.compose.material3.OutlinedTextField
-import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
@@ -18,39 +17,42 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+//import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import kotlinx.coroutines.launch
 import uk.ac.aber.dcs.cs31620.vocantastic.R
 import uk.ac.aber.dcs.cs31620.vocantastic.preferencesStorage.FOREIGN_LANGUAGE_KEY
 import uk.ac.aber.dcs.cs31620.vocantastic.preferencesStorage.NATIVE_LANGUAGE_KEY
 import uk.ac.aber.dcs.cs31620.vocantastic.preferencesStorage.Storage
-import uk.ac.aber.dcs.cs31620.vocantastic.ui.components.TopLevelScaffold
 import uk.ac.aber.dcs.cs31620.vocantastic.ui.home.welcomeDone
 import uk.ac.aber.dcs.cs31620.vocantastic.ui.navigation.Screen
 
 //TODO this file is not finished
 @Composable
 fun WelcomeScreen(
-    navController: NavHostController
+    navController: NavHostController,
+    // dataViewModel: DataViewModel = hiltViewModel()
 ) {
 
-            val context = LocalContext.current
-            val dataStore = Storage(context)
+    val context = LocalContext.current
+    val dataStore = Storage(context)
 
-            val nativeLanguage =
-                dataStore.getString(NATIVE_LANGUAGE_KEY).collectAsState(initial = "")
-            val foreignLanguage =
-                dataStore.getString(FOREIGN_LANGUAGE_KEY).collectAsState(initial = "")
-            WelcomeScreenContent(
-                modifier = Modifier.padding(10.dp),
-                navController
-            )
-    }
+    val nativeLanguage =
+        dataStore.getString(NATIVE_LANGUAGE_KEY).collectAsState(initial = "")
+    val foreignLanguage =
+        dataStore.getString(FOREIGN_LANGUAGE_KEY).collectAsState(initial = "")
+    WelcomeScreenContent(
+        modifier = Modifier.padding(10.dp),
+        navController,
+        //dataViewModel = dataViewModel
+    )
+}
 
 @Composable
 private fun WelcomeScreenContent(
     modifier: Modifier = Modifier,
-    navController: NavHostController
+    navController: NavHostController,
+    //  dataViewModel: DataViewModel = hiltViewModel()
 ) {
     val context = LocalContext.current
     val scope = rememberCoroutineScope()
@@ -122,8 +124,10 @@ private fun WelcomeScreenContent(
         Spacer(modifier = Modifier.height(20.dp))
 
         Button(
+
             enabled = nativeLanguage.isNotEmpty() || secondLanguage.isNotEmpty(),
             onClick = {
+
                 if (nativeLanguage.trim() == "" || secondLanguage.trim() == "") {
                     Toast.makeText(context, "Invalid input", Toast.LENGTH_LONG).show()
                 } else {
@@ -146,8 +150,10 @@ private fun WelcomeScreenContent(
                 .width(220.dp)
                 .height(50.dp)
         ) {
-            Text(stringResource(id = R.string.continue_to_next_screen),
-                fontSize = 16.sp)
+            Text(
+                stringResource(id = R.string.continue_to_next_screen),
+                fontSize = 16.sp
+            )
         }
 
     }

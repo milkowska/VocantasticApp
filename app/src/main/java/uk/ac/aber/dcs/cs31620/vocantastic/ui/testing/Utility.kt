@@ -1,5 +1,6 @@
 package uk.ac.aber.dcs.cs31620.vocantastic.ui.testing
 
+import android.content.Context
 import uk.ac.aber.dcs.cs31620.vocantastic.model.WordPair
 
 // Creates an anagram given a word by sorting the letters in descending order.
@@ -19,7 +20,7 @@ fun randomIndexGenerator(lastIndex: Int, idValues: List<Int>): Int {
 }
 // Defines the number of questions given the size of vocabulary list.
 fun getNumberOfQuestions(list: List<WordPair>): Int {
-    return if(list.size >= 15) {
+    return if (list.size >= 15) {
         15
     } else {
         list.size

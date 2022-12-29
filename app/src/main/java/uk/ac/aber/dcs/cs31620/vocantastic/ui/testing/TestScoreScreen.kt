@@ -16,19 +16,26 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
+//import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import uk.ac.aber.dcs.cs31620.vocantastic.R
 import uk.ac.aber.dcs.cs31620.vocantastic.model.WordPairViewModel
+import uk.ac.aber.dcs.cs31620.vocantastic.preferencesStorage.PreferencesViewModel
+import uk.ac.aber.dcs.cs31620.vocantastic.preferencesStorage.TEST_SCORE
+// import uk.ac.aber.dcs.cs31620.vocantastic.preferencesStorage.TEST_SCORE
 import uk.ac.aber.dcs.cs31620.vocantastic.ui.navigation.Screen
 
 
 @Composable
 fun TestScoreScreenTopLevel(
     navController: NavHostController,
-    wordPairViewModel: WordPairViewModel = viewModel()
+    wordPairViewModel: WordPairViewModel = viewModel(),
+    dataViewModel : PreferencesViewModel = hiltViewModel()
 ) {
-    TestScoreScreen(navController, wordPairViewModel)
+    val score = dataViewModel.getInt(TEST_SCORE)
+    TestScoreScreen(navController, wordPairViewModel, modifier = Modifier, score)
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -37,8 +44,9 @@ fun TestScoreScreen(
     navController: NavHostController,
     wordPairViewModel: WordPairViewModel,
     modifier: Modifier = Modifier,
+    score: Int?
 ) {
-    val score = 50
+  //  val score = "50"
 
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -82,15 +90,15 @@ fun TestScoreScreen(
 
         Spacer(modifier = Modifier.height(20.dp))
 
-        if (score < 40) {
+     /*   if (score < 40) {
             Image(
                 modifier = Modifier
                     .size(350.dp),
                 painter = painterResource(id = R.drawable.nice_try),
                 contentDescription = stringResource(id = R.string.score_image_description),
                 contentScale = ContentScale.Crop
-            )
-        } else {
+            )*/
+       // } else {
             Image(
                 modifier = Modifier
                     .size(350.dp),
@@ -98,7 +106,7 @@ fun TestScoreScreen(
                 contentDescription = stringResource(id = R.string.score_image_description),
                 contentScale = ContentScale.Crop
             )
-        }
+       // }
 
         Button(
             onClick = {

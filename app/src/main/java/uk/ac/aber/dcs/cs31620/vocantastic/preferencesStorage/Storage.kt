@@ -3,10 +3,7 @@ package uk.ac.aber.dcs.cs31620.vocantastic.preferencesStorage
 import android.content.Context
 import androidx.datastore.core.DataStore
 import androidx.datastore.dataStore
-import androidx.datastore.preferences.core.Preferences
-import androidx.datastore.preferences.core.booleanPreferencesKey
-import androidx.datastore.preferences.core.edit
-import androidx.datastore.preferences.core.stringPreferencesKey
+import androidx.datastore.preferences.core.*
 import androidx.datastore.preferences.preferencesDataStore
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
@@ -33,6 +30,15 @@ class Storage(private val context: Context) {
         context.dataStore.edit { preferences ->
             preferences[stringPreferencesKey(key)] = value
         }
+    }
+    suspend fun saveInt(value: Int, key: String) {
+        context.dataStore.edit { preferences ->
+            preferences[intPreferencesKey(key)] = value
+        }
+    }
+    suspend fun getInt(key: String): Int? {
+        val sharedPrefKey = intPreferencesKey(key)
+        return context.dataStore.data.first()[sharedPrefKey]
     }
 
     suspend fun save(key: String, value: String) {
