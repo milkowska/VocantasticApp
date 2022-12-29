@@ -17,13 +17,12 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 //import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import kotlinx.coroutines.launch
 import uk.ac.aber.dcs.cs31620.vocantastic.R
-import uk.ac.aber.dcs.cs31620.vocantastic.preferencesStorage.FOREIGN_LANGUAGE_KEY
-import uk.ac.aber.dcs.cs31620.vocantastic.preferencesStorage.NATIVE_LANGUAGE_KEY
-import uk.ac.aber.dcs.cs31620.vocantastic.preferencesStorage.Storage
+import uk.ac.aber.dcs.cs31620.vocantastic.preferencesStorage.*
 import uk.ac.aber.dcs.cs31620.vocantastic.ui.home.welcomeDone
 import uk.ac.aber.dcs.cs31620.vocantastic.ui.navigation.Screen
 
@@ -31,20 +30,13 @@ import uk.ac.aber.dcs.cs31620.vocantastic.ui.navigation.Screen
 @Composable
 fun WelcomeScreen(
     navController: NavHostController,
-    // dataViewModel: DataViewModel = hiltViewModel()
+    dataViewModel : PreferencesViewModel = hiltViewModel()
 ) {
 
-    val context = LocalContext.current
-    val dataStore = Storage(context)
-
-    val nativeLanguage =
-        dataStore.getString(NATIVE_LANGUAGE_KEY).collectAsState(initial = "")
-    val foreignLanguage =
-        dataStore.getString(FOREIGN_LANGUAGE_KEY).collectAsState(initial = "")
     WelcomeScreenContent(
         modifier = Modifier.padding(10.dp),
         navController,
-        //dataViewModel = dataViewModel
+        dataViewModel = dataViewModel
     )
 }
 
@@ -52,11 +44,9 @@ fun WelcomeScreen(
 private fun WelcomeScreenContent(
     modifier: Modifier = Modifier,
     navController: NavHostController,
-    //  dataViewModel: DataViewModel = hiltViewModel()
+    dataViewModel : PreferencesViewModel = hiltViewModel()
 ) {
     val context = LocalContext.current
-    val scope = rememberCoroutineScope()
-    val dataStore = Storage(context)
 
     var nativeLanguage by rememberSaveable { mutableStateOf("") }
     var secondLanguage by rememberSaveable { mutableStateOf("") }
@@ -131,19 +121,16 @@ private fun WelcomeScreenContent(
                 if (nativeLanguage.trim() == "" || secondLanguage.trim() == "") {
                     Toast.makeText(context, "Invalid input", Toast.LENGTH_LONG).show()
                 } else {
-                    scope.launch {
-                        dataStore.save(nativeLanguage, NATIVE_LANGUAGE_KEY)
-                        dataStore.save(secondLanguage, FOREIGN_LANGUAGE_KEY)
-                        /*dataStore.saveString(nativeLanguage, NATIVE_LANGUAGE_KEY)
-                        dataStore.saveString(secondLanguage, FOREIGN_LANGUAGE_KEY)*/
-                        /* dataStore.setBoolean(true, WELCOME_SCREEN)*/
-                    }
+
+                    dataViewModel.saveString(nativeLanguage.trim().toLowerCase(), NATIVE_LANGUAGE_KEY)
+                    dataViewModel.saveString(secondLanguage.trim().toLowerCase(), FOREIGN_LANGUAGE_KEY)
+
+                    dataViewModel.saveBoolean(true, WELCOME_SCREEN)
                     Toast.makeText(context, "Languages are set", Toast.LENGTH_LONG).show()
 
                     welcomeDone = true
                     navController.navigate(route = Screen.Home.route)
                 }
-                // after the first language initialization it goes to Home screen
 
             },
             modifier = modifier

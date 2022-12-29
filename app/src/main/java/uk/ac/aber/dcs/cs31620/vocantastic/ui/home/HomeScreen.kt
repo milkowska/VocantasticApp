@@ -16,11 +16,13 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import uk.ac.aber.dcs.cs31620.vocantastic.R
 import uk.ac.aber.dcs.cs31620.vocantastic.model.WordPairViewModel
 import uk.ac.aber.dcs.cs31620.vocantastic.preferencesStorage.FOREIGN_LANGUAGE_KEY
 import uk.ac.aber.dcs.cs31620.vocantastic.preferencesStorage.NATIVE_LANGUAGE_KEY
+import uk.ac.aber.dcs.cs31620.vocantastic.preferencesStorage.PreferencesViewModel
 import uk.ac.aber.dcs.cs31620.vocantastic.preferencesStorage.Storage
 import uk.ac.aber.dcs.cs31620.vocantastic.ui.components.TopLevelScaffold
 import uk.ac.aber.dcs.cs31620.vocantastic.ui.navigation.Screen
@@ -33,20 +35,22 @@ var welcomeDone: Boolean = false
 @Composable
 fun HomeScreenTopLevel(
     navController: NavHostController,
+    dataViewModel : PreferencesViewModel = hiltViewModel()
 ) {
 
 //TODO welcome key here
     if (!welcomeDone) {
         WelcomeScreen(navController)
     } else {
-        HomeScreen(navController, modifier = Modifier)
+        HomeScreen(navController, modifier = Modifier, dataViewModel = dataViewModel)
     }
 }
 
 @Composable
 fun HomeScreen(
     navController: NavHostController,
-    modifier: Modifier
+    modifier: Modifier,
+    dataViewModel : PreferencesViewModel = hiltViewModel()
 ) {
     TopLevelScaffold(
         navController = navController,
@@ -57,14 +61,8 @@ fun HomeScreen(
                 .fillMaxSize()
         ) {
 
-            val context = LocalContext.current
-            val dataStore = Storage(context)
-            // val scope = rememberCoroutineScope()
-
-            val nativeLanguage =
-                dataStore.getString(NATIVE_LANGUAGE_KEY).collectAsState(initial = "")
-            val foreignLanguage =
-                dataStore.getString(FOREIGN_LANGUAGE_KEY).collectAsState(initial = "")
+            val nativeLanguage = dataViewModel.getString(NATIVE_LANGUAGE_KEY)
+            val foreignLanguage = dataViewModel.getString(FOREIGN_LANGUAGE_KEY)
 
             Column(
                 modifier = modifier
@@ -87,14 +85,14 @@ fun HomeScreen(
                 Spacer(modifier = Modifier.height(15.dp))
 
                 Text(
-                    text = "I speak ${nativeLanguage.value}" ,
+                    text = "I speak $nativeLanguage",
                     fontSize = 22.sp
                 )
 
                 Spacer(modifier = Modifier.height(15.dp))
 
                 Text(
-                    text = "I want to learn ${foreignLanguage.value}",
+                    text = "I want to learn $foreignLanguage",
                     fontSize = 22.sp
                 )
 
@@ -109,24 +107,6 @@ fun HomeScreen(
                 )
             }
         }
-    }
-
-    @SuppressLint("CoroutineCreationDuringComposition")
-    @Composable
-    fun CurrentForeignLanguageText(
-        secondLanguage: String,
-        modifier: Modifier = Modifier
-    ) {
-        val context = LocalContext.current
-        val dataStore = Storage(context)
-        val scope = rememberCoroutineScope()
-        var seclang by rememberSaveable { mutableStateOf("") }
-
-        Text(
-            text = "I want to learn: $seclang",
-            fontSize = 20.sp,
-            modifier = modifier,
-        )
     }
 }
 

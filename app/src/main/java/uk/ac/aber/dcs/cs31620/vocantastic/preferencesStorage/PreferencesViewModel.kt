@@ -32,9 +32,9 @@ class PreferencesViewModel @Inject constructor(
         storage.getBoolean(key)
     }
 
-   /*fun getString(key: String): String? = runBlocking {
+   fun getString(key: String): String? = runBlocking {
         storage.getString(key)
-    } */
+    }
 
     fun saveString(value: String, key: String) {
         viewModelScope.launch {

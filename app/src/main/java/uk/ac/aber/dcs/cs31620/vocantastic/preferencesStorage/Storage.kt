@@ -19,12 +19,16 @@ class Storage(private val context: Context) {
         val USERKEY = stringPreferencesKey("user")
     }
 
-    fun getString(key: String): Flow<String> {
+    /*fun getString(key: String): Flow<String> {
         return context.dataStore.data
             .map { preferences ->
                 preferences[stringPreferencesKey(key)] ?: ""
             }
-    }
+    }*/
+     suspend fun getString(key: String): String? {
+        val sharedPrefKey = stringPreferencesKey(key)
+        return context.dataStore.data.first()[sharedPrefKey]
+     }
 
     suspend fun saveString(value: String, key: String) {
         context.dataStore.edit { preferences ->
@@ -48,19 +52,12 @@ class Storage(private val context: Context) {
         }
     }
 
-    suspend fun read(key: String): String? {
-        val dataStoreKey = stringPreferencesKey(key)
-        val preferences = context.dataStore.data.first()
-        return preferences[dataStoreKey]
-    }
-
     suspend fun setBoolean(value: Boolean, key: String) {
         context.dataStore.edit { preferences ->
             preferences[booleanPreferencesKey(key)] = value
         }
     }
 
-    // or using flow?
     suspend fun clearTable() {
         context.dataStore.edit { preferences ->
             preferences.clear()

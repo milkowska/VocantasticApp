@@ -63,13 +63,6 @@ fun AddWordScreen(
                 .padding(innerPadding)
                 .fillMaxSize()
         ) {
-            val context = LocalContext.current
-            val dataStore = Storage(context)
-
-            val nativeLanguage =
-                dataStore.getString(NATIVE_LANGUAGE_KEY).collectAsState(initial = "")
-            val foreignLanguage =
-                dataStore.getString(FOREIGN_LANGUAGE_KEY).collectAsState(initial = "")
 
             Spacer(modifier = Modifier.height(20.dp))
 

@@ -46,8 +46,6 @@ fun TestScoreScreen(
     modifier: Modifier = Modifier,
     score: Int?
 ) {
-  //  val score = "50"
-
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = Modifier

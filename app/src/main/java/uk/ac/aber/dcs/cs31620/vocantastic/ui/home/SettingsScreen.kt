@@ -1,5 +1,6 @@
 package uk.ac.aber.dcs.cs31620.vocantastic.ui.home
 
+import android.text.method.TextKeyListener.clear
 import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
@@ -18,24 +19,34 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import uk.ac.aber.dcs.cs31620.vocantastic.R
+import uk.ac.aber.dcs.cs31620.vocantastic.model.WordPairViewModel
+import uk.ac.aber.dcs.cs31620.vocantastic.preferencesStorage.FOREIGN_LANGUAGE_KEY
+import uk.ac.aber.dcs.cs31620.vocantastic.preferencesStorage.NATIVE_LANGUAGE_KEY
+import uk.ac.aber.dcs.cs31620.vocantastic.preferencesStorage.PreferencesViewModel
 import uk.ac.aber.dcs.cs31620.vocantastic.ui.navigation.Screen
 import uk.ac.aber.dcs.cs31620.vocantastic.ui.welcome.WelcomeScreen
 
 @Composable
 fun SettingsScreenTopLevel(
     navController: NavHostController,
-) {
+    dataViewModel : PreferencesViewModel = hiltViewModel(),
+    wordPairViewModel: WordPairViewModel = viewModel()
 
-    SettingsScreen(navController = navController, modifier = Modifier)
+) {
+    SettingsScreen(navController = navController, dataViewModel, wordPairViewModel)
 }
 
 @Composable
 fun SettingsScreen(
     navController: NavHostController,
-    modifier: Modifier
+    dataViewModel : PreferencesViewModel = hiltViewModel(),
+    wordPairViewModel: WordPairViewModel = viewModel()
+
 ) {
     val context = LocalContext.current
     val openAlert = remember { mutableStateOf(false) }
@@ -43,9 +54,8 @@ fun SettingsScreen(
     var secondLanguage by rememberSaveable { mutableStateOf("") }
 
 
-
     Column(
-        modifier = modifier
+        modifier = Modifier
             .fillMaxSize(),
         verticalArrangement = Arrangement.Top,
         horizontalAlignment = Alignment.CenterHorizontally
@@ -94,7 +104,6 @@ fun SettingsScreen(
             },
             onValueChange = { nativeLanguage = it },
             singleLine = true,
-            modifier = modifier,
         )
 
         Text(
@@ -112,7 +121,6 @@ fun SettingsScreen(
             },
             onValueChange = { secondLanguage = it },
             singleLine = true,
-            modifier = modifier,
         )
 
         Text(
@@ -129,8 +137,11 @@ fun SettingsScreen(
                 if (nativeLanguage.trim() == "" || secondLanguage.trim() == "") {
                     Toast.makeText(context, "Invalid input", Toast.LENGTH_LONG).show()
                 } else {
-                    //store new languages
-                    //clear database WordPairViewModel.clear
+
+                    dataViewModel.saveString(nativeLanguage.trim().toLowerCase(), NATIVE_LANGUAGE_KEY)
+                    dataViewModel.saveString(secondLanguage.trim().toLowerCase(), FOREIGN_LANGUAGE_KEY)
+                    wordPairViewModel.clearWordList()
+
                     openAlert.value = true
                 }
             },
@@ -165,20 +176,3 @@ fun SettingsScreen(
     }
 }
 
-@Composable
-fun TopAppBarSample(navController: NavController) {
-    Column {
-        TopAppBar(
-            elevation = 4.dp,
-            title = {
-                     Text("Settings")
-            },
-            backgroundColor = MaterialTheme.colorScheme.background,
-            navigationIcon = {
-                IconButton(onClick = { navController.navigate(route = Screen.Home.route) }) {
-                    Icon(Icons.Filled.ArrowBack, null)
-                }
-            },
-        )
-    }
-}
