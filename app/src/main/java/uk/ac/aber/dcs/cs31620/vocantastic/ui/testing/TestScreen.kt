@@ -25,6 +25,7 @@ import uk.ac.aber.dcs.cs31620.vocantastic.model.WordPair
 import uk.ac.aber.dcs.cs31620.vocantastic.model.WordPairViewModel
 import uk.ac.aber.dcs.cs31620.vocantastic.ui.components.TopLevelScaffold
 import uk.ac.aber.dcs.cs31620.vocantastic.ui.navigation.Screen
+import uk.ac.aber.dcs.cs31620.vocantastic.ui.theme.Railway
 
 /**
  * This is where the user can test their knowledge and begin a test. There are two tests to choose from, one of which requires at least four words in
@@ -75,7 +76,6 @@ fun TestScreenContent(
         Text(
             text = stringResource(id = R.string.test_progress_title),
             fontSize = 24.sp,
-            fontWeight = FontWeight.Bold,
             modifier = modifier
         )
 
@@ -94,7 +94,6 @@ fun TestScreenContent(
         Text(
             text = stringResource(id = R.string.test_choice),
             fontSize = 22.sp,
-            fontWeight = FontWeight.Bold,
             modifier = modifier
         )
         Spacer(modifier = Modifier.height(10.dp))
@@ -113,7 +112,8 @@ fun TestScreenContent(
         ) {
             Text(
                 text = stringResource(id = R.string.anagram),
-                fontSize = 16.sp
+                fontSize = 16.sp,
+                fontFamily = Railway
             )
         }
 
@@ -124,11 +124,17 @@ fun TestScreenContent(
                     openAnagramDialog.value = false
                 },
                 title = {
-                    Text(text = stringResource(R.string.anagram_title))
+                    Text(
+                        text = stringResource(R.string.anagram_title),
+                        fontFamily = Railway
+                    )
 
                 },
                 text = {
-                    Text(stringResource(R.string.anagram_description))
+                    Text(
+                        stringResource(R.string.anagram_description),
+                        fontFamily = Railway
+                    )
                 },
                 confirmButton = {
                     Button(
@@ -137,7 +143,10 @@ fun TestScreenContent(
                             navController.navigate(route = Screen.AnagramTest.route)
                         },
                     ) {
-                        Text(stringResource(R.string.start_test))
+                        Text(
+                            stringResource(R.string.start_test),
+                            fontFamily = Railway
+                        )
                     }
                 },
                 dismissButton = {
@@ -146,7 +155,10 @@ fun TestScreenContent(
                             openAnagramDialog.value = false
                         },
                     ) {
-                        Text(stringResource(R.string.try_later))
+                        Text(
+                            stringResource(R.string.try_later),
+                            fontFamily = Railway
+                        )
                     }
                 }
             )
@@ -172,7 +184,8 @@ fun TestScreenContent(
         ) {
             Text(
                 text = stringResource(id = R.string.find_correct_answer),
-                fontSize = 16.sp
+                fontSize = 16.sp,
+                fontFamily = Railway
             )
         }
         if (openFindAnswerDialog.value) {
@@ -182,11 +195,17 @@ fun TestScreenContent(
                     openFindAnswerDialog.value = false
                 },
                 title = {
-                    Text(text = stringResource(R.string.find_answer_title))
+                    Text(
+                        text = stringResource(R.string.find_answer_title),
+                        fontFamily = Railway
+                    )
 
                 },
                 text = {
-                    Text(stringResource(R.string.find_answer_description))
+                    Text(
+                        stringResource(R.string.find_answer_description),
+                        fontFamily = Railway
+                    )
                 },
                 confirmButton = {
                     Button(
@@ -195,7 +214,10 @@ fun TestScreenContent(
                             navController.navigate(route = Screen.FindTest.route)
                         },
                     ) {
-                        Text(stringResource(R.string.start_test))
+                        Text(
+                            stringResource(R.string.start_test),
+                            fontFamily = Railway
+                        )
                     }
                 },
                 dismissButton = {
@@ -204,7 +226,10 @@ fun TestScreenContent(
                             openFindAnswerDialog.value = false
                         },
                     ) {
-                        Text(stringResource(R.string.try_later))
+                        Text(
+                            stringResource(R.string.try_later),
+                            fontFamily = Railway
+                        )
                     }
                 }
             )

@@ -2,12 +2,9 @@ package uk.ac.aber.dcs.cs31620.vocantastic.ui.testing
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
+import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -24,6 +21,7 @@ import uk.ac.aber.dcs.cs31620.vocantastic.model.WordPairViewModel
 import uk.ac.aber.dcs.cs31620.vocantastic.preferencesStorage.PreferencesViewModel
 import uk.ac.aber.dcs.cs31620.vocantastic.preferencesStorage.TEST_SCORE
 import uk.ac.aber.dcs.cs31620.vocantastic.ui.navigation.Screen
+import uk.ac.aber.dcs.cs31620.vocantastic.ui.theme.Railway
 
 /**
  * This is finding the correct answer test screen. The user is given a word in a native language and four answers, one of which is correct.
@@ -113,7 +111,7 @@ fun FindAnswerScreen(
             .fillMaxSize()
     ) {
         val progressValue = step / number.toFloat()
-
+        val openAlertDialog = remember { mutableStateOf(false) }
         Text(
             text = stringResource(id = R.string.find_correct_answer),
             fontWeight = FontWeight.Bold,
@@ -182,13 +180,63 @@ fun FindAnswerScreen(
                 .width(200.dp)
                 .weight(0.5f),
                 onClick = {
-                    navController.navigate(Screen.Test.route)
+                    openAlertDialog.value = true
+
                 }
             ) {
                 Text(
                     text = stringResource(id = R.string.quit),
-                    fontSize = 16.sp
+                    fontSize = 16.sp,
+                    fontFamily = Railway
                 )
+            }
+            if (openAlertDialog.value) {
+                AlertDialog(
+                    onDismissRequest = {
+                        openAlertDialog.value = false
+                    },
+                    title = {
+                        Text(
+                            text = stringResource(R.string.are_you_sure),
+                            fontFamily = Railway
+                        )
+
+                    },
+                    text = {
+                        Text(
+                            stringResource(R.string.confirm_exit),
+                            fontFamily = Railway
+                        )
+                    },
+                    confirmButton = {
+                        Button(
+                            onClick = {
+                                openAlertDialog.value = false
+                                navController.navigate(Screen.Test.route)
+                            },
+                        ) {
+                            Text(
+                                stringResource(R.string.exit),
+                                fontFamily = Railway,
+
+                                )
+                        }
+                    },
+                    dismissButton = {
+                        Button(
+                            onClick = {
+                                openAlertDialog.value = false
+                            },
+                        ) {
+                            Text(
+                                stringResource(R.string.dismiss),
+                                fontFamily = Railway,
+
+                                )
+                        }
+                    }
+                )
+
             }
 
             Spacer(modifier = Modifier.width(30.dp))
@@ -219,7 +267,8 @@ fun FindAnswerScreen(
             {
                 Text(
                     text = stringResource(id = R.string.next),
-                    fontSize = 16.sp
+                    fontSize = 16.sp,
+                    fontFamily = Railway
                 )
             }
         }

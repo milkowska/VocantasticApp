@@ -21,6 +21,7 @@ import uk.ac.aber.dcs.cs31620.vocantastic.model.WordPairViewModel
 import uk.ac.aber.dcs.cs31620.vocantastic.preferencesStorage.PreferencesViewModel
 import uk.ac.aber.dcs.cs31620.vocantastic.preferencesStorage.TEST_SCORE
 import uk.ac.aber.dcs.cs31620.vocantastic.ui.navigation.Screen
+import uk.ac.aber.dcs.cs31620.vocantastic.ui.theme.Railway
 
 /**
  * This is solving an anagram test screen. The user is given a word in a native language and the anagram of its translation. The user is prompted to
@@ -40,7 +41,7 @@ fun AnagramScreenTopLevel(
         navController = navController,
         wordList = wordList,
         number = getNumberOfQuestions(wordList),
-       dataViewModel = dataViewModel
+        dataViewModel = dataViewModel
     )
 }
 
@@ -50,7 +51,7 @@ fun AnagramScreen(
     navController: NavHostController,
     wordList: List<WordPair>,
     number: Int,
-   dataViewModel: PreferencesViewModel = hiltViewModel()
+    dataViewModel: PreferencesViewModel = hiltViewModel()
 ) {
     // Indicates the question number, starts with 1
     var step by rememberSaveable { mutableStateOf(1) }
@@ -94,7 +95,7 @@ fun AnagramScreen(
             .fillMaxSize()
     ) {
         val progressValue = step / number.toFloat()
-
+        val openAlertDialog = remember { mutableStateOf(false) }
         Text(
             text = stringResource(id = R.string.anagram),
             modifier = Modifier.padding(start = 8.dp, top = 16.dp),
@@ -194,13 +195,65 @@ fun AnagramScreen(
                 .width(200.dp)
                 .weight(0.5f),
                 onClick = {
-                    navController.navigate(Screen.Test.route)
+                    openAlertDialog.value = true
+
+                    //navController.navigate(Screen.Test.route)
                 }
             ) {
                 Text(
                     text = stringResource(id = R.string.quit),
-                    fontSize = 16.sp
+                    fontSize = 16.sp,
+                    fontFamily = Railway
                 )
+            }
+
+            if (openAlertDialog.value) {
+                AlertDialog(
+                    onDismissRequest = {
+                        openAlertDialog.value = false
+                    },
+                    title = {
+                        Text(
+                            text = stringResource(R.string.are_you_sure),
+                            fontFamily = Railway
+                        )
+
+                    },
+                    text = {
+                        Text(
+                            stringResource(R.string.confirm_exit),
+                            fontFamily = Railway
+                        )
+                    },
+                    confirmButton = {
+                        Button(
+                            onClick = {
+                                openAlertDialog.value = false
+                                navController.navigate(Screen.Test.route)
+                            },
+                        ) {
+                            Text(
+                                stringResource(R.string.exit),
+                                fontFamily = Railway,
+
+                            )
+                        }
+                    },
+                    dismissButton = {
+                        Button(
+                            onClick = {
+                                openAlertDialog.value = false
+                            },
+                        ) {
+                            Text(
+                                stringResource(R.string.dismiss),
+                                fontFamily = Railway,
+
+                            )
+                        }
+                    }
+                )
+
             }
 
             Spacer(modifier = Modifier.width(30.dp))
@@ -229,7 +282,8 @@ fun AnagramScreen(
             {
                 Text(
                     text = stringResource(id = R.string.next),
-                    fontSize = 16.sp
+                    fontSize = 16.sp,
+                    fontFamily = Railway
                 )
             }
         }

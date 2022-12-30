@@ -40,6 +40,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import uk.ac.aber.dcs.cs31620.vocantastic.model.ListViewModel
+import uk.ac.aber.dcs.cs31620.vocantastic.ui.theme.Railway
 import uk.ac.aber.dcs.cs31620.vocantastic.ui.theme.VocantasticTheme
 
 @Composable
@@ -99,7 +100,7 @@ fun ViewListScreen(
 
                     Crossfade(
                         targetState = state.isSearchBarVisible,
-                        animationSpec = tween(700)
+                        animationSpec = tween(500)
                     ) {
                         if (it) {
                             SearchBar(
@@ -123,13 +124,13 @@ fun ViewListScreen(
 
                     Divider(
                         thickness = 2.dp,
-                        modifier = Modifier.padding(vertical = 30.dp)
+                        modifier = Modifier.padding(vertical = 15.dp)
                     )
 
                     LazyColumn(
                         modifier = Modifier
                             .fillMaxSize(),
-                        contentPadding = PaddingValues(bottom = 18.dp)
+                        contentPadding = PaddingValues(bottom = 5 .dp)
 
                     ) {
 
@@ -177,16 +178,19 @@ fun ViewListScreen(
                                                     Toast.LENGTH_SHORT
                                                 ).show()
                                             }
+
                                         )
                                         {
-                                            Text(text = "Delete")
+                                            Text(
+                                                text = stringResource(id = R.string.delete),
+                                                fontFamily = Railway
+                                            )
                                         }
                                     }
 
                                 }
                             }
                             Divider(startIndent = 0.dp, thickness = 1.dp)
-
                         }
                     }
                 }
@@ -280,16 +284,17 @@ fun TopAppBar(
 
         Text(
             text = stringResource(id = R.string.vocabulary),
-            fontSize = 34.sp,
-            fontWeight = FontWeight.Bold,
-            fontFamily = FontFamily.Default
+            fontSize = 32.sp,
+            modifier = Modifier.padding(start = 15.dp),
+            fontFamily = Railway
         )
 
         IconButton(onClick = onSearchIconClick) {
             Icon(
                 imageVector = Icons.Rounded.Search,
                 contentDescription = "search icon",
-                modifier = Modifier.size(30.dp)
+                modifier = Modifier.size(32.dp)
+
             )
         }
     }

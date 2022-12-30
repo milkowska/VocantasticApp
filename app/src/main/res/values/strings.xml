@@ -47,6 +47,11 @@
     <string name="next">Next</string>
     <string name="new_config_text">New language configuration is set!</string>
     <string name="search">Search...</string>
-    <string name="vocabulary">Dictionary</string>
+    <string name="vocabulary">Your dictionary</string>
     <string name="sort_alphabetically">Alphabetical order</string>
+    <string name="delete">Delete</string>
+    <string name="are_you_sure">Are you sure?</string>
+    <string name="confirm_exit">Press \'Exit\' if you would like to stop the test. Your progress will not be saved.</string>
+    <string name="exit">Exit</string>
+    <string name="dismiss">Dismiss</string>
 </resources>

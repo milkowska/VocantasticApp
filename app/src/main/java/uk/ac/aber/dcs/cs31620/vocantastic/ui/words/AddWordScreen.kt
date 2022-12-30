@@ -30,6 +30,7 @@ import uk.ac.aber.dcs.cs31620.vocantastic.model.WordPairViewModel
 import uk.ac.aber.dcs.cs31620.vocantastic.preferencesStorage.FOREIGN_LANGUAGE_KEY
 import uk.ac.aber.dcs.cs31620.vocantastic.preferencesStorage.NATIVE_LANGUAGE_KEY
 import uk.ac.aber.dcs.cs31620.vocantastic.preferencesStorage.Storage
+import uk.ac.aber.dcs.cs31620.vocantastic.ui.theme.Railway
 import uk.ac.aber.dcs.cs31620.vocantastic.ui.theme.VocantasticTheme
 
 @Composable
@@ -158,7 +159,10 @@ private fun AddWordScreenContent(
                 .width(220.dp)
                 .height(50.dp)
         ) {
-            Text(stringResource(id = R.string.add_to_vocabulary_list))
+            Text(
+                stringResource(id = R.string.add_to_vocabulary_list),
+                fontFamily = Railway
+            )
         }
 
         Spacer(modifier = Modifier.height(2.dp))

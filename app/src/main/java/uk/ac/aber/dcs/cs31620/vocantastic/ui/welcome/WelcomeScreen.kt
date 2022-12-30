@@ -25,6 +25,7 @@ import uk.ac.aber.dcs.cs31620.vocantastic.R
 import uk.ac.aber.dcs.cs31620.vocantastic.preferencesStorage.*
 
 import uk.ac.aber.dcs.cs31620.vocantastic.ui.navigation.Screen
+import uk.ac.aber.dcs.cs31620.vocantastic.ui.theme.Railway
 
 //TODO this file is not finished
 @Composable
@@ -75,7 +76,8 @@ private fun WelcomeScreenContent(
             text = stringResource(id = R.string.learning_journey_text),
             fontSize = 19.sp,
             textAlign = TextAlign.Center,
-            modifier = Modifier.width(360.dp)
+            modifier = Modifier.width(360.dp),
+            fontFamily = Railway
         )
 
         Spacer(modifier = Modifier.height(40.dp))
@@ -91,7 +93,8 @@ private fun WelcomeScreenContent(
         Text(
             text = stringResource(id = R.string.your_own_language),
             textAlign = TextAlign.Left,
-            modifier = Modifier.padding(end = 60.dp)
+            modifier = Modifier.padding(end = 60.dp),
+            fontFamily = Railway
         )
 
         Spacer(modifier = Modifier.height(16.dp))
@@ -107,7 +110,8 @@ private fun WelcomeScreenContent(
         Text(
             text = stringResource(id = R.string.foreign_language_to_learn),
             textAlign = TextAlign.Left,
-            modifier = Modifier.padding(end = 50.dp)
+            modifier = Modifier.padding(end = 50.dp),
+            fontFamily = Railway
         )
 
         Spacer(modifier = Modifier.height(20.dp))
@@ -126,11 +130,9 @@ private fun WelcomeScreenContent(
 
                     dataViewModel.saveBoolean(true, WELCOME_SCREEN)
                     Toast.makeText(context, "Languages are set", Toast.LENGTH_LONG).show()
-/*
-                    welcomeDone = true*/
+
                     navController.navigate(route = Screen.Home.route)
                 }
-
             },
             modifier = modifier
                 .width(220.dp)
@@ -138,7 +140,8 @@ private fun WelcomeScreenContent(
         ) {
             Text(
                 stringResource(id = R.string.continue_to_next_screen),
-                fontSize = 16.sp
+                fontSize = 16.sp,
+                fontFamily = Railway
             )
         }
     }

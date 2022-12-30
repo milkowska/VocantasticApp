@@ -16,6 +16,7 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import uk.ac.aber.dcs.cs31620.vocantastic.R
 import uk.ac.aber.dcs.cs31620.vocantastic.ui.navigation.Screen
 import uk.ac.aber.dcs.cs31620.vocantastic.ui.navigation.screens
+import uk.ac.aber.dcs.cs31620.vocantastic.ui.theme.Railway
 
 
 @Composable
@@ -62,7 +63,7 @@ fun MainPageNavigationBar(
                         contentDescription = labelText
                     )
                 },
-                label = { Text(labelText) },
+                label = { Text(text = labelText, fontFamily = Railway) },
                 selected = isSelected,
                 onClick = {
                     navController.navigate(screen.route) {

@@ -20,12 +20,10 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import uk.ac.aber.dcs.cs31620.vocantastic.R
 import uk.ac.aber.dcs.cs31620.vocantastic.model.WordPairViewModel
-import uk.ac.aber.dcs.cs31620.vocantastic.preferencesStorage.FOREIGN_LANGUAGE_KEY
-import uk.ac.aber.dcs.cs31620.vocantastic.preferencesStorage.NATIVE_LANGUAGE_KEY
-import uk.ac.aber.dcs.cs31620.vocantastic.preferencesStorage.PreferencesViewModel
-import uk.ac.aber.dcs.cs31620.vocantastic.preferencesStorage.Storage
+import uk.ac.aber.dcs.cs31620.vocantastic.preferencesStorage.*
 import uk.ac.aber.dcs.cs31620.vocantastic.ui.components.TopLevelScaffold
 import uk.ac.aber.dcs.cs31620.vocantastic.ui.navigation.Screen
+import uk.ac.aber.dcs.cs31620.vocantastic.ui.theme.Railway
 import uk.ac.aber.dcs.cs31620.vocantastic.ui.theme.VocantasticTheme
 import uk.ac.aber.dcs.cs31620.vocantastic.ui.welcome.WelcomeScreen
 
@@ -34,22 +32,17 @@ import uk.ac.aber.dcs.cs31620.vocantastic.ui.welcome.WelcomeScreen
 @Composable
 fun HomeScreenTopLevel(
     navController: NavHostController,
-    dataViewModel : PreferencesViewModel = hiltViewModel()
+    dataViewModel: PreferencesViewModel = hiltViewModel()
 ) {
-
-//TODO welcome key here
-
-        //WelcomeScreen(navController)
-
-        HomeScreen(navController, modifier = Modifier, dataViewModel = dataViewModel)
-    }
+    HomeScreen(navController, modifier = Modifier, dataViewModel = dataViewModel)
+}
 
 
 @Composable
 fun HomeScreen(
     navController: NavHostController,
     modifier: Modifier,
-    dataViewModel : PreferencesViewModel = hiltViewModel()
+    dataViewModel: PreferencesViewModel = hiltViewModel()
 ) {
     TopLevelScaffold(
         navController = navController,
@@ -101,6 +94,7 @@ fun HomeScreen(
                     modifier = Modifier
                         .height(50.dp),
                     onClick = {
+
                         navController.navigate(Screen.Settings.route)
                     }
                 )
@@ -121,7 +115,8 @@ fun SettingsButton(
     ) {
         Text(
             stringResource(R.string.settings),
-            fontSize = 16.sp
+            fontSize = 17.sp,
+            fontFamily = Railway
         )
     }
 }

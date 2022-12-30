@@ -16,6 +16,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -29,6 +30,7 @@ import uk.ac.aber.dcs.cs31620.vocantastic.preferencesStorage.FOREIGN_LANGUAGE_KE
 import uk.ac.aber.dcs.cs31620.vocantastic.preferencesStorage.NATIVE_LANGUAGE_KEY
 import uk.ac.aber.dcs.cs31620.vocantastic.preferencesStorage.PreferencesViewModel
 import uk.ac.aber.dcs.cs31620.vocantastic.ui.navigation.Screen
+import uk.ac.aber.dcs.cs31620.vocantastic.ui.theme.Railway
 import uk.ac.aber.dcs.cs31620.vocantastic.ui.welcome.WelcomeScreen
 
 @Composable
@@ -149,7 +151,8 @@ fun SettingsScreen(
                 .height(45.dp)
                 .width(182.dp)
         ) {
-            Text(stringResource(id = R.string.save))
+            Text(stringResource(id = R.string.save),
+                fontFamily = Railway)
         }
 
         if (openAlert.value) {
@@ -159,7 +162,8 @@ fun SettingsScreen(
                     openAlert.value = false
                 },
                 text = {
-                    Text(stringResource(R.string.new_config_text))
+                    Text(stringResource(R.string.new_config_text),
+                        fontFamily = Railway)
                 },
                 confirmButton = {
                     Button(
@@ -168,7 +172,8 @@ fun SettingsScreen(
                             navController.navigate(route = Screen.Home.route)
                         },
                     ) {
-                        Text(stringResource(R.string.ok))
+                        Text(stringResource(R.string.ok),
+                        fontFamily = Railway)
                     }
                 },
                 )

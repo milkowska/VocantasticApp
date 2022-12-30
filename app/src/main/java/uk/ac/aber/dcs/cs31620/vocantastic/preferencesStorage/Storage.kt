@@ -16,15 +16,8 @@ class Storage(private val context: Context) {
 
     companion object {
         private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(PREFERENCES)
-        val USERKEY = stringPreferencesKey("user")
     }
 
-    /*fun getString(key: String): Flow<String> {
-        return context.dataStore.data
-            .map { preferences ->
-                preferences[stringPreferencesKey(key)] ?: ""
-            }
-    }*/
      suspend fun getString(key: String): String? {
         val sharedPrefKey = stringPreferencesKey(key)
         return context.dataStore.data.first()[sharedPrefKey]
@@ -55,12 +48,6 @@ class Storage(private val context: Context) {
     suspend fun setBoolean(value: Boolean, key: String) {
         context.dataStore.edit { preferences ->
             preferences[booleanPreferencesKey(key)] = value
-        }
-    }
-
-    suspend fun clearTable() {
-        context.dataStore.edit { preferences ->
-            preferences.clear()
         }
     }
 

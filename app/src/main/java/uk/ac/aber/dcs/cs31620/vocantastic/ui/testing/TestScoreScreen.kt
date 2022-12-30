@@ -26,23 +26,23 @@ import uk.ac.aber.dcs.cs31620.vocantastic.preferencesStorage.PreferencesViewMode
 import uk.ac.aber.dcs.cs31620.vocantastic.preferencesStorage.TEST_SCORE
 // import uk.ac.aber.dcs.cs31620.vocantastic.preferencesStorage.TEST_SCORE
 import uk.ac.aber.dcs.cs31620.vocantastic.ui.navigation.Screen
+import uk.ac.aber.dcs.cs31620.vocantastic.ui.theme.Railway
 
 
 @Composable
 fun TestScoreScreenTopLevel(
     navController: NavHostController,
-    wordPairViewModel: WordPairViewModel = viewModel(),
+
     dataViewModel: PreferencesViewModel = hiltViewModel()
 ) {
     val score = dataViewModel.getInt(TEST_SCORE)
-    TestScoreScreen(navController, wordPairViewModel, modifier = Modifier, score, dataViewModel)
+    TestScoreScreen(navController, modifier = Modifier, score, dataViewModel)
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TestScoreScreen(
     navController: NavHostController,
-    wordPairViewModel: WordPairViewModel,
     modifier: Modifier = Modifier,
     score: Int?,
     dataViewModel: PreferencesViewModel = hiltViewModel()
@@ -55,16 +55,16 @@ fun TestScoreScreen(
         Text(
             text = stringResource(id = R.string.test_finished),
             modifier = Modifier.padding(top = 20.dp),
-            fontWeight = FontWeight.Bold,
-            fontSize = 24.sp
+            fontFamily = Railway,
+            fontSize = 25.sp
         )
 
         Spacer(modifier = Modifier.height(10.dp))
 
         Text(
             text = stringResource(id = R.string.your_score),
-            fontWeight = FontWeight.Bold,
-            fontSize = 24.sp
+            fontFamily = Railway,
+            fontSize = 25.sp
         )
         Spacer(modifier = Modifier.height(40.dp))
 
@@ -80,7 +80,7 @@ fun TestScoreScreen(
             ) {
                 Text(
                     text = "$score%",
-                    fontWeight = FontWeight.Bold,
+                    fontFamily = Railway,
                     fontSize = 30.sp,
                     textAlign = TextAlign.Center
                 )
