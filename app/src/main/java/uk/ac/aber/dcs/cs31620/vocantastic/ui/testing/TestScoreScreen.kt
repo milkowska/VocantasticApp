@@ -32,10 +32,10 @@ import uk.ac.aber.dcs.cs31620.vocantastic.ui.navigation.Screen
 fun TestScoreScreenTopLevel(
     navController: NavHostController,
     wordPairViewModel: WordPairViewModel = viewModel(),
-    dataViewModel : PreferencesViewModel = hiltViewModel()
+    dataViewModel: PreferencesViewModel = hiltViewModel()
 ) {
     val score = dataViewModel.getInt(TEST_SCORE)
-    TestScoreScreen(navController, wordPairViewModel, modifier = Modifier, score)
+    TestScoreScreen(navController, wordPairViewModel, modifier = Modifier, score, dataViewModel)
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -44,7 +44,8 @@ fun TestScoreScreen(
     navController: NavHostController,
     wordPairViewModel: WordPairViewModel,
     modifier: Modifier = Modifier,
-    score: Int?
+    score: Int?,
+    dataViewModel: PreferencesViewModel = hiltViewModel()
 ) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -88,28 +89,20 @@ fun TestScoreScreen(
 
         Spacer(modifier = Modifier.height(20.dp))
 
-     /*   if (score < 40) {
-            Image(
-                modifier = Modifier
-                    .size(350.dp),
-                painter = painterResource(id = R.drawable.nice_try),
-                contentDescription = stringResource(id = R.string.score_image_description),
-                contentScale = ContentScale.Crop
-            )*/
-       // } else {
-            Image(
-                modifier = Modifier
-                    .size(350.dp),
-                painter = painterResource(id = R.drawable.score),
-                contentDescription = stringResource(id = R.string.score_image_description),
-                contentScale = ContentScale.Crop
-            )
-       // }
+        Image(
+            modifier = Modifier
+                .size(350.dp),
+            painter = painterResource(id = R.drawable.score),
+            contentDescription = stringResource(id = R.string.score_image_description),
+            contentScale = ContentScale.Crop
+        )
+
 
         Button(
             onClick = {
                 navController.navigate(Screen.Test.route)
-                //TODO clear score
+                dataViewModel.saveInt(0, TEST_SCORE)
+
             }, modifier = modifier
                 .width(220.dp)
                 .height(50.dp)

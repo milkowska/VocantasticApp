@@ -17,9 +17,11 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import dagger.hilt.android.AndroidEntryPoint
+import uk.ac.aber.dcs.cs31620.vocantastic.model.ListViewModel
 import uk.ac.aber.dcs.cs31620.vocantastic.model.WordPairViewModel
 import uk.ac.aber.dcs.cs31620.vocantastic.preferencesStorage.PreferencesViewModel
 import uk.ac.aber.dcs.cs31620.vocantastic.preferencesStorage.Storage
+import uk.ac.aber.dcs.cs31620.vocantastic.preferencesStorage.WELCOME_SCREEN
 import uk.ac.aber.dcs.cs31620.vocantastic.ui.home.HomeScreenTopLevel
 import uk.ac.aber.dcs.cs31620.vocantastic.ui.home.SettingsScreenTopLevel
 import uk.ac.aber.dcs.cs31620.vocantastic.ui.list.ViewListScreenTopLevel
@@ -42,11 +44,7 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    //EditorScreen()
-                    val context = LocalContext.current
-                    val scope = rememberCoroutineScope()
-                    val dataStore = Storage(context)
-
+                    val listViewModel = viewModel<ListViewModel>()
                     BuildNavigationGraph()
                 }
             }
@@ -56,16 +54,17 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 private fun BuildNavigationGraph(
-    wordPairViewModel: WordPairViewModel = viewModel()
+    wordPairViewModel: WordPairViewModel = viewModel(),
+    dataViewModel: PreferencesViewModel = hiltViewModel(),
+    listViewModel : ListViewModel = viewModel()
 ) {
-    //TODO change route to welcome first???
-    val welcomeIsFinished = false // change wit viewmodel
-    val configSet = welcomeIsFinished == null || welcomeIsFinished == false
+
+    val configSet = dataViewModel.getBoolean(WELCOME_SCREEN)
     val navController = rememberNavController()
     
     var startRoute = Screen.Home.route
 
-    if (configSet) {
+    if (configSet == false) {
         startRoute = Screen.Welcome.route
     }
 
@@ -75,7 +74,7 @@ private fun BuildNavigationGraph(
     ) {
 
         composable(Screen.Home.route) { HomeScreenTopLevel(navController) }
-        composable(Screen.List.route) { ViewListScreenTopLevel(navController, wordPairViewModel) }
+        composable(Screen.List.route) { ViewListScreenTopLevel(navController, wordPairViewModel, listViewModel) }
         composable(Screen.Test.route) { TestScreen(navController, wordPairViewModel) }
         composable(Screen.Words.route) { AddWordScreenTopLevel(navController, wordPairViewModel) }
         composable(Screen.Welcome.route) { WelcomeScreen(navController)}

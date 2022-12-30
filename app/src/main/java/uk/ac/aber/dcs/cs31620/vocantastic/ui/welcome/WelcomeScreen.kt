@@ -23,7 +23,7 @@ import androidx.navigation.NavHostController
 import kotlinx.coroutines.launch
 import uk.ac.aber.dcs.cs31620.vocantastic.R
 import uk.ac.aber.dcs.cs31620.vocantastic.preferencesStorage.*
-import uk.ac.aber.dcs.cs31620.vocantastic.ui.home.welcomeDone
+
 import uk.ac.aber.dcs.cs31620.vocantastic.ui.navigation.Screen
 
 //TODO this file is not finished
@@ -32,7 +32,6 @@ fun WelcomeScreen(
     navController: NavHostController,
     dataViewModel : PreferencesViewModel = hiltViewModel()
 ) {
-
     WelcomeScreenContent(
         modifier = Modifier.padding(10.dp),
         navController,
@@ -127,8 +126,8 @@ private fun WelcomeScreenContent(
 
                     dataViewModel.saveBoolean(true, WELCOME_SCREEN)
                     Toast.makeText(context, "Languages are set", Toast.LENGTH_LONG).show()
-
-                    welcomeDone = true
+/*
+                    welcomeDone = true*/
                     navController.navigate(route = Screen.Home.route)
                 }
 
@@ -142,7 +141,6 @@ private fun WelcomeScreenContent(
                 fontSize = 16.sp
             )
         }
-
     }
 }
 

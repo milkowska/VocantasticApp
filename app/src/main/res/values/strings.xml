@@ -46,4 +46,7 @@
     <string name="quit">Quit</string>
     <string name="next">Next</string>
     <string name="new_config_text">New language configuration is set!</string>
+    <string name="search">Search...</string>
+    <string name="vocabulary">Dictionary</string>
+    <string name="sort_alphabetically">Alphabetical order</string>
 </resources>

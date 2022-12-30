@@ -2,14 +2,11 @@ package uk.ac.aber.dcs.cs31620.vocantastic.ui.list
 
 import android.preference.PreferenceActivity
 import android.widget.Toast
-import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.foundation.Image
+import androidx.compose.animation.Crossfade
+import androidx.compose.animation.core.tween
+import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -27,21 +24,29 @@ import uk.ac.aber.dcs.cs31620.vocantastic.model.WordPair
 import uk.ac.aber.dcs.cs31620.vocantastic.model.WordPairViewModel
 import uk.ac.aber.dcs.cs31620.vocantastic.ui.components.TopLevelScaffold
 import androidx.compose.foundation.lazy.*
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.Button
-import androidx.compose.material3.Divider
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Close
+import androidx.compose.material.icons.filled.Search
+import androidx.compose.material.icons.rounded.Search
+import androidx.compose.material3.*
+import androidx.compose.runtime.*
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.constraintlayout.compose.ConstraintLayout
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import uk.ac.aber.dcs.cs31620.vocantastic.model.ListViewModel
+import uk.ac.aber.dcs.cs31620.vocantastic.ui.theme.VocantasticTheme
 
 @Composable
 fun ViewListScreenTopLevel(
     navController: NavHostController,
-    wordPairViewModel: WordPairViewModel = viewModel()
+    wordPairViewModel: WordPairViewModel = viewModel(),
+    listViewModel: ListViewModel
 ) {
     val wordsList by wordPairViewModel.wordList.observeAsState(listOf())
 
@@ -50,7 +55,8 @@ fun ViewListScreenTopLevel(
         wordList = wordsList,
         doDelete = { wordPair ->
             wordPairViewModel.deleteWordPair(wordPair)
-        }
+        },
+        listViewModel = listViewModel
     )
 }
 
@@ -60,8 +66,9 @@ fun ViewListScreen(
     navController: NavHostController,
     wordList: List<WordPair> = listOf(),
     doDelete: (WordPair) -> Unit = {},
-
+    listViewModel: ListViewModel
 ) {
+
     TopLevelScaffold(
         navController = navController
     ) { innerPadding ->
@@ -71,77 +78,122 @@ fun ViewListScreen(
                 .fillMaxSize()
         ) {
 
+            val state = listViewModel.state
+            var searchQuery by remember { mutableStateOf("") }
+            val filteredList = wordList.filter {
+                it.entryWord.contains(searchQuery.trim(), ignoreCase = true)
+                        || it.translatedWord.contains(searchQuery.trim(), ignoreCase = true)
+            }
 
             val context = LocalContext.current
+
             // the empty screen is displayed if the word list is empty.
             if (wordList.isEmpty()) {
                 EmptyScreenContent()
             } else {
-
-                LazyColumn(
+                Column(
                     modifier = Modifier
-                        .fillMaxSize(),
-                    contentPadding = PaddingValues(bottom = 18.dp)
-
+                        .fillMaxSize()
+                        .padding(20.dp)
                 ) {
 
-                    items(wordList) { word ->
-
-                        Row(
-                            horizontalArrangement = Arrangement.SpaceBetween,
-                            verticalAlignment = Alignment.CenterVertically,
-                            modifier = Modifier.fillMaxWidth()
-                        ) {
-                            Column()
-                            {
-                                Text(
-                                    text = word.entryWord,
-                                    modifier = Modifier.padding(start = 8.dp, top = 16.dp),
-                                    fontWeight = FontWeight.Bold,
-                                    fontSize = 20.sp,
-                                )
-
-                                Text(
-                                    text = word.translatedWord,
-                                    modifier = Modifier.padding(start = 8.dp, top = 8.dp),
-                                    fontSize = 16.sp,
-                                )
-                                Row(
-                                    horizontalArrangement = Arrangement.End,
-                                    verticalAlignment = Alignment.Top,
-                                    modifier = Modifier.fillMaxSize()
-                                ) {
-
-                                    Button(
-                                        modifier =
-                                        Modifier.padding( end = 20.dp),
-                                        onClick = {
-                                            doDelete(
-                                                WordPair(
-                                                    entryWord = word.entryWord,
-                                                    translatedWord = word.translatedWord,
-                                                    id = word.id
-                                                )
-                                            )
-                                            Toast.makeText(context, "Word pair has been removed.", Toast.LENGTH_SHORT).show()
-                                        }
-                                    )
-                                    {
-                                        Text(text = "Delete")
-                                    }
+                    Crossfade(
+                        targetState = state.isSearchBarVisible,
+                        animationSpec = tween(700)
+                    ) {
+                        if (it) {
+                            SearchBar(
+                                onCloseIconClick = {
+                                    listViewModel.onAction(ListViewModel.UserAction.CloseIconClicked)
+                                    searchQuery = ""
+                                },
+                                searchText = searchQuery,
+                                onTextChange = {
+                                    searchQuery = it
                                 }
-
-                            }
+                            )
+                        } else {
+                            TopAppBar(
+                                onSearchIconClick = {
+                                    listViewModel.onAction(ListViewModel.UserAction.SearchIconClicked)
+                                },
+                            )
                         }
-                        Divider(startIndent = 0.dp, thickness = 1.dp)
+                    }
 
+                    Divider(
+                        thickness = 2.dp,
+                        modifier = Modifier.padding(vertical = 30.dp)
+                    )
+
+                    LazyColumn(
+                        modifier = Modifier
+                            .fillMaxSize(),
+                        contentPadding = PaddingValues(bottom = 18.dp)
+
+                    ) {
+
+                        items(filteredList) { word ->
+
+                            Row(
+                                horizontalArrangement = Arrangement.SpaceBetween,
+                                verticalAlignment = Alignment.CenterVertically,
+                                modifier = Modifier.fillMaxWidth()
+                            ) {
+                                Column()
+                                {
+                                    Text(
+                                        text = word.entryWord,
+                                        modifier = Modifier.padding(start = 8.dp, top = 16.dp),
+                                        fontWeight = FontWeight.Bold,
+                                        fontSize = 20.sp,
+                                    )
+
+                                    Text(
+                                        text = word.translatedWord,
+                                        modifier = Modifier.padding(start = 8.dp, top = 8.dp),
+                                        fontSize = 16.sp,
+                                    )
+                                    Row(
+                                        horizontalArrangement = Arrangement.End,
+                                        verticalAlignment = Alignment.Top,
+                                        modifier = Modifier.fillMaxSize()
+                                    ) {
+
+                                        Button(
+                                            modifier =
+                                            Modifier.padding(end = 20.dp),
+                                            onClick = {
+                                                doDelete(
+                                                    WordPair(
+                                                        entryWord = word.entryWord,
+                                                        translatedWord = word.translatedWord,
+                                                        id = word.id
+                                                    )
+                                                )
+                                                Toast.makeText(
+                                                    context,
+                                                    "Word pair has been removed.",
+                                                    Toast.LENGTH_SHORT
+                                                ).show()
+                                            }
+                                        )
+                                        {
+                                            Text(text = "Delete")
+                                        }
+                                    }
+
+                                }
+                            }
+                            Divider(startIndent = 0.dp, thickness = 1.dp)
+
+                        }
                     }
                 }
             }
         }
     }
 }
-
 
 @Composable
 fun EmptyScreenContent(
@@ -175,6 +227,71 @@ fun EmptyScreenContent(
             fontSize = 27.sp,
             modifier = modifier
         )
+    }
+}
+
+
+@Composable
+fun SearchBar(
+    onCloseIconClick: () -> Unit,
+    searchText: String,
+    onTextChange: (String) -> Unit
+) {
+    OutlinedTextField(
+        modifier = Modifier.fillMaxWidth(),
+        value = searchText,
+        onValueChange = {
+            onTextChange(it)
+        },
+        leadingIcon = {
+            Icon(
+                imageVector = Icons.Filled.Search,
+                contentDescription = "Search Icon"
+            )
+        },
+        trailingIcon = {
+            IconButton(onClick = onCloseIconClick) {
+                Icon(
+                    imageVector = Icons.Filled.Close,
+                    contentDescription = "Close Icon"
+                )
+            }
+        },
+        placeholder = {
+            Text(
+                text = stringResource(id = R.string.search),
+                fontSize = 18.sp
+            )
+        }
+    )
+}
+
+@Composable
+fun TopAppBar(
+    onSearchIconClick: () -> Unit,
+) {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(top = 7.dp),
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.SpaceBetween
+    ) {
+
+        Text(
+            text = stringResource(id = R.string.vocabulary),
+            fontSize = 34.sp,
+            fontWeight = FontWeight.Bold,
+            fontFamily = FontFamily.Default
+        )
+
+        IconButton(onClick = onSearchIconClick) {
+            Icon(
+                imageVector = Icons.Rounded.Search,
+                contentDescription = "search icon",
+                modifier = Modifier.size(30.dp)
+            )
+        }
     }
 }
 

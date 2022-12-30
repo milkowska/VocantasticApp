@@ -29,7 +29,6 @@ import uk.ac.aber.dcs.cs31620.vocantastic.ui.navigation.Screen
 import uk.ac.aber.dcs.cs31620.vocantastic.ui.theme.VocantasticTheme
 import uk.ac.aber.dcs.cs31620.vocantastic.ui.welcome.WelcomeScreen
 
-var welcomeDone: Boolean = false
 
 @SuppressLint("CoroutineCreationDuringComposition")
 @Composable
@@ -39,12 +38,12 @@ fun HomeScreenTopLevel(
 ) {
 
 //TODO welcome key here
-    if (!welcomeDone) {
-        WelcomeScreen(navController)
-    } else {
+
+        //WelcomeScreen(navController)
+
         HomeScreen(navController, modifier = Modifier, dataViewModel = dataViewModel)
     }
-}
+
 
 @Composable
 fun HomeScreen(

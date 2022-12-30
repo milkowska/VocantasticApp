@@ -15,11 +15,14 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import uk.ac.aber.dcs.cs31620.vocantastic.R
 import uk.ac.aber.dcs.cs31620.vocantastic.model.WordPair
 import uk.ac.aber.dcs.cs31620.vocantastic.model.WordPairViewModel
+import uk.ac.aber.dcs.cs31620.vocantastic.preferencesStorage.PreferencesViewModel
+import uk.ac.aber.dcs.cs31620.vocantastic.preferencesStorage.TEST_SCORE
 import uk.ac.aber.dcs.cs31620.vocantastic.ui.navigation.Screen
 
 /**
@@ -31,14 +34,16 @@ import uk.ac.aber.dcs.cs31620.vocantastic.ui.navigation.Screen
 @Composable
 fun FindAnswerScreenTopLevel(
     navController: NavHostController,
-    wordPairViewModel: WordPairViewModel = viewModel()
+    wordPairViewModel: WordPairViewModel = viewModel(),
+    dataViewModel: PreferencesViewModel = hiltViewModel()
 ) {
     val wordList by wordPairViewModel.wordList.observeAsState(listOf())
 
     FindAnswerScreen(
         navController = navController,
         wordList = wordList,
-        number = getNumberOfQuestions(wordList)
+        number = getNumberOfQuestions(wordList),
+        dataViewModel = dataViewModel
     )
 }
 
@@ -47,7 +52,8 @@ fun FindAnswerScreenTopLevel(
 fun FindAnswerScreen(
     navController: NavHostController,
     wordList: List<WordPair>,
-    number: Int
+    number: Int,
+    dataViewModel: PreferencesViewModel = hiltViewModel()
 ) {
     // Indicates the question number, starts with 1
     var step by rememberSaveable { mutableStateOf(1) }
@@ -198,8 +204,8 @@ fun FindAnswerScreen(
                     }
                     if (step >= number) {
                         val finalScore = (resultScore * 100) / number
-                        //store it by viewmodel
 
+                        dataViewModel.saveInt(finalScore, TEST_SCORE)
                         navController.navigate(Screen.TestScore.route)
 
                     } else if (wordList.isNotEmpty() && (step < number)) {

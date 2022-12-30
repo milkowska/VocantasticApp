@@ -216,7 +216,7 @@ fun AnagramScreen(
                     }
                     if (step >= number) {
                         val finalScore = (resultScore * 100) / number
-                        //store it by viewmodel
+
                         dataViewModel.saveInt(finalScore, TEST_SCORE)
                         navController.navigate(Screen.TestScore.route)
 
