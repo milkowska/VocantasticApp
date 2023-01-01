@@ -226,7 +226,7 @@ fun AnagramScreen(
                         )
                     },
                     confirmButton = {
-                        Button(
+                        TextButton(
                             onClick = {
                                 openAlertDialog.value = false
                                 navController.navigate(Screen.Test.route)
@@ -240,7 +240,7 @@ fun AnagramScreen(
                         }
                     },
                     dismissButton = {
-                        Button(
+                        TextButton(
                             onClick = {
                                 openAlertDialog.value = false
                             },

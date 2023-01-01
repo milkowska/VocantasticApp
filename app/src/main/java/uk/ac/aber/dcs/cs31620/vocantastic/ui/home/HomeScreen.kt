@@ -37,7 +37,6 @@ fun HomeScreenTopLevel(
     HomeScreen(navController, modifier = Modifier, dataViewModel = dataViewModel)
 }
 
-
 @Composable
 fun HomeScreen(
     navController: NavHostController,
@@ -52,7 +51,6 @@ fun HomeScreen(
                 .padding(innerPadding)
                 .fillMaxSize()
         ) {
-
             val nativeLanguage = dataViewModel.getString(NATIVE_LANGUAGE_KEY)
             val foreignLanguage = dataViewModel.getString(FOREIGN_LANGUAGE_KEY)
 

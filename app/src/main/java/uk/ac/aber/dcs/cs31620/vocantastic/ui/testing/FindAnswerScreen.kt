@@ -209,7 +209,7 @@ fun FindAnswerScreen(
                         )
                     },
                     confirmButton = {
-                        Button(
+                        TextButton(
                             onClick = {
                                 openAlertDialog.value = false
                                 navController.navigate(Screen.Test.route)
@@ -223,7 +223,7 @@ fun FindAnswerScreen(
                         }
                     },
                     dismissButton = {
-                        Button(
+                        TextButton(
                             onClick = {
                                 openAlertDialog.value = false
                             },
@@ -231,7 +231,6 @@ fun FindAnswerScreen(
                             Text(
                                 stringResource(R.string.dismiss),
                                 fontFamily = Railway,
-
                                 )
                         }
                     }

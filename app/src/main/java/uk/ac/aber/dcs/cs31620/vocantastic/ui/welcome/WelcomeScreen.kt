@@ -20,18 +20,15 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 //import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
-import kotlinx.coroutines.launch
 import uk.ac.aber.dcs.cs31620.vocantastic.R
 import uk.ac.aber.dcs.cs31620.vocantastic.preferencesStorage.*
-
 import uk.ac.aber.dcs.cs31620.vocantastic.ui.navigation.Screen
 import uk.ac.aber.dcs.cs31620.vocantastic.ui.theme.Railway
 
-//TODO this file is not finished
 @Composable
 fun WelcomeScreen(
     navController: NavHostController,
-    dataViewModel : PreferencesViewModel = hiltViewModel()
+    dataViewModel: PreferencesViewModel = hiltViewModel()
 ) {
     WelcomeScreenContent(
         modifier = Modifier.padding(10.dp),
@@ -44,12 +41,13 @@ fun WelcomeScreen(
 private fun WelcomeScreenContent(
     modifier: Modifier = Modifier,
     navController: NavHostController,
-    dataViewModel : PreferencesViewModel = hiltViewModel()
+    dataViewModel: PreferencesViewModel = hiltViewModel()
 ) {
     val context = LocalContext.current
 
     var nativeLanguage by rememberSaveable { mutableStateOf("") }
     var secondLanguage by rememberSaveable { mutableStateOf("") }
+
 
     Column(
         modifier = modifier
@@ -125,8 +123,14 @@ private fun WelcomeScreenContent(
                     Toast.makeText(context, "Invalid input", Toast.LENGTH_LONG).show()
                 } else {
 
-                    dataViewModel.saveString(nativeLanguage.trim().toLowerCase(), NATIVE_LANGUAGE_KEY)
-                    dataViewModel.saveString(secondLanguage.trim().toLowerCase(), FOREIGN_LANGUAGE_KEY)
+                    dataViewModel.saveString(
+                        nativeLanguage.trim().toLowerCase(),
+                        NATIVE_LANGUAGE_KEY
+                    )
+                    dataViewModel.saveString(
+                        secondLanguage.trim().toLowerCase(),
+                        FOREIGN_LANGUAGE_KEY
+                    )
 
                     dataViewModel.saveBoolean(true, WELCOME_SCREEN)
                     Toast.makeText(context, "Languages are set", Toast.LENGTH_LONG).show()
@@ -147,6 +151,7 @@ private fun WelcomeScreenContent(
     }
 }
 
+
 @Composable
 fun YourLanguageTextField(
     modifier: Modifier = Modifier,
@@ -164,7 +169,6 @@ fun YourLanguageTextField(
     )
 
 }
-
 @Composable
 fun ForeignLanguageTextField(
     modifier: Modifier = Modifier,
@@ -181,3 +185,4 @@ fun ForeignLanguageTextField(
         modifier = modifier,
     )
 }
+

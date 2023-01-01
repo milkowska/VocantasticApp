@@ -87,6 +87,12 @@ dependencies {
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.3.8'
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.4'
 
+    //Splash Api
+    implementation 'androidx.core:core-splashscreen:1.0.0-beta01'
+
+    //pager and indicators
+    implementation 'com.google.accompanist:accompanist-pager:0.24.2-alpha'
+    implementation 'com.google.accompanist:accompanist-pager-indicators:0.24.2-alpha'
     // Glide for Compose
     implementation 'com.github.bumptech.glide:compose:1.0.0-alpha.1'
 

@@ -26,6 +26,7 @@ import uk.ac.aber.dcs.cs31620.vocantastic.model.WordPairViewModel
 import uk.ac.aber.dcs.cs31620.vocantastic.ui.components.TopLevelScaffold
 import uk.ac.aber.dcs.cs31620.vocantastic.ui.navigation.Screen
 import uk.ac.aber.dcs.cs31620.vocantastic.ui.theme.Railway
+import uk.ac.aber.dcs.cs31620.vocantastic.ui.theme.md_theme_light_primary
 
 /**
  * This is where the user can test their knowledge and begin a test. There are two tests to choose from, one of which requires at least four words in
@@ -137,7 +138,7 @@ fun TestScreenContent(
                     )
                 },
                 confirmButton = {
-                    Button(
+                    TextButton(
                         onClick = {
                             openAnagramDialog.value = false
                             navController.navigate(route = Screen.AnagramTest.route)
@@ -150,7 +151,7 @@ fun TestScreenContent(
                     }
                 },
                 dismissButton = {
-                    Button(
+                    TextButton(
                         onClick = {
                             openAnagramDialog.value = false
                         },
@@ -208,7 +209,7 @@ fun TestScreenContent(
                     )
                 },
                 confirmButton = {
-                    Button(
+                    TextButton(
                         onClick = {
                             openFindAnswerDialog.value = false
                             navController.navigate(route = Screen.FindTest.route)
@@ -221,7 +222,7 @@ fun TestScreenContent(
                     }
                 },
                 dismissButton = {
-                    Button(
+                    TextButton(
                         onClick = {
                             openFindAnswerDialog.value = false
                         },

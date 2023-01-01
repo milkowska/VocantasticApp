@@ -10,6 +10,7 @@ sealed class Screen(val route: String) {
     object Words : Screen("add")
     object Welcome : Screen("welcome")
     object TestScore : Screen("score")
+    object Onboard : Screen("onboard")
 
 }
 
