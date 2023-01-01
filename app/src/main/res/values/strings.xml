@@ -46,7 +46,7 @@
     <string name="quit">Quit</string>
     <string name="next">Next</string>
     <string name="new_config_text">New language configuration is set!</string>
-    <string name="search">Search...</string>
+    <string name="search">Search…</string>
     <string name="vocabulary">Your dictionary</string>
     <string name="sort_alphabetically">Alphabetical order</string>
     <string name="delete">Delete</string>
@@ -55,4 +55,7 @@
     <string name="exit">Exit</string>
     <string name="dismiss">Dismiss</string>
     <string name="done">Done</string>
+    <string name="score_mid">Well done, but consider revising the vocabulary more to get a better score!</string>
+    <string name="score_high">Excellent! You are a language master.</string>
+    <string name="score_low">You should try revising the vocabulary more to get a better score. But for now nice try!</string>
 </resources>

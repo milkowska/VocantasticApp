@@ -15,7 +15,6 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.capitalize
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -27,7 +26,6 @@ import uk.ac.aber.dcs.cs31620.vocantastic.model.WordPairViewModel
 import uk.ac.aber.dcs.cs31620.vocantastic.storage.FOREIGN_LANGUAGE_KEY
 import uk.ac.aber.dcs.cs31620.vocantastic.storage.NATIVE_LANGUAGE_KEY
 import uk.ac.aber.dcs.cs31620.vocantastic.model.PreferencesViewModel
-import uk.ac.aber.dcs.cs31620.vocantastic.ui.makeCapitalLetter
 import uk.ac.aber.dcs.cs31620.vocantastic.ui.navigation.Screen
 import uk.ac.aber.dcs.cs31620.vocantastic.ui.theme.Railway
 

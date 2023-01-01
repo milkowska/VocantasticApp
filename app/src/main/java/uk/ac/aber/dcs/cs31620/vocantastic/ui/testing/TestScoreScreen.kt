@@ -44,6 +44,7 @@ fun TestScoreScreen(
     score: Int?,
     dataViewModel: PreferencesViewModel = hiltViewModel()
 ) {
+
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = Modifier
@@ -56,14 +57,14 @@ fun TestScoreScreen(
             fontSize = 25.sp
         )
 
-        Spacer(modifier = Modifier.height(10.dp))
+        Spacer(modifier = Modifier.height(6.dp))
 
         Text(
             text = stringResource(id = R.string.your_score),
             fontFamily = Railway,
             fontSize = 25.sp
         )
-        Spacer(modifier = Modifier.height(40.dp))
+        Spacer(modifier = Modifier.height(20.dp))
 
         Card(
             modifier = Modifier
@@ -83,28 +84,63 @@ fun TestScoreScreen(
                 )
             }
         }
-
         Spacer(modifier = Modifier.height(20.dp))
 
-        Image(
-            modifier = Modifier
-                .size(350.dp),
-            painter = painterResource(id = R.drawable.score),
-            contentDescription = stringResource(id = R.string.score_image_description),
-            contentScale = ContentScale.Crop
-        )
+        if (score != null) {
+            if (score < 40) {
+                Text(
+                    text = stringResource(id = R.string.score_low),
+                    fontSize = 25.sp,
+                    textAlign = TextAlign.Center
+                )
+            } else if (score in 40..84) {
+                Text(
+                    text = stringResource(id = R.string.score_mid),
+                    fontSize = 25.sp,
+                    textAlign = TextAlign.Center
+                )
+            } else {
+                Text(
+                    text = stringResource(id = R.string.score_high),
+                    fontSize = 25.sp,
+                    textAlign = TextAlign.Center
+                )
+            }
+        }
 
+        Spacer(modifier = Modifier.height(15.dp))
+        if (score != null) {
+            if (score < 40) {
+                Image(
+                    modifier = Modifier
+                        .size(250.dp),
+                    painter = painterResource(id = R.drawable.nice_try),
+                    contentDescription = stringResource(id = R.string.score_image_description),
+                    contentScale = ContentScale.Crop
+                )
+            } else {
 
-        Button(
-            onClick = {
-                navController.navigate(Screen.Test.route)
-                dataViewModel.saveInt(0, TEST_SCORE)
+                Image(
+                    modifier = Modifier
+                        .size(290.dp),
+                    painter = painterResource(id = R.drawable.score),
+                    contentDescription = stringResource(id = R.string.score_image_description),
+                    contentScale = ContentScale.Crop
+                )
+            }
 
-            }, modifier = modifier
-                .width(220.dp)
-                .height(50.dp)
-        ) {
-            Text(stringResource(id = R.string.continue_to_next_screen))
+            Button(
+                onClick = {
+                    navController.navigate(Screen.Test.route)
+                    dataViewModel.saveInt(0, TEST_SCORE)
+
+                }, modifier = modifier
+                    .width(220.dp)
+                    .height(50.dp)
+
+            ) {
+                Text(stringResource(id = R.string.continue_to_next_screen))
+            }
         }
     }
 }
