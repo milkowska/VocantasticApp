@@ -16,8 +16,8 @@ import androidx.navigation.compose.rememberNavController
 import dagger.hilt.android.AndroidEntryPoint
 import uk.ac.aber.dcs.cs31620.vocantastic.model.ListViewModel
 import uk.ac.aber.dcs.cs31620.vocantastic.model.WordPairViewModel
-import uk.ac.aber.dcs.cs31620.vocantastic.preferencesStorage.PreferencesViewModel
-import uk.ac.aber.dcs.cs31620.vocantastic.preferencesStorage.WELCOME_SCREEN
+import uk.ac.aber.dcs.cs31620.vocantastic.model.PreferencesViewModel
+import uk.ac.aber.dcs.cs31620.vocantastic.storage.WELCOME_SCREEN
 import uk.ac.aber.dcs.cs31620.vocantastic.ui.home.HomeScreenTopLevel
 import uk.ac.aber.dcs.cs31620.vocantastic.ui.home.SettingsScreenTopLevel
 import uk.ac.aber.dcs.cs31620.vocantastic.ui.list.ViewListScreenTopLevel
@@ -68,11 +68,10 @@ private fun BuildNavigationGraph(
         navController = navController,
         startDestination = startRoute
     ) {
-
         composable(Screen.Home.route) { HomeScreenTopLevel(navController) }
         composable(Screen.List.route) { ViewListScreenTopLevel(navController, wordPairViewModel, listViewModel) }
         composable(Screen.Test.route) { TestScreen(navController, wordPairViewModel) }
-        composable(Screen.Words.route) { AddWordScreenTopLevel(navController, wordPairViewModel) }
+        composable(Screen.Words.route) { AddWordScreenTopLevel(navController) }
         composable(Screen.Welcome.route) { WelcomeScreen(navController)}
         composable(Screen.TestScore.route) {TestScoreScreenTopLevel(navController)}
         composable(Screen.AnagramTest.route) {AnagramScreenTopLevel(navController, wordPairViewModel)}

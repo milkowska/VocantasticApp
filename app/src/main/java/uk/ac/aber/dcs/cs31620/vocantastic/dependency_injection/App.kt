@@ -6,7 +6,7 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
-import uk.ac.aber.dcs.cs31620.vocantastic.preferencesStorage.Storage
+import uk.ac.aber.dcs.cs31620.vocantastic.storage.Storage
 import javax.inject.Singleton
 
 @Module

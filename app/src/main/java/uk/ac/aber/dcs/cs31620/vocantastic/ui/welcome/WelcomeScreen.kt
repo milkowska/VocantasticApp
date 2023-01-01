@@ -21,7 +21,8 @@ import androidx.hilt.navigation.compose.hiltViewModel
 //import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import uk.ac.aber.dcs.cs31620.vocantastic.R
-import uk.ac.aber.dcs.cs31620.vocantastic.preferencesStorage.*
+import uk.ac.aber.dcs.cs31620.vocantastic.model.PreferencesViewModel
+import uk.ac.aber.dcs.cs31620.vocantastic.storage.*
 import uk.ac.aber.dcs.cs31620.vocantastic.ui.navigation.Screen
 import uk.ac.aber.dcs.cs31620.vocantastic.ui.theme.Railway
 
@@ -46,7 +47,14 @@ private fun WelcomeScreenContent(
     val context = LocalContext.current
 
     var nativeLanguage by rememberSaveable { mutableStateOf("") }
-    var secondLanguage by rememberSaveable { mutableStateOf("") }
+    var foreignLanguage by rememberSaveable { mutableStateOf("") }
+
+    var isErrorInNativeTextField by remember {
+        mutableStateOf(false)
+    }
+    var isErrorInForeignTextField by remember {
+        mutableStateOf(false)
+    }
 
 
     Column(
@@ -80,12 +88,18 @@ private fun WelcomeScreenContent(
 
         Spacer(modifier = Modifier.height(40.dp))
 
-        YourLanguageTextField(
-            modifier = Modifier,
-            textValue = nativeLanguage,
+
+        OutlinedTextField(
+            value = nativeLanguage,
+            label = {
+                Text(text = stringResource(R.string.your_language))
+            },
             onValueChange = {
                 nativeLanguage = it
-            }
+                isErrorInNativeTextField = nativeLanguage.isEmpty()
+            },
+            singleLine = true,
+            isError = isErrorInNativeTextField,
         )
 
         Text(
@@ -97,12 +111,18 @@ private fun WelcomeScreenContent(
 
         Spacer(modifier = Modifier.height(16.dp))
 
-        ForeignLanguageTextField(
-            modifier = Modifier,
-            textValue = secondLanguage,
+
+        OutlinedTextField(
+            value = foreignLanguage,
+            label = {
+                Text(text = stringResource(R.string.foreign_language))
+            },
             onValueChange = {
-                secondLanguage = it
-            }
+                foreignLanguage = it
+                isErrorInForeignTextField = foreignLanguage.isEmpty()
+            },
+            singleLine = true,
+            isError = isErrorInForeignTextField,
         )
 
         Text(
@@ -116,11 +136,16 @@ private fun WelcomeScreenContent(
 
         Button(
 
-            enabled = nativeLanguage.isNotEmpty() || secondLanguage.isNotEmpty(),
+            enabled = nativeLanguage.isNotEmpty() || foreignLanguage.isNotEmpty(),
             onClick = {
 
-                if (nativeLanguage.trim() == "" || secondLanguage.trim() == "") {
+                if (nativeLanguage.trim() == "" || foreignLanguage.trim() == "") {
                     Toast.makeText(context, "Invalid input", Toast.LENGTH_LONG).show()
+                    if (nativeLanguage.trim() == "") {
+                        isErrorInNativeTextField = true
+                    } else if (foreignLanguage.trim() == "") {
+                        isErrorInForeignTextField = true
+                    }
                 } else {
 
                     dataViewModel.saveString(
@@ -128,7 +153,7 @@ private fun WelcomeScreenContent(
                         NATIVE_LANGUAGE_KEY
                     )
                     dataViewModel.saveString(
-                        secondLanguage.trim().toLowerCase(),
+                        foreignLanguage.trim().toLowerCase(),
                         FOREIGN_LANGUAGE_KEY
                     )
 
@@ -152,23 +177,6 @@ private fun WelcomeScreenContent(
 }
 
 
-@Composable
-fun YourLanguageTextField(
-    modifier: Modifier = Modifier,
-    textValue: String = "",
-    onValueChange: (String) -> Unit = {}
-) {
-    OutlinedTextField(
-        value = textValue,
-        label = {
-            Text(text = stringResource(id = R.string.your_language))
-        },
-        onValueChange = onValueChange,
-        singleLine = true,
-        modifier = modifier
-    )
-
-}
 @Composable
 fun ForeignLanguageTextField(
     modifier: Modifier = Modifier,

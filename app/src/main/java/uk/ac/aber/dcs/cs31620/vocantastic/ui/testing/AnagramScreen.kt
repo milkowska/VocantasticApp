@@ -18,9 +18,12 @@ import androidx.navigation.NavHostController
 import uk.ac.aber.dcs.cs31620.vocantastic.R
 import uk.ac.aber.dcs.cs31620.vocantastic.model.WordPair
 import uk.ac.aber.dcs.cs31620.vocantastic.model.WordPairViewModel
-import uk.ac.aber.dcs.cs31620.vocantastic.preferencesStorage.PreferencesViewModel
-import uk.ac.aber.dcs.cs31620.vocantastic.preferencesStorage.TEST_SCORE
+import uk.ac.aber.dcs.cs31620.vocantastic.model.PreferencesViewModel
+import uk.ac.aber.dcs.cs31620.vocantastic.storage.TEST_SCORE
+import uk.ac.aber.dcs.cs31620.vocantastic.ui.anagramCreator
+import uk.ac.aber.dcs.cs31620.vocantastic.ui.getNumberOfQuestions
 import uk.ac.aber.dcs.cs31620.vocantastic.ui.navigation.Screen
+import uk.ac.aber.dcs.cs31620.vocantastic.ui.randomIndexGenerator
 import uk.ac.aber.dcs.cs31620.vocantastic.ui.theme.Railway
 
 /**

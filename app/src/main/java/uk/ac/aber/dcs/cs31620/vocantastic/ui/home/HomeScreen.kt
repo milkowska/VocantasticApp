@@ -7,11 +7,9 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.*
-import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -19,13 +17,11 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import uk.ac.aber.dcs.cs31620.vocantastic.R
-import uk.ac.aber.dcs.cs31620.vocantastic.model.WordPairViewModel
-import uk.ac.aber.dcs.cs31620.vocantastic.preferencesStorage.*
+import uk.ac.aber.dcs.cs31620.vocantastic.model.PreferencesViewModel
+import uk.ac.aber.dcs.cs31620.vocantastic.storage.*
 import uk.ac.aber.dcs.cs31620.vocantastic.ui.components.TopLevelScaffold
 import uk.ac.aber.dcs.cs31620.vocantastic.ui.navigation.Screen
 import uk.ac.aber.dcs.cs31620.vocantastic.ui.theme.Railway
-import uk.ac.aber.dcs.cs31620.vocantastic.ui.theme.VocantasticTheme
-import uk.ac.aber.dcs.cs31620.vocantastic.ui.welcome.WelcomeScreen
 
 
 @SuppressLint("CoroutineCreationDuringComposition")

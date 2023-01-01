@@ -12,18 +12,15 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 //import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import uk.ac.aber.dcs.cs31620.vocantastic.R
-import uk.ac.aber.dcs.cs31620.vocantastic.model.WordPairViewModel
-import uk.ac.aber.dcs.cs31620.vocantastic.preferencesStorage.PreferencesViewModel
-import uk.ac.aber.dcs.cs31620.vocantastic.preferencesStorage.TEST_SCORE
+import uk.ac.aber.dcs.cs31620.vocantastic.model.PreferencesViewModel
+import uk.ac.aber.dcs.cs31620.vocantastic.storage.TEST_SCORE
 // import uk.ac.aber.dcs.cs31620.vocantastic.preferencesStorage.TEST_SCORE
 import uk.ac.aber.dcs.cs31620.vocantastic.ui.navigation.Screen
 import uk.ac.aber.dcs.cs31620.vocantastic.ui.theme.Railway

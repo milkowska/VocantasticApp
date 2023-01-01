@@ -15,6 +15,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.capitalize
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -23,16 +24,17 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import uk.ac.aber.dcs.cs31620.vocantastic.R
 import uk.ac.aber.dcs.cs31620.vocantastic.model.WordPairViewModel
-import uk.ac.aber.dcs.cs31620.vocantastic.preferencesStorage.FOREIGN_LANGUAGE_KEY
-import uk.ac.aber.dcs.cs31620.vocantastic.preferencesStorage.NATIVE_LANGUAGE_KEY
-import uk.ac.aber.dcs.cs31620.vocantastic.preferencesStorage.PreferencesViewModel
+import uk.ac.aber.dcs.cs31620.vocantastic.storage.FOREIGN_LANGUAGE_KEY
+import uk.ac.aber.dcs.cs31620.vocantastic.storage.NATIVE_LANGUAGE_KEY
+import uk.ac.aber.dcs.cs31620.vocantastic.model.PreferencesViewModel
+import uk.ac.aber.dcs.cs31620.vocantastic.ui.makeCapitalLetter
 import uk.ac.aber.dcs.cs31620.vocantastic.ui.navigation.Screen
 import uk.ac.aber.dcs.cs31620.vocantastic.ui.theme.Railway
 
 @Composable
 fun SettingsScreenTopLevel(
     navController: NavHostController,
-    dataViewModel : PreferencesViewModel = hiltViewModel(),
+    dataViewModel: PreferencesViewModel = hiltViewModel(),
     wordPairViewModel: WordPairViewModel = viewModel()
 
 ) {
@@ -42,7 +44,7 @@ fun SettingsScreenTopLevel(
 @Composable
 fun SettingsScreen(
     navController: NavHostController,
-    dataViewModel : PreferencesViewModel = hiltViewModel(),
+    dataViewModel: PreferencesViewModel = hiltViewModel(),
     wordPairViewModel: WordPairViewModel = viewModel()
 
 ) {
@@ -94,21 +96,23 @@ fun SettingsScreen(
 
         Image(
             modifier = Modifier
-                .width(150.dp),
+                .width(175.dp),
             painter = painterResource(id = R.drawable.thinking_pose),
             contentDescription = stringResource(id = R.string.thinking_image),
             contentScale = ContentScale.FillWidth
         )
 
-        Spacer(modifier = Modifier.height(15.dp))
+        Spacer(modifier = Modifier.height(30.dp))
 
         TextField(
             value = nativeLanguage,
             label = {
                 Text(text = stringResource(R.string.your_language))
             },
-            onValueChange = { nativeLanguage = it
-                            isErrorInNativeTextField = nativeLanguage.isEmpty()},
+            onValueChange = {
+                nativeLanguage = it
+                isErrorInNativeTextField = nativeLanguage.isEmpty()
+            },
             singleLine = true,
             isError = isErrorInNativeTextField,
             placeholder = {
@@ -118,18 +122,13 @@ fun SettingsScreen(
             }
         )
 
-       /* Text(
-            text = stringResource(id = R.string.your_own_language),
-            textAlign = TextAlign.Left,
-            modifier = Modifier.padding(end = 60.dp)
-        )
-*/
-        Spacer(modifier = Modifier.height(20.dp))
+        Spacer(modifier = Modifier.height(30.dp))
 
         TextField(
             value = foreignLanguage,
-            onValueChange = { foreignLanguage = it
-                            isErrorInForeignTextField = foreignLanguage.isEmpty()
+            onValueChange = {
+                foreignLanguage = it
+                isErrorInForeignTextField = foreignLanguage.isEmpty()
             },
             label = {
                 Text(text = stringResource(R.string.foreign_language))
@@ -140,17 +139,9 @@ fun SettingsScreen(
                 Text(text = stringResource(id = R.string.foreign_language_to_learn))
             },
 
-        )
-/*
+            )
 
-        Text(
-            text = stringResource(id = R.string.foreign_language_to_learn),
-            textAlign = TextAlign.Left,
-            modifier = Modifier.padding(end = 50.dp)
-        )
-*/
-
-        Spacer(modifier = Modifier.height(30.dp))
+        Spacer(modifier = Modifier.height(35.dp))
 
         Button(
             enabled = nativeLanguage.isNotEmpty() || foreignLanguage.isNotEmpty(),
@@ -159,13 +150,18 @@ fun SettingsScreen(
                     Toast.makeText(context, "Invalid input", Toast.LENGTH_LONG).show()
                     if (nativeLanguage.trim() == "") {
                         isErrorInNativeTextField = true
-                    }else if (foreignLanguage.trim() == "") {
+                    } else if (foreignLanguage.trim() == "") {
                         isErrorInForeignTextField = true
                     }
                 } else {
-
-                    dataViewModel.saveString(nativeLanguage.trim().toLowerCase(), NATIVE_LANGUAGE_KEY)
-                    dataViewModel.saveString(foreignLanguage.trim().toLowerCase(), FOREIGN_LANGUAGE_KEY)
+                    dataViewModel.saveString(
+                        nativeLanguage.capitalize(),
+                        NATIVE_LANGUAGE_KEY
+                    )
+                    dataViewModel.saveString(
+                        foreignLanguage.capitalize(),
+                        FOREIGN_LANGUAGE_KEY
+                    )
                     wordPairViewModel.clearWordList()
 
                     openDialog.value = true
@@ -175,8 +171,10 @@ fun SettingsScreen(
                 .height(45.dp)
                 .width(182.dp)
         ) {
-            Text(stringResource(id = R.string.save),
-                fontFamily = Railway)
+            Text(
+                stringResource(id = R.string.save),
+                fontFamily = Railway
+            )
         }
 
         if (openDialog.value) {
@@ -186,8 +184,10 @@ fun SettingsScreen(
                     openDialog.value = false
                 },
                 text = {
-                    Text(stringResource(R.string.new_config_text),
-                        fontFamily = Railway)
+                    Text(
+                        stringResource(R.string.new_config_text),
+                        fontFamily = Railway
+                    )
                 },
                 confirmButton = {
                     TextButton(
@@ -196,11 +196,13 @@ fun SettingsScreen(
                             navController.navigate(route = Screen.Home.route)
                         },
                     ) {
-                        Text(stringResource(R.string.ok),
-                        fontFamily = Railway)
+                        Text(
+                            stringResource(R.string.ok),
+                            fontFamily = Railway
+                        )
                     }
                 },
-                )
+            )
         }
     }
 }

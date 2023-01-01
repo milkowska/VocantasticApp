@@ -3,12 +3,8 @@ package uk.ac.aber.dcs.cs31620.vocantastic.ui.words
 import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
-import androidx.compose.material3.Button
-import androidx.compose.material3.OutlinedTextField
-import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
+import androidx.compose.material3.*
 import androidx.compose.runtime.*
-import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -17,8 +13,6 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -27,22 +21,15 @@ import uk.ac.aber.dcs.cs31620.vocantastic.ui.components.TopLevelScaffold
 import uk.ac.aber.dcs.cs31620.vocantastic.R
 import uk.ac.aber.dcs.cs31620.vocantastic.model.WordPair
 import uk.ac.aber.dcs.cs31620.vocantastic.model.WordPairViewModel
-import uk.ac.aber.dcs.cs31620.vocantastic.preferencesStorage.FOREIGN_LANGUAGE_KEY
-import uk.ac.aber.dcs.cs31620.vocantastic.preferencesStorage.NATIVE_LANGUAGE_KEY
-import uk.ac.aber.dcs.cs31620.vocantastic.preferencesStorage.Storage
 import uk.ac.aber.dcs.cs31620.vocantastic.ui.theme.Railway
-import uk.ac.aber.dcs.cs31620.vocantastic.ui.theme.VocantasticTheme
 
 @Composable
 fun AddWordScreenTopLevel(
     navController: NavHostController,
     wordPairViewModel: WordPairViewModel = viewModel()
 ) {
-    val wordList by wordPairViewModel.wordList.observeAsState(listOf())
-
     AddWordScreen(
         navController = navController,
-        wordList = wordList,
         insertWordPair = { wordPair ->
             wordPairViewModel.insertWordPair(wordPair)
         }
@@ -52,7 +39,6 @@ fun AddWordScreenTopLevel(
 @Composable
 fun AddWordScreen(
     navController: NavHostController,
-    wordList: List<WordPair>,
     insertWordPair: (WordPair) -> Unit = {},
 ) {
     TopLevelScaffold(
@@ -64,12 +50,10 @@ fun AddWordScreen(
                 .padding(innerPadding)
                 .fillMaxSize()
         ) {
-
             Spacer(modifier = Modifier.height(20.dp))
 
             AddWordScreenContent(
                 modifier = Modifier.padding(10.dp),
-                wordList = wordList,
                 doInsert = { wordPair ->
                     insertWordPair(wordPair)
                 }
@@ -81,7 +65,6 @@ fun AddWordScreen(
 @Composable
 private fun AddWordScreenContent(
     modifier: Modifier = Modifier,
-    wordList: List<WordPair>,
     doInsert: (WordPair) -> Unit = {}
 ) {
 
@@ -89,6 +72,13 @@ private fun AddWordScreenContent(
     var textValueForeign by rememberSaveable { mutableStateOf("") }
 
     val context = LocalContext.current
+
+    var isErrorInNativeTextField by remember {
+        mutableStateOf(false)
+    }
+    var isErrorInForeignTextField by remember {
+        mutableStateOf(false)
+    }
 
     Column(
         verticalArrangement = Arrangement.Center,
@@ -112,12 +102,17 @@ private fun AddWordScreenContent(
 
         Spacer(modifier = Modifier.height(2.dp))
 
-        FirstWordTextField(
-            modifier = Modifier,
-            textValue = textValueNative,
+        OutlinedTextField(
+            value = textValueNative,
+            label = {
+                Text(text = stringResource(R.string.your_language))
+            },
             onValueChange = {
                 textValueNative = it
-            }
+                isErrorInNativeTextField = textValueNative.isEmpty()
+            },
+            singleLine = true,
+            isError = isErrorInNativeTextField,
         )
 
         Spacer(modifier = Modifier.height(20.dp))
@@ -127,12 +122,17 @@ private fun AddWordScreenContent(
             fontSize = 16.sp,
         )
 
-        TranslatedWordTextField(
-            modifier = Modifier,
-            textValue = textValueForeign,
+        OutlinedTextField(
+            value = textValueForeign,
+            label = {
+                Text(text = stringResource(R.string.foreign_language))
+            },
             onValueChange = {
                 textValueForeign = it
-            }
+                isErrorInForeignTextField = textValueForeign.isEmpty()
+            },
+            singleLine = true,
+            isError = isErrorInForeignTextField,
         )
 
         Spacer(modifier = Modifier.height(20.dp))
@@ -142,6 +142,11 @@ private fun AddWordScreenContent(
             onClick = {
                 if (textValueNative.trim() == "" || textValueForeign.trim() == "") {
                     Toast.makeText(context, "Invalid input", Toast.LENGTH_SHORT).show()
+                    if (textValueNative.trim() == "") {
+                        isErrorInNativeTextField = true
+                    } else if (textValueForeign.trim() == "") {
+                        isErrorInForeignTextField = true
+                    }
                 } else {
                     doInsert(
                         WordPair(
@@ -177,52 +182,3 @@ private fun AddWordScreenContent(
     }
 }
 
-@Composable
-fun FirstWordTextField(
-    modifier: Modifier = Modifier,
-    textValue: String = "",
-    onValueChange: (String) -> Unit = {}
-) {
-    OutlinedTextField(
-        value = textValue,
-        label = {
-            Text(text = stringResource(R.string.your_language))
-        },
-        onValueChange = onValueChange,
-        singleLine = true,
-        modifier = modifier,
-    )
-}
-
-@Composable
-fun TranslatedWordTextField(
-    modifier: Modifier = Modifier,
-    textValue: String = "",
-    onValueChange: (String) -> Unit = {}
-) {
-    OutlinedTextField(
-        value = textValue,
-        label = {
-            Text(text = stringResource(R.string.foreign_language))
-        },
-        onValueChange = onValueChange,
-        singleLine = true,
-        modifier = modifier
-    )
-}
-
-@Composable
-@Preview
-fun FirstWordTxtFieldPreview() {
-    VocantasticTheme(dynamicColor = false) {
-        FirstWordTextField()
-    }
-}
-
-@Composable
-@Preview
-fun TranslatedWordTxtFieldPreview() {
-    VocantasticTheme(dynamicColor = false) {
-        TranslatedWordTextField()
-    }
-}

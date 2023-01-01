@@ -1,10 +1,11 @@
-package uk.ac.aber.dcs.cs31620.vocantastic.preferencesStorage
+package uk.ac.aber.dcs.cs31620.vocantastic.model
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
+import uk.ac.aber.dcs.cs31620.vocantastic.storage.Storage
 import javax.inject.Inject
 
 
