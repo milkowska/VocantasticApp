@@ -3,9 +3,7 @@ package uk.ac.aber.dcs.cs31620.vocantastic.ui.home
 import android.annotation.SuppressLint
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
-import androidx.compose.material3.Button
-import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
+import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -102,7 +100,7 @@ fun SettingsButton(
     modifier: Modifier = Modifier,
     onClick: () -> Unit = {}
 ) {
-    Button(
+    FilledTonalButton(
         onClick = onClick,
         modifier = modifier
             .width(182.dp)

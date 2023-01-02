@@ -18,6 +18,9 @@ class VocantasticRepository(application: Application) {
         wordPairDao.deleteWordPair(wordPair)
     }
 
+    suspend fun update(wordPair: WordPair) {
+        wordPairDao.updateWordPair(wordPair)
+    }
     fun getWordList() = wordPairDao.getWordList()
 
     fun getAlphOrderList() = wordPairDao.getAlphOrderList()

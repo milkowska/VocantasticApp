@@ -4,6 +4,7 @@ import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.Button
+import androidx.compose.material3.ElevatedButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.*
@@ -133,7 +134,7 @@ private fun WelcomeScreenContent(
 
         Spacer(modifier = Modifier.height(20.dp))
 
-        Button(
+        ElevatedButton(
 
             enabled = nativeLanguage.isNotEmpty() || foreignLanguage.isNotEmpty(),
             onClick = {

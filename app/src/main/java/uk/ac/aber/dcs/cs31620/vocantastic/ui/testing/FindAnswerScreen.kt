@@ -15,6 +15,8 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import uk.ac.aber.dcs.cs31620.vocantastic.R
 import uk.ac.aber.dcs.cs31620.vocantastic.model.WordPair
 import uk.ac.aber.dcs.cs31620.vocantastic.model.WordPairViewModel
@@ -79,6 +81,7 @@ fun FindAnswerScreen(
 
     var hasNextStep by rememberSaveable { mutableStateOf(true) }
 
+    val composableScope = rememberCoroutineScope()
     if (wordList.isNotEmpty() && hasNextStep) {
         // Generate next word pair
         val nextWordPair = randomIndexGenerator(wordList.size - 1, questionBank)
@@ -233,7 +236,7 @@ fun FindAnswerScreen(
                             Text(
                                 stringResource(R.string.dismiss),
                                 fontFamily = Railway,
-                                )
+                            )
                         }
                     }
                 )
@@ -254,7 +257,9 @@ fun FindAnswerScreen(
                     if (step >= number) {
                         val finalScore = (resultScore * 100) / number
 
-                        dataViewModel.saveInt(finalScore, TEST_SCORE)
+                        composableScope.launch(Dispatchers.IO) {
+                            dataViewModel.saveInt(finalScore, TEST_SCORE)
+                        }
                         navController.navigate(Screen.TestScore.route)
 
                     } else if (wordList.isNotEmpty() && (step < number)) {

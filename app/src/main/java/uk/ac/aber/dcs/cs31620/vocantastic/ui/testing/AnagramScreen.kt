@@ -192,7 +192,7 @@ fun AnagramScreen(
             modifier = Modifier.padding(all = 35.dp)
         ) {
 
-            Button(modifier = Modifier
+            FilledTonalButton(modifier = Modifier
                 .height(60.dp)
                 .width(200.dp)
                 .weight(0.5f),
@@ -260,7 +260,7 @@ fun AnagramScreen(
 
             Spacer(modifier = Modifier.width(30.dp))
 
-            Button(modifier = Modifier
+            FilledTonalButton(modifier = Modifier
                 .height(60.dp)
                 .width(200.dp)
                 .weight(0.5f),

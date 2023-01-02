@@ -99,7 +99,7 @@ fun TestScreenContent(
         )
         Spacer(modifier = Modifier.height(10.dp))
 
-        Button(
+        FilledTonalButton(
             modifier = Modifier
                 .width(250.dp)
                 .height(50.dp),
@@ -167,7 +167,7 @@ fun TestScreenContent(
 
         Spacer(modifier = Modifier.height(15.dp))
 
-        Button(
+        FilledTonalButton(
             modifier = Modifier
                 .width(250.dp)
                 .height(50.dp),

@@ -137,7 +137,7 @@ private fun AddWordScreenContent(
 
         Spacer(modifier = Modifier.height(20.dp))
 
-        Button(
+        ElevatedButton(
             enabled = textValueNative.isNotEmpty() || textValueForeign.isNotEmpty(),
             onClick = {
                 if (textValueNative.trim() == "" || textValueForeign.trim() == "") {

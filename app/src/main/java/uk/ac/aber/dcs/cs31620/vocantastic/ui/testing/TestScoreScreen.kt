@@ -2,10 +2,7 @@ package uk.ac.aber.dcs.cs31620.vocantastic.ui.testing
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
-import androidx.compose.material3.Button
-import androidx.compose.material3.Card
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Text
+import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -129,7 +126,7 @@ fun TestScoreScreen(
                 )
             }
 
-            Button(
+            ElevatedButton(
                 onClick = {
                     navController.navigate(Screen.Test.route)
                     dataViewModel.saveInt(0, TEST_SCORE)
@@ -139,7 +136,11 @@ fun TestScoreScreen(
                     .height(50.dp)
 
             ) {
-                Text(stringResource(id = R.string.continue_to_next_screen))
+                Text(
+                    stringResource(id = R.string.continue_to_next_screen),
+                    fontFamily = Railway
+                )
+
             }
         }
     }

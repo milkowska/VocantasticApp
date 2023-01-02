@@ -1,6 +1,5 @@
 package uk.ac.aber.dcs.cs31620.vocantastic.ui.list
 
-import android.preference.PreferenceActivity
 import android.widget.Toast
 import androidx.compose.animation.Crossfade
 import androidx.compose.animation.core.tween
@@ -24,24 +23,21 @@ import uk.ac.aber.dcs.cs31620.vocantastic.model.WordPair
 import uk.ac.aber.dcs.cs31620.vocantastic.model.WordPairViewModel
 import uk.ac.aber.dcs.cs31620.vocantastic.ui.components.TopLevelScaffold
 import androidx.compose.foundation.lazy.*
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Cancel
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.rounded.Search
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.text.font.FontFamily
-import androidx.compose.ui.text.input.TextFieldValue
-import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.window.Dialog
 import androidx.constraintlayout.compose.ConstraintLayout
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 import uk.ac.aber.dcs.cs31620.vocantastic.model.ListViewModel
 import uk.ac.aber.dcs.cs31620.vocantastic.ui.theme.Railway
-import uk.ac.aber.dcs.cs31620.vocantastic.ui.theme.VocantasticTheme
 
 @Composable
 fun ViewListScreenTopLevel(
@@ -57,6 +53,9 @@ fun ViewListScreenTopLevel(
         doDelete = { wordPair ->
             wordPairViewModel.deleteWordPair(wordPair)
         },
+        doUpdate = { wordPair ->
+            wordPairViewModel.updateWordPair(wordPair)
+        },
         listViewModel = listViewModel
     )
 }
@@ -67,6 +66,7 @@ fun ViewListScreen(
     navController: NavHostController,
     wordList: List<WordPair> = listOf(),
     doDelete: (WordPair) -> Unit = {},
+    doUpdate: (WordPair) -> Unit = {},
     listViewModel: ListViewModel
 ) {
 
@@ -85,8 +85,20 @@ fun ViewListScreen(
                 it.entryWord.contains(searchQuery.trim(), ignoreCase = true)
                         || it.translatedWord.contains(searchQuery.trim(), ignoreCase = true)
             }
+            val setShowDialog = remember { mutableStateOf(false) }
 
             val context = LocalContext.current
+
+            var nativeLanguageUpdate by rememberSaveable { mutableStateOf("") }
+            var foreignLanguageUpdate by rememberSaveable { mutableStateOf("") }
+
+            var isErrorInNativeTextField by remember {
+                mutableStateOf(false)
+            }
+            var isErrorInForeignTextField by remember {
+                mutableStateOf(false)
+            }
+
 
             // the empty screen is displayed if the word list is empty.
             if (wordList.isEmpty()) {
@@ -130,7 +142,7 @@ fun ViewListScreen(
                     LazyColumn(
                         modifier = Modifier
                             .fillMaxSize(),
-                        contentPadding = PaddingValues(bottom = 5 .dp)
+                        contentPadding = PaddingValues(bottom = 5.dp)
 
                     ) {
 
@@ -143,27 +155,33 @@ fun ViewListScreen(
                             ) {
                                 Column()
                                 {
+
                                     Text(
                                         text = word.entryWord,
-                                        modifier = Modifier.padding(start = 8.dp, top = 16.dp),
+                                        modifier = Modifier
+                                            .padding(start = 8.dp, top = 16.dp),
                                         fontWeight = FontWeight.Bold,
                                         fontSize = 20.sp,
                                     )
 
                                     Text(
                                         text = word.translatedWord,
-                                        modifier = Modifier.padding(start = 8.dp, top = 8.dp),
+                                        modifier = Modifier
+                                            .padding(start = 8.dp, top = 8.dp),
                                         fontSize = 16.sp,
                                     )
+
                                     Row(
                                         horizontalArrangement = Arrangement.End,
                                         verticalAlignment = Alignment.Top,
                                         modifier = Modifier.fillMaxSize()
                                     ) {
-
-                                        Button(
+                                        ElevatedButton(
                                             modifier =
-                                            Modifier.padding(end = 20.dp),
+                                            Modifier
+                                                .padding(end = 10.dp)
+                                                .width(100.dp),
+
                                             onClick = {
                                                 doDelete(
                                                     WordPair(
@@ -178,7 +196,6 @@ fun ViewListScreen(
                                                     Toast.LENGTH_SHORT
                                                 ).show()
                                             }
-
                                         )
                                         {
                                             Text(
@@ -186,11 +203,168 @@ fun ViewListScreen(
                                                 fontFamily = Railway
                                             )
                                         }
+// update
+                                        ElevatedButton(
+                                            modifier =
+                                            Modifier
+                                                .padding(end = 10.dp)
+                                                .width(100.dp),
+                                            onClick = {
+                                                setShowDialog.value = true
+                                            }
+                                        )
+                                        {
+                                            Text(
+                                                text = stringResource(id = R.string.update),
+                                                fontFamily = Railway
+                                            )
+                                        }
+
+                                        if (setShowDialog.value) {
+                                            Dialog(onDismissRequest = {
+                                                setShowDialog.value = false
+                                            }
+                                            ) {
+                                                Surface(
+                                                    shape = RoundedCornerShape(16.dp),
+                                                    color = MaterialTheme.colorScheme.background
+                                                ) {
+
+                                                    Box(
+                                                        contentAlignment = Alignment.Center
+                                                    ) {
+                                                        Column(modifier = Modifier.padding(20.dp)) {
+
+                                                            Row(
+                                                                modifier = Modifier.fillMaxWidth(),
+                                                                horizontalArrangement = Arrangement.SpaceBetween,
+                                                                verticalAlignment = Alignment.CenterVertically
+                                                            ) {
+                                                                Text(
+                                                                    text = "Update this word pair: ",
+                                                                    fontSize = 24.sp,
+                                                                    fontFamily = Railway
+                                                                )
+
+                                                                Icon(
+                                                                    imageVector = Icons.Filled.Cancel,
+                                                                    contentDescription = "cancel icon",
+                                                                    tint = colorResource(android.R.color.darker_gray),
+                                                                    modifier = Modifier
+                                                                        .width(30.dp)
+                                                                        .height(30.dp)
+                                                                        .clickable {
+                                                                            setShowDialog.value =
+                                                                                false
+                                                                        }
+                                                                )
+                                                            }
+
+                                                            Spacer(modifier = Modifier.height(20.dp))
+
+                                                            TextField(
+                                                                modifier = Modifier
+                                                                    .fillMaxWidth(),
+                                                                placeholder = { Text(text = "Enter a word") },
+                                                                value = nativeLanguageUpdate,
+                                                                label = {
+                                                                    Text(text = stringResource(R.string.your_language))
+                                                                },
+                                                                onValueChange = {
+                                                                    nativeLanguageUpdate = it
+                                                                    isErrorInNativeTextField =
+                                                                        nativeLanguageUpdate.isEmpty()
+                                                                },
+                                                                isError = isErrorInNativeTextField
+                                                            )
+
+                                                            Spacer(modifier = Modifier.height(10.dp))
+
+                                                            TextField(
+                                                                modifier = Modifier
+                                                                    .fillMaxWidth(),
+
+                                                                placeholder = { Text(text = "Enter the translation") },
+                                                                value = foreignLanguageUpdate,
+                                                                label = {
+                                                                    Text(text = stringResource(R.string.foreign_language))
+                                                                },
+                                                                onValueChange = {
+                                                                    foreignLanguageUpdate =
+                                                                        it
+                                                                    isErrorInForeignTextField =
+                                                                        foreignLanguageUpdate.isEmpty()
+                                                                },
+                                                                isError = isErrorInForeignTextField
+                                                            )
+                                                            Spacer(modifier = Modifier.height(20.dp))
+                                                            Box(
+                                                                modifier = Modifier.padding(
+                                                                    40.dp,
+                                                                    0.dp,
+                                                                    40.dp,
+                                                                    0.dp
+                                                                )
+                                                            ) {
+                                                                FilledTonalButton(
+                                                                    onClick = {
+                                                                        if (nativeLanguageUpdate.trim()
+                                                                                .isEmpty() || foreignLanguageUpdate.trim()
+                                                                                .isEmpty()
+                                                                        ) {
+                                                                            Toast.makeText(
+                                                                                context,
+                                                                                "Invalid input",
+                                                                                Toast.LENGTH_SHORT
+                                                                            ).show()
+                                                                            if (nativeLanguageUpdate.trim() == "") {
+                                                                                isErrorInNativeTextField =
+                                                                                    true
+                                                                            } else if (foreignLanguageUpdate.trim() == "") {
+                                                                                isErrorInForeignTextField =
+                                                                                    true
+                                                                            }
+                                                                        } else {
+                                                                            doUpdate(
+                                                                                WordPair(
+                                                                                    entryWord = nativeLanguageUpdate,
+                                                                                    translatedWord = foreignLanguageUpdate,
+                                                                                    id = word.id
+                                                                                )
+                                                                            )
+                                                                            Toast.makeText(
+                                                                                context,
+                                                                                "Word pair has been updated.",
+                                                                                Toast.LENGTH_SHORT
+                                                                            ).show()
+
+                                                                            setShowDialog.value =
+                                                                                false
+                                                                            nativeLanguageUpdate =
+                                                                                ""
+                                                                            foreignLanguageUpdate =
+                                                                                ""
+                                                                        }
+                                                                    },
+                                                                    shape = RoundedCornerShape(50.dp),
+                                                                    modifier = Modifier
+                                                                        .fillMaxWidth()
+                                                                        .height(50.dp)
+                                                                ) {
+                                                                    Text(text = "Done")
+                                                                }
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
                                     }
 
                                 }
                             }
-                            Divider(startIndent = 0.dp, thickness = 1.dp)
+                                Divider(startIndent = 0.dp, thickness = 1.dp)
+
                         }
                     }
                 }
@@ -198,6 +372,7 @@ fun ViewListScreen(
         }
     }
 }
+
 
 @Composable
 fun EmptyScreenContent(
