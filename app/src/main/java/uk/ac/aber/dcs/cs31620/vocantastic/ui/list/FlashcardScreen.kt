@@ -1,6 +1,11 @@
 package uk.ac.aber.dcs.cs31620.vocantastic.ui.list
 
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBack
+
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
@@ -8,13 +13,11 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import uk.ac.aber.dcs.cs31620.vocantastic.R
-import uk.ac.aber.dcs.cs31620.vocantastic.model.PreferencesViewModel
 import uk.ac.aber.dcs.cs31620.vocantastic.model.WordPair
 import uk.ac.aber.dcs.cs31620.vocantastic.model.WordPairViewModel
 import uk.ac.aber.dcs.cs31620.vocantastic.ui.navigation.Screen
@@ -71,25 +74,42 @@ fun FlashcardScreen(
 
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center,
+        verticalArrangement = Arrangement.Top,
         modifier = Modifier
             .fillMaxSize()
     ) {
         val progressValue = step / number.toFloat()
 
-        val openAlertDialog = remember { mutableStateOf(false) }
+        val numberOfFlipped = step - 1
+
+
+        androidx.compose.material.TopAppBar(
+            elevation = 5.dp,
+            title = {
+                Text(
+                    text = stringResource(id = R.string.flashcard),
+                    fontSize = 18.sp,
+                )
+            },
+            backgroundColor = MaterialTheme.colorScheme.background,
+            navigationIcon = {
+                IconButton(onClick = { navController.navigate(route = Screen.Test.route) }) {
+                    Icon(Icons.Filled.ArrowBack, "go back")
+                }
+            },
+        )
+        Spacer(modifier = Modifier.height(30.dp))
         Text(
-            text = stringResource(id = R.string.flashcard),
-            modifier = Modifier.padding(start = 8.dp, top = 16.dp),
-            fontWeight = FontWeight.Bold,
-            fontSize = 22.sp
+            text = stringResource(id = R.string.flashcard_info),
+            fontSize = 22.sp,
+            textAlign = TextAlign.Center
         )
 
-        Spacer(modifier = Modifier.height(40.dp))
+        Spacer(modifier = Modifier.height(60.dp))
 
         LinearProgressIndicator(progressValue)
 
-        Spacer(modifier = Modifier.height(20.dp))
+        Spacer(modifier = Modifier.height(60.dp))
 
         FlipCard(
             cardFace = cardFace,
@@ -105,6 +125,7 @@ fun FlashcardScreen(
                     Text(
                         text = wordA,
                         fontFamily = Railway,
+                        fontSize = 22.sp
                     )
                 }
             },
@@ -116,105 +137,43 @@ fun FlashcardScreen(
                     Text(
                         text = wordB,
                         fontFamily = Railway,
+                        fontSize = 22.sp
                     )
                 }
             },
         )
-        Spacer(modifier = Modifier.height(10.dp))
+        Spacer(modifier = Modifier.height(50.dp))
 
-        Row(
-            horizontalArrangement = Arrangement.SpaceEvenly,
-            verticalAlignment = Alignment.CenterVertically,
-            modifier = Modifier.padding(all = 35.dp)
-        ) {
+        if (numberOfFlipped == 1) {
+            Text(
+                text = "You have flipped $numberOfFlipped flashcard!",
+                fontSize = 20.sp
+            )
 
-            FilledTonalButton(modifier = Modifier
-                .height(60.dp)
-                .width(200.dp)
-                .weight(0.5f),
-                onClick = {
-                    openAlertDialog.value = true
+        } else {
+            Text(text = "You have flipped $numberOfFlipped flashcards!",
+                fontSize = 20.sp)
+        }
 
+        Spacer(modifier = Modifier.height(50.dp))
+
+
+        ElevatedButton(modifier = Modifier
+            .height(60.dp)
+            .width(140.dp),
+            onClick = {
+                if (step >= number) {
+                    navController.navigate(Screen.Test.route)
+                } else if (wordList.isNotEmpty() && (step < number)) {
+                    hasNextCard = true
+                    step++
                 }
-            ) {
-                Text(
-                    text = stringResource(id = R.string.quit),
-                    fontSize = 16.sp,
-                    fontFamily = Railway
-                )
-            }
+            })
+        {
+            Text(
+                text = stringResource(id = R.string.next)
+            )
 
-            if (openAlertDialog.value) {
-                AlertDialog(
-                    onDismissRequest = {
-                        openAlertDialog.value = false
-                    },
-                    title = {
-                        Text(
-                            text = stringResource(R.string.are_you_sure),
-                            fontFamily = Railway
-                        )
-
-                    },
-                    text = {
-                        Text(
-                            stringResource(R.string.confirm_exit),
-                            fontFamily = Railway
-                        )
-                    },
-                    confirmButton = {
-                        TextButton(
-                            onClick = {
-                                openAlertDialog.value = false
-                                navController.navigate(Screen.Test.route)
-                            },
-                        ) {
-                            Text(
-                                stringResource(R.string.exit),
-                                fontFamily = Railway,
-
-                                )
-                        }
-                    },
-                    dismissButton = {
-                        TextButton(
-                            onClick = {
-                                openAlertDialog.value = false
-                            },
-                        ) {
-                            Text(
-                                stringResource(R.string.dismiss),
-                                fontFamily = Railway,
-
-                                )
-                        }
-                    }
-                )
-
-            }
-
-            Spacer(modifier = Modifier.width(30.dp))
-
-            FilledTonalButton(modifier = Modifier
-                .height(60.dp)
-                .width(200.dp)
-                .weight(0.5f),
-                onClick = {
-
-                    if (step >= number) {
-                        step = 0
-                    } else if (wordList.isNotEmpty() && (step < number)) {
-                        hasNextCard = true
-                        step++
-                    }
-                })
-            {
-                Text(
-                    text = stringResource(id = R.string.next),
-                    fontSize = 16.sp,
-                    fontFamily = Railway
-                )
-            }
 
         }
     }

@@ -60,4 +60,7 @@
     <string name="score_low">You should try revising the vocabulary more to get a better score. But for now nice try!</string>
     <string name="update">Update</string>
     <string name="flashcard">Flashcards</string>
+    <string name="previous">Previous</string>
+    <string name="flashcard_info">Tap the flashcard to reveal the translation!</string>
+    <string name="alternatively">or learn with flashcards</string>
 </resources>

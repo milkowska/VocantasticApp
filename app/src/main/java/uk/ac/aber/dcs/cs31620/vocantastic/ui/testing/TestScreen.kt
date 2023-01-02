@@ -76,31 +76,28 @@ fun TestScreenContent(
     ) {
         Text(
             text = stringResource(id = R.string.test_progress_title),
-            fontSize = 24.sp,
+            fontSize = 22.sp,
             modifier = modifier
         )
 
-        Spacer(modifier = Modifier.height(10.dp))
-        Button(onClick =
-        { navController.navigate(route = Screen.Flashcard.route) }) {
-            Text(text = "flashcard")
-        }
+        Spacer(modifier = Modifier.height(5.dp))
+
         Image(
             modifier = Modifier
-                .size(280.dp),
+                .size(210.dp),
             painter = painterResource(id = R.drawable.transparent_brain),
             contentDescription = stringResource(id = R.string.brain_image),
             contentScale = ContentScale.Crop
         )
 
-        Spacer(modifier = Modifier.height(10.dp))
+        Spacer(modifier = Modifier.height(1.dp))
 
         Text(
             text = stringResource(id = R.string.test_choice),
             fontSize = 22.sp,
             modifier = modifier
         )
-        Spacer(modifier = Modifier.height(10.dp))
+        Spacer(modifier = Modifier.height(5.dp))
 
         FilledTonalButton(
             modifier = Modifier
@@ -168,7 +165,7 @@ fun TestScreenContent(
             )
         }
 
-        Spacer(modifier = Modifier.height(15.dp))
+        Spacer(modifier = Modifier.height(10.dp))
 
         FilledTonalButton(
             modifier = Modifier
@@ -239,7 +236,38 @@ fun TestScreenContent(
             )
         }
 
-        Spacer(modifier = Modifier.height(15.dp))
+
+        Spacer(modifier = Modifier.height(10.dp))
+
+        Text(
+            text = stringResource(id = R.string.alternatively),
+            fontSize = 20.sp
+        )
+
+        Spacer(modifier = Modifier.height(10.dp))
+
+        FilledTonalButton(
+            modifier = Modifier
+                .width(250.dp)
+                .height(50.dp),
+            onClick = {
+                if (wordList.isEmpty()) {
+                    Toast.makeText(
+                        context,
+                        "Add words to use flashcards!",
+                        Toast.LENGTH_LONG
+                    ).show()
+                } else {
+                    navController.navigate(route = Screen.Flashcard.route)
+                }
+            })
+        {
+            Text(
+                text = stringResource(id = R.string.flashcard),
+                fontFamily = Railway,
+                fontSize = 16.sp
+            )
+        }
     }
 
 }
