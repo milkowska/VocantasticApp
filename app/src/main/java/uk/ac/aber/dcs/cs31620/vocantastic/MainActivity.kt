@@ -20,7 +20,7 @@ import uk.ac.aber.dcs.cs31620.vocantastic.model.PreferencesViewModel
 import uk.ac.aber.dcs.cs31620.vocantastic.storage.WELCOME_SCREEN
 import uk.ac.aber.dcs.cs31620.vocantastic.ui.home.HomeScreenTopLevel
 import uk.ac.aber.dcs.cs31620.vocantastic.ui.home.SettingsScreenTopLevel
-import uk.ac.aber.dcs.cs31620.vocantastic.ui.list.FlashcardScreenTopLevel
+import uk.ac.aber.dcs.cs31620.vocantastic.flashcard.FlashcardScreenTopLevel
 import uk.ac.aber.dcs.cs31620.vocantastic.ui.list.ViewListScreenTopLevel
 import uk.ac.aber.dcs.cs31620.vocantastic.ui.navigation.Screen
 import uk.ac.aber.dcs.cs31620.vocantastic.ui.testing.*

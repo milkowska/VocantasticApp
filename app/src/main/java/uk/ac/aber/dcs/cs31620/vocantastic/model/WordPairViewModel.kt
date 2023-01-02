@@ -11,9 +11,7 @@ import uk.ac.aber.dcs.cs31620.vocantastic.datasource.VocantasticRepository
 class WordPairViewModel(application: Application) : AndroidViewModel(application) {
     private val repository: VocantasticRepository = VocantasticRepository(application)
 
-    /*var wordList: LiveData<List<WordPair>> = loadWordList()
-        private set*/
-
+    // By default, the list is loaded in an alphabetical order.
     var wordList: LiveData<List<WordPair>> = loadOrderedList()
         private set
 
@@ -38,10 +36,6 @@ class WordPairViewModel(application: Application) : AndroidViewModel(application
         viewModelScope.launch(Dispatchers.IO) {
             repository.update(wordPair)
         }
-    }
-
-    private fun loadWordList(): LiveData<List<WordPair>> {
-        return repository.getWordList()
     }
 
     private fun loadOrderedList(): LiveData<List<WordPair>> {

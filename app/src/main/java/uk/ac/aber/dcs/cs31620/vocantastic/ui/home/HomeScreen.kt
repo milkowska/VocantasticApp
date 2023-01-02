@@ -5,6 +5,7 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
@@ -56,40 +57,41 @@ fun HomeScreen(
 
             ) {
 
+                Text(
+                    text = stringResource(id = R.string.home_title),
+                    fontSize = 30.sp
+                )
                 Spacer(modifier = Modifier.height(6.dp))
 
                 Image(
                     modifier = Modifier
-                        .size(340.dp),
+                        .size(380.dp),
                     painter = painterResource(id = R.drawable.transparent_home_screen_image),
                     contentDescription = stringResource(id = R.string.welcome_image),
                     contentScale = ContentScale.Crop
                 )
 
-                Spacer(modifier = Modifier.height(15.dp))
-
                 Text(
-                    text = "I speak $nativeLanguage",
+                    text = "I speak $nativeLanguage, and",
                     fontSize = 22.sp
                 )
 
                 Spacer(modifier = Modifier.height(15.dp))
 
                 Text(
-                    text = "I want to learn $foreignLanguage",
+                    text = "I want to learn $foreignLanguage!",
                     fontSize = 22.sp
                 )
-
-                Spacer(modifier = Modifier.height(35.dp))
+                Spacer(modifier = Modifier.height(20.dp))
 
                 SettingsButton(
                     modifier = Modifier
                         .height(50.dp),
                     onClick = {
-
                         navController.navigate(Screen.Settings.route)
                     }
                 )
+
             }
         }
     }

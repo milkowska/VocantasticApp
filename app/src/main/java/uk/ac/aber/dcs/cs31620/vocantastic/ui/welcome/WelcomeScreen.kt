@@ -3,7 +3,6 @@ package uk.ac.aber.dcs.cs31620.vocantastic.ui.welcome
 import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
-import androidx.compose.material3.Button
 import androidx.compose.material3.ElevatedButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
@@ -56,7 +55,6 @@ private fun WelcomeScreenContent(
         mutableStateOf(false)
     }
 
-
     Column(
         modifier = modifier
             .fillMaxSize(),
@@ -72,9 +70,8 @@ private fun WelcomeScreenContent(
                 .height(190.dp),
             painter = painterResource(id = R.drawable.logo),
             contentDescription = stringResource(id = R.string.logo_image),
-            contentScale = ContentScale.FillWidth,
-
-            )
+            contentScale = ContentScale.FillWidth
+        )
 
         Spacer(modifier = Modifier.height(15.dp))
 
@@ -87,7 +84,6 @@ private fun WelcomeScreenContent(
         )
 
         Spacer(modifier = Modifier.height(40.dp))
-
 
         OutlinedTextField(
             value = nativeLanguage,
@@ -110,7 +106,6 @@ private fun WelcomeScreenContent(
         )
 
         Spacer(modifier = Modifier.height(16.dp))
-
 
         OutlinedTextField(
             value = foreignLanguage,
@@ -176,21 +171,4 @@ private fun WelcomeScreenContent(
     }
 }
 
-
-@Composable
-fun ForeignLanguageTextField(
-    modifier: Modifier = Modifier,
-    textValue: String = "",
-    onValueChange: (String) -> Unit = {}
-) {
-    OutlinedTextField(
-        value = textValue,
-        label = {
-            Text(text = stringResource(R.string.foreign_language))
-        },
-        onValueChange = onValueChange,
-        singleLine = true,
-        modifier = modifier,
-    )
-}
 

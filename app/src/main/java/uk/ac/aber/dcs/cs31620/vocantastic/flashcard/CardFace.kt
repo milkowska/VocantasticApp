@@ -1,4 +1,4 @@
-package uk.ac.aber.dcs.cs31620.vocantastic.ui.list
+package uk.ac.aber.dcs.cs31620.vocantastic.flashcard
 
 enum class CardFace(val angle: Float) {
     Front(0f) {

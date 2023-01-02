@@ -17,7 +17,7 @@
     <string name="add_to_vocabulary_list">Add to the vocabulary list</string>
     <string name="add_word_image">Adding a new item to list</string>
     <string name="test_progress_title">Let\'s test your progress!</string>
-    <string name="test_choice">Choose one test:</string>
+    <string name="test_choice">Choose a test</string>
     <string name="anagram">Solve the anagram</string>
     <string name="find_correct_answer">Find the correct answer</string>
     <string name="the_anagram_text">The translated anagram for the word</string>
@@ -63,4 +63,5 @@
     <string name="previous">Previous</string>
     <string name="flashcard_info">Tap the flashcard to reveal the translation!</string>
     <string name="alternatively">or learn with flashcards</string>
+    <string name="home_title">Welcome to Vocantasic!</string>
 </resources>

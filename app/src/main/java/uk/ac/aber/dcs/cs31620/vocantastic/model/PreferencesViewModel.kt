@@ -8,15 +8,14 @@ import kotlinx.coroutines.runBlocking
 import uk.ac.aber.dcs.cs31620.vocantastic.storage.Storage
 import javax.inject.Inject
 
-
 @HiltViewModel
 class PreferencesViewModel @Inject constructor(
     private val storage: Storage
-): ViewModel() {
+) : ViewModel() {
 
     fun saveBoolean(value: Boolean, key: String) {
         viewModelScope.launch {
-            storage.setBoolean(value,key)
+            storage.setBoolean(value, key)
         }
     }
 
@@ -25,6 +24,7 @@ class PreferencesViewModel @Inject constructor(
             storage.saveInt(value, key)
         }
     }
+
     fun getInt(key: String): Int? = runBlocking {
         storage.getInt(key)
     }
@@ -33,7 +33,7 @@ class PreferencesViewModel @Inject constructor(
         storage.getBoolean(key)
     }
 
-   fun getString(key: String): String? = runBlocking {
+    fun getString(key: String): String? = runBlocking {
         storage.getString(key)
     }
 

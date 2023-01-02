@@ -1,4 +1,4 @@
-package uk.ac.aber.dcs.cs31620.vocantastic.ui.list
+package uk.ac.aber.dcs.cs31620.vocantastic.flashcard
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
@@ -6,6 +6,7 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import uk.ac.aber.dcs.cs31620.vocantastic.flashcard.CardFace
 
 
 @OptIn(ExperimentalMaterial3Api::class)

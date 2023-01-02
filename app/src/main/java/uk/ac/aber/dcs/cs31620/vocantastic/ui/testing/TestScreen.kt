@@ -15,7 +15,6 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -26,7 +25,6 @@ import uk.ac.aber.dcs.cs31620.vocantastic.model.WordPairViewModel
 import uk.ac.aber.dcs.cs31620.vocantastic.ui.components.TopLevelScaffold
 import uk.ac.aber.dcs.cs31620.vocantastic.ui.navigation.Screen
 import uk.ac.aber.dcs.cs31620.vocantastic.ui.theme.Railway
-import uk.ac.aber.dcs.cs31620.vocantastic.ui.theme.md_theme_light_primary
 
 /**
  * This is where the user can test their knowledge and begin a test. There are two tests to choose from, one of which requires at least four words in
@@ -40,6 +38,7 @@ fun TestScreen(
     wordPairViewModel: WordPairViewModel = viewModel()
 ) {
     val wordList by wordPairViewModel.wordList.observeAsState(listOf())
+
     TopLevelScaffold(
         navController = navController,
     )
@@ -236,7 +235,6 @@ fun TestScreenContent(
             )
         }
 
-
         Spacer(modifier = Modifier.height(10.dp))
 
         Text(
@@ -260,7 +258,8 @@ fun TestScreenContent(
                 } else {
                     navController.navigate(route = Screen.Flashcard.route)
                 }
-            })
+            }
+        )
         {
             Text(
                 text = stringResource(id = R.string.flashcard),
@@ -269,5 +268,4 @@ fun TestScreenContent(
             )
         }
     }
-
 }

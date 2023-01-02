@@ -11,18 +11,19 @@ class ListViewModel : ViewModel() {
     var state by mutableStateOf(ListState())
 
     fun onAction(userAction: UserAction) {
-        when(userAction) {
+        state = when(userAction) {
             UserAction.CloseIconClicked ->
-                state = state.copy(
+                state.copy(
                     isSearchBarVisible = false
                 )
             UserAction.SearchIconClicked -> {
-                state = state.copy(
+                state.copy(
                     isSearchBarVisible = true
                 )
             }
         }
     }
+
     sealed class UserAction {
         object SearchIconClicked : UserAction()
         object CloseIconClicked : UserAction()
@@ -30,6 +31,5 @@ class ListViewModel : ViewModel() {
 
     data class ListState(
         val isSearchBarVisible: Boolean = false,
-        val searchText: String = "",
     )
 }

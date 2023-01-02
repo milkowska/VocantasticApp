@@ -1,7 +1,5 @@
-package uk.ac.aber.dcs.cs31620.vocantastic.ui.list
+package uk.ac.aber.dcs.cs31620.vocantastic.flashcard
 
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
@@ -119,25 +117,29 @@ fun FlashcardScreen(
                 .aspectRatio(1f),
             front = {
                 Box(
-                    modifier = Modifier.fillMaxSize(),
+                    modifier = Modifier.fillMaxSize()
+                        .padding(all =15.dp),
                     contentAlignment = Alignment.Center,
                 ) {
                     Text(
                         text = wordA,
                         fontFamily = Railway,
-                        fontSize = 22.sp
+                        fontSize = 22.sp,
+                        textAlign = TextAlign.Center
                     )
                 }
             },
             back = {
                 Box(
-                    modifier = Modifier.fillMaxSize(),
+                    modifier = Modifier.fillMaxSize()
+                        .padding(all = 15.dp),
                     contentAlignment = Alignment.Center,
                 ) {
                     Text(
                         text = wordB,
                         fontFamily = Railway,
-                        fontSize = 22.sp
+                        fontSize = 22.sp,
+                        textAlign = TextAlign.Center
                     )
                 }
             },
@@ -146,12 +148,12 @@ fun FlashcardScreen(
 
         if (numberOfFlipped == 1) {
             Text(
-                text = "You have flipped $numberOfFlipped flashcard!",
+                text = "You have flipped $numberOfFlipped flashcard so far!",
                 fontSize = 20.sp
             )
 
         } else {
-            Text(text = "You have flipped $numberOfFlipped flashcards!",
+            Text(text = "You have flipped $numberOfFlipped flashcards so far!",
                 fontSize = 20.sp)
         }
 

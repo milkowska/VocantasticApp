@@ -35,7 +35,6 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.window.Dialog
-import androidx.constraintlayout.compose.ConstraintLayout
 import uk.ac.aber.dcs.cs31620.vocantastic.model.ListViewModel
 import uk.ac.aber.dcs.cs31620.vocantastic.ui.theme.Railway
 
@@ -135,8 +134,8 @@ fun ViewListScreen(
                     }
 
                     Divider(
-                        thickness = 2.dp,
-                        modifier = Modifier.padding(vertical = 15.dp)
+                        thickness = 1.dp,
+                        modifier = Modifier.padding(vertical = 10.dp)
                     )
 
                     LazyColumn(
@@ -458,8 +457,8 @@ fun TopAppBar(
 
         Text(
             text = stringResource(id = R.string.vocabulary),
-            fontSize = 32.sp,
-            modifier = Modifier.padding(start = 15.dp),
+            fontSize = 30.sp,
+            modifier = Modifier.padding(start = 10.dp),
             fontFamily = Railway
         )
 
