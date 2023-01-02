@@ -81,7 +81,10 @@ fun TestScreenContent(
         )
 
         Spacer(modifier = Modifier.height(10.dp))
-
+        Button(onClick =
+        { navController.navigate(route = Screen.Flashcard.route) }) {
+            Text(text = "flashcard")
+        }
         Image(
             modifier = Modifier
                 .size(280.dp),

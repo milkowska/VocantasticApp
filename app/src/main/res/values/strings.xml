@@ -59,4 +59,5 @@
     <string name="score_high">Excellent! You are a language master.</string>
     <string name="score_low">You should try revising the vocabulary more to get a better score. But for now nice try!</string>
     <string name="update">Update</string>
+    <string name="flashcard">Flashcards</string>
 </resources>

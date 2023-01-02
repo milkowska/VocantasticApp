@@ -20,6 +20,7 @@ import uk.ac.aber.dcs.cs31620.vocantastic.model.PreferencesViewModel
 import uk.ac.aber.dcs.cs31620.vocantastic.storage.WELCOME_SCREEN
 import uk.ac.aber.dcs.cs31620.vocantastic.ui.home.HomeScreenTopLevel
 import uk.ac.aber.dcs.cs31620.vocantastic.ui.home.SettingsScreenTopLevel
+import uk.ac.aber.dcs.cs31620.vocantastic.ui.list.FlashcardScreenTopLevel
 import uk.ac.aber.dcs.cs31620.vocantastic.ui.list.ViewListScreenTopLevel
 import uk.ac.aber.dcs.cs31620.vocantastic.ui.navigation.Screen
 import uk.ac.aber.dcs.cs31620.vocantastic.ui.testing.*
@@ -52,7 +53,7 @@ class MainActivity : ComponentActivity() {
 private fun BuildNavigationGraph(
     wordPairViewModel: WordPairViewModel = viewModel(),
     dataViewModel: PreferencesViewModel = hiltViewModel(),
-    listViewModel : ListViewModel = viewModel()
+    listViewModel: ListViewModel = viewModel()
 ) {
 
     val configSet = dataViewModel.getBoolean(WELCOME_SCREEN)
@@ -69,14 +70,36 @@ private fun BuildNavigationGraph(
         startDestination = startRoute
     ) {
         composable(Screen.Home.route) { HomeScreenTopLevel(navController) }
-        composable(Screen.List.route) { ViewListScreenTopLevel(navController, wordPairViewModel, listViewModel) }
+        composable(Screen.List.route) {
+            ViewListScreenTopLevel(
+                navController,
+                wordPairViewModel,
+                listViewModel
+            )
+        }
         composable(Screen.Test.route) { TestScreen(navController, wordPairViewModel) }
         composable(Screen.Words.route) { AddWordScreenTopLevel(navController) }
-        composable(Screen.Welcome.route) { WelcomeScreen(navController)}
-        composable(Screen.TestScore.route) {TestScoreScreenTopLevel(navController)}
-        composable(Screen.AnagramTest.route) {AnagramScreenTopLevel(navController, wordPairViewModel)}
-        composable(Screen.FindTest.route) { FindAnswerScreenTopLevel( navController , wordPairViewModel) }
-        composable(Screen.Settings.route) { SettingsScreenTopLevel( navController)}
+        composable(Screen.Welcome.route) { WelcomeScreen(navController) }
+        composable(Screen.TestScore.route) { TestScoreScreenTopLevel(navController) }
+        composable(Screen.AnagramTest.route) {
+            AnagramScreenTopLevel(
+                navController,
+                wordPairViewModel
+            )
+        }
+        composable(Screen.FindTest.route) {
+            FindAnswerScreenTopLevel(
+                navController,
+                wordPairViewModel
+            )
+        }
+        composable(Screen.Settings.route) { SettingsScreenTopLevel(navController) }
+        composable(Screen.Flashcard.route) {
+            FlashcardScreenTopLevel(
+                navController = navController,
+                wordPairViewModel = wordPairViewModel
+            )
+        }
     }
 }
 

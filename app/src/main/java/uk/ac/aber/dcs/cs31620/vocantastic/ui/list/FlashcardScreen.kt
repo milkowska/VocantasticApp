@@ -1,4 +1,4 @@
-package uk.ac.aber.dcs.cs31620.vocantastic.ui.testing
+package uk.ac.aber.dcs.cs31620.vocantastic.ui.list
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
@@ -9,51 +9,37 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import uk.ac.aber.dcs.cs31620.vocantastic.R
+import uk.ac.aber.dcs.cs31620.vocantastic.model.PreferencesViewModel
 import uk.ac.aber.dcs.cs31620.vocantastic.model.WordPair
 import uk.ac.aber.dcs.cs31620.vocantastic.model.WordPairViewModel
-import uk.ac.aber.dcs.cs31620.vocantastic.model.PreferencesViewModel
-import uk.ac.aber.dcs.cs31620.vocantastic.storage.TEST_SCORE
-import uk.ac.aber.dcs.cs31620.vocantastic.ui.anagramCreator
-import uk.ac.aber.dcs.cs31620.vocantastic.ui.getNumberOfQuestions
 import uk.ac.aber.dcs.cs31620.vocantastic.ui.navigation.Screen
 import uk.ac.aber.dcs.cs31620.vocantastic.ui.randomIndexGenerator
 import uk.ac.aber.dcs.cs31620.vocantastic.ui.theme.Railway
 
-/**
- * This is solving an anagram test screen. The user is given a word in a native language and the anagram of its translation. The user is prompted to
- * enter the (translated word in a foreign language) that is correctly rearranged. The length of the test depends on the size of the vocabulary list.
- * If it is larger than 15, there are fifteen steps in total. Otherwise, there are as many as there are word pairs in the dictionary.
- */
-
 @Composable
-fun AnagramScreenTopLevel(
+fun FlashcardScreenTopLevel(
     navController: NavHostController,
     wordPairViewModel: WordPairViewModel,
-    dataViewModel: PreferencesViewModel = hiltViewModel()
 ) {
     val wordList by wordPairViewModel.wordList.observeAsState(listOf())
 
-    AnagramScreen(
+    FlashcardScreen(
         navController = navController,
         wordList = wordList,
-        number = getNumberOfQuestions(wordList),
-        dataViewModel = dataViewModel
+        number = wordList.size,
     )
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun AnagramScreen(
+fun FlashcardScreen(
     navController: NavHostController,
     wordList: List<WordPair>,
     number: Int,
-    dataViewModel: PreferencesViewModel = hiltViewModel()
 ) {
     // Indicates the question number, starts with 1
     var step by rememberSaveable { mutableStateOf(1) }
@@ -62,21 +48,12 @@ fun AnagramScreen(
     var wordA by rememberSaveable { mutableStateOf("") } // a window
     var wordB by rememberSaveable { mutableStateOf("") } // okno
 
-    // Stores the user's chosen answer
-    var userAnswer by rememberSaveable { mutableStateOf("") }
-
     // Stores random IDs that were used in a test to avoid repeatability
     val storeUsedIndex = rememberSaveable { mutableListOf<Int>() }
 
-    //Stores the anagram of the translated word in a current step
-    var anagramed by rememberSaveable { mutableStateOf("") }
+    var hasNextCard by rememberSaveable { mutableStateOf(true) }
 
-    // Test score displayed after the test is finished
-    var resultScore by rememberSaveable { mutableStateOf(0) }
-
-    var hasNextStep by rememberSaveable { mutableStateOf(true) }
-
-    if (wordList.isNotEmpty() && hasNextStep) {
+    if (wordList.isNotEmpty() && hasNextCard) {
         val randomId = randomIndexGenerator(wordList.size - 1, storeUsedIndex)
         storeUsedIndex.add(randomId)
 
@@ -86,8 +63,10 @@ fun AnagramScreen(
         wordA = thisWordPair.entryWord
         wordB = thisWordPair.translatedWord
 
-        anagramed = anagramCreator(thisWordPair.translatedWord.toUpperCase())
-        hasNextStep = false
+        hasNextCard = false
+    }
+    var cardFace by remember {
+        mutableStateOf(CardFace.Front)
     }
 
     Column(
@@ -97,12 +76,13 @@ fun AnagramScreen(
             .fillMaxSize()
     ) {
         val progressValue = step / number.toFloat()
+
         val openAlertDialog = remember { mutableStateOf(false) }
         Text(
-            text = stringResource(id = R.string.anagram),
+            text = stringResource(id = R.string.flashcard),
             modifier = Modifier.padding(start = 8.dp, top = 16.dp),
             fontWeight = FontWeight.Bold,
-            fontSize = 24.sp
+            fontSize = 22.sp
         )
 
         Spacer(modifier = Modifier.height(40.dp))
@@ -111,79 +91,35 @@ fun AnagramScreen(
 
         Spacer(modifier = Modifier.height(20.dp))
 
-        Text(
-            text = stringResource(id = R.string.the_anagram_text),
-            fontSize = 20.sp
-        )
-        Spacer(modifier = Modifier.height(20.dp))
-
-        Card(
+        FlipCard(
+            cardFace = cardFace,
+            onClick = { cardFace = cardFace.next },
             modifier = Modifier
-                .width(278.dp)
-                .height(85.dp)
-        ) {
-            Row(
-                horizontalArrangement = Arrangement.Center,
-                verticalAlignment = Alignment.CenterVertically,
-                modifier = Modifier.fillMaxSize()
-            ) {
-                Text(
-                    text = wordA,
-                    textAlign = TextAlign.Center,
-                    fontSize = 22.sp
-                )
-            }
-        }
-
-        Spacer(modifier = Modifier.height(25.dp))
-
-        Text(
-            text = stringResource(id = R.string.is_word),
-            fontSize = 20.sp
-        )
-
-        Spacer(modifier = Modifier.height(25.dp))
-
-        Card(
-            modifier = Modifier
-                .width(278.dp)
-                .height(85.dp)
-        ) {
-            Row(
-                horizontalArrangement = Arrangement.Center,
-                verticalAlignment = Alignment.CenterVertically,
-                modifier = Modifier.fillMaxSize()
-            ) {
-                Text(
-                    text = anagramCreator(anagramed),
-                    textAlign = TextAlign.Center,
-                    fontSize = 22.sp,
-                    modifier = Modifier.padding(all = 10.dp)
-                )
-            }
-        }
-
-        Spacer(modifier = Modifier.height(30.dp))
-
-        Text(
-            text = stringResource(id = R.string.correct_answer),
-            fontSize = 20.sp
-        )
-
-        Spacer(modifier = Modifier.height(15.dp))
-
-        OutlinedTextField(
-            value = userAnswer,
-            onValueChange = {
-                userAnswer = it
+                .fillMaxWidth(.5f)
+                .aspectRatio(1f),
+            front = {
+                Box(
+                    modifier = Modifier.fillMaxSize(),
+                    contentAlignment = Alignment.Center,
+                ) {
+                    Text(
+                        text = wordA,
+                        fontFamily = Railway,
+                    )
+                }
             },
-            label = {
-                Text(stringResource(id = R.string.type_here))
+            back = {
+                Box(
+                    modifier = Modifier.fillMaxSize(),
+                    contentAlignment = Alignment.Center,
+                ) {
+                    Text(
+                        text = wordB,
+                        fontFamily = Railway,
+                    )
+                }
             },
-            modifier = Modifier,
-            singleLine = true,
         )
-
         Spacer(modifier = Modifier.height(10.dp))
 
         Row(
@@ -237,7 +173,7 @@ fun AnagramScreen(
                                 stringResource(R.string.exit),
                                 fontFamily = Railway,
 
-                            )
+                                )
                         }
                     },
                     dismissButton = {
@@ -250,7 +186,7 @@ fun AnagramScreen(
                                 stringResource(R.string.dismiss),
                                 fontFamily = Railway,
 
-                            )
+                                )
                         }
                     }
                 )
@@ -263,21 +199,13 @@ fun AnagramScreen(
                 .height(60.dp)
                 .width(200.dp)
                 .weight(0.5f),
-                enabled = userAnswer.isNotEmpty(),
                 onClick = {
-                    if (userAnswer.lowercase().trim() == wordB.lowercase().trim()) {
-                        resultScore++
-                    }
+
                     if (step >= number) {
-                        val finalScore = (resultScore * 100) / number
-
-                        dataViewModel.saveInt(finalScore, TEST_SCORE)
-                        navController.navigate(Screen.TestScore.route)
-
+                        step = 0
                     } else if (wordList.isNotEmpty() && (step < number)) {
-                        hasNextStep = true
+                        hasNextCard = true
                         step++
-                        userAnswer = ""
                     }
                 })
             {
@@ -287,7 +215,7 @@ fun AnagramScreen(
                     fontFamily = Railway
                 )
             }
+
         }
     }
 }
-
