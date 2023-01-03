@@ -66,6 +66,7 @@ fun TestScreenContent(
     val context = LocalContext.current
     val openAnagramDialog = remember { mutableStateOf(false) }
     val openFindAnswerDialog = remember { mutableStateOf(false) }
+    val openFlashcardsDialog = remember { mutableStateOf(false) }
 
     Column(
         modifier = modifier
@@ -128,12 +129,12 @@ fun TestScreenContent(
                         text = stringResource(R.string.anagram_title),
                         fontFamily = Railway
                     )
-
                 },
                 text = {
                     Text(
                         stringResource(R.string.anagram_description),
-                        fontFamily = Railway
+                        fontFamily = Railway,
+                        fontSize = 15.sp
                     )
                 },
                 confirmButton = {
@@ -178,6 +179,7 @@ fun TestScreenContent(
                         Toast.LENGTH_LONG
                     ).show()
                 } else {
+
                     openFindAnswerDialog.value = true
                 }
             }
@@ -188,6 +190,7 @@ fun TestScreenContent(
                 fontFamily = Railway
             )
         }
+
         if (openFindAnswerDialog.value) {
 
             AlertDialog(
@@ -199,12 +202,12 @@ fun TestScreenContent(
                         text = stringResource(R.string.find_answer_title),
                         fontFamily = Railway
                     )
-
                 },
                 text = {
                     Text(
                         stringResource(R.string.find_answer_description),
-                        fontFamily = Railway
+                        fontFamily = Railway,
+                        fontSize = 15.sp
                     )
                 },
                 confirmButton = {
@@ -256,7 +259,7 @@ fun TestScreenContent(
                         Toast.LENGTH_LONG
                     ).show()
                 } else {
-                    navController.navigate(route = Screen.Flashcard.route)
+                    openFlashcardsDialog.value = true
                 }
             }
         )
@@ -267,5 +270,54 @@ fun TestScreenContent(
                 fontSize = 16.sp
             )
         }
+
+        if (openFlashcardsDialog.value) {
+
+            AlertDialog(
+                onDismissRequest = {
+                    openFindAnswerDialog.value = false
+                },
+                title = {
+                    Text(
+                        text = stringResource(R.string.flashcard),
+                        fontFamily = Railway
+                    )
+                },
+                text = {
+                    Text(
+                        stringResource(R.string.flashcards_description),
+                        fontFamily = Railway,
+                        fontSize = 15.sp
+                    )
+                },
+                confirmButton = {
+                    TextButton(
+                        onClick = {
+                            openFlashcardsDialog.value = false
+                            navController.navigate(route = Screen.Flashcard.route)
+                        },
+                    ) {
+                        Text(
+                            stringResource(R.string.start_test),
+                            fontFamily = Railway
+                        )
+                    }
+                },
+                dismissButton = {
+                    TextButton(
+                        onClick = {
+                            openFlashcardsDialog.value = false
+                        },
+                    )
+                    {
+                        Text(
+                            stringResource(R.string.try_later),
+                            fontFamily = Railway
+                        )
+                    }
+                }
+            )
+        }
     }
 }
+

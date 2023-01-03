@@ -24,6 +24,7 @@ import uk.ac.aber.dcs.cs31620.vocantastic.model.PreferencesViewModel
 import uk.ac.aber.dcs.cs31620.vocantastic.storage.*
 import uk.ac.aber.dcs.cs31620.vocantastic.ui.navigation.Screen
 import uk.ac.aber.dcs.cs31620.vocantastic.ui.theme.Railway
+import java.util.*
 
 @Composable
 fun WelcomeScreen(
@@ -144,11 +145,11 @@ private fun WelcomeScreenContent(
                 } else {
 
                     dataViewModel.saveString(
-                        nativeLanguage.trim().toLowerCase(),
+                        nativeLanguage.trim().lowercase(Locale.ROOT),
                         NATIVE_LANGUAGE_KEY
                     )
                     dataViewModel.saveString(
-                        foreignLanguage.trim().toLowerCase(),
+                        foreignLanguage.trim().lowercase(Locale.ROOT),
                         FOREIGN_LANGUAGE_KEY
                     )
 

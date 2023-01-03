@@ -3,7 +3,6 @@ package uk.ac.aber.dcs.cs31620.vocantastic.flashcard
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
-
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
@@ -80,7 +79,6 @@ fun FlashcardScreen(
 
         val numberOfFlipped = step - 1
 
-
         androidx.compose.material.TopAppBar(
             elevation = 5.dp,
             title = {
@@ -96,7 +94,9 @@ fun FlashcardScreen(
                 }
             },
         )
+
         Spacer(modifier = Modifier.height(30.dp))
+
         Text(
             text = stringResource(id = R.string.flashcard_info),
             fontSize = 22.sp,
@@ -159,7 +159,6 @@ fun FlashcardScreen(
 
         Spacer(modifier = Modifier.height(50.dp))
 
-
         ElevatedButton(modifier = Modifier
             .height(60.dp)
             .width(140.dp),
@@ -175,8 +174,6 @@ fun FlashcardScreen(
             Text(
                 text = stringResource(id = R.string.next)
             )
-
-
         }
     }
 }

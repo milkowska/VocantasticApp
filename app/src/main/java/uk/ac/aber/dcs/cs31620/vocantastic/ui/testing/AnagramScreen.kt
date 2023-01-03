@@ -191,14 +191,12 @@ fun AnagramScreen(
             verticalAlignment = Alignment.CenterVertically,
             modifier = Modifier.padding(all = 35.dp)
         ) {
-
             FilledTonalButton(modifier = Modifier
                 .height(60.dp)
                 .width(200.dp)
                 .weight(0.5f),
                 onClick = {
                     openAlertDialog.value = true
-
                 }
             ) {
                 Text(
@@ -218,7 +216,6 @@ fun AnagramScreen(
                             text = stringResource(R.string.are_you_sure),
                             fontFamily = Railway
                         )
-
                     },
                     text = {
                         Text(
@@ -236,7 +233,6 @@ fun AnagramScreen(
                             Text(
                                 stringResource(R.string.exit),
                                 fontFamily = Railway,
-
                             )
                         }
                     },
@@ -249,12 +245,10 @@ fun AnagramScreen(
                             Text(
                                 stringResource(R.string.dismiss),
                                 fontFamily = Railway,
-
                             )
                         }
                     }
                 )
-
             }
 
             Spacer(modifier = Modifier.width(30.dp))
@@ -270,16 +264,15 @@ fun AnagramScreen(
                     }
                     if (step >= number) {
                         val finalScore = (resultScore * 100) / number
-
                         dataViewModel.saveInt(finalScore, TEST_SCORE)
                         navController.navigate(Screen.TestScore.route)
-
                     } else if (wordList.isNotEmpty() && (step < number)) {
                         hasNextStep = true
                         step++
                         userAnswer = ""
                     }
-                })
+                }
+            )
             {
                 Text(
                     text = stringResource(id = R.string.next),

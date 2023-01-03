@@ -34,7 +34,6 @@ fun SettingsScreenTopLevel(
     navController: NavHostController,
     dataViewModel: PreferencesViewModel = hiltViewModel(),
     wordPairViewModel: WordPairViewModel = viewModel()
-
 ) {
     SettingsScreen(navController = navController, dataViewModel, wordPairViewModel)
 }
@@ -44,10 +43,10 @@ fun SettingsScreen(
     navController: NavHostController,
     dataViewModel: PreferencesViewModel = hiltViewModel(),
     wordPairViewModel: WordPairViewModel = viewModel()
-
 ) {
     val context = LocalContext.current
     val openDialog = remember { mutableStateOf(false) }
+
     var nativeLanguage by rememberSaveable { mutableStateOf("") }
     var foreignLanguage by rememberSaveable { mutableStateOf("") }
 
@@ -58,14 +57,12 @@ fun SettingsScreen(
         mutableStateOf(false)
     }
 
-
     Column(
         modifier = Modifier
             .fillMaxSize(),
         verticalArrangement = Arrangement.Top,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-
         TopAppBar(
             elevation = 5.dp,
             title = {
@@ -136,7 +133,6 @@ fun SettingsScreen(
             placeholder = {
                 Text(text = stringResource(id = R.string.foreign_language_to_learn))
             },
-
             )
 
         Spacer(modifier = Modifier.height(35.dp))

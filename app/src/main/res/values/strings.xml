@@ -38,6 +38,7 @@
     <string name="start_test">Start test</string>
     <string name="try_later">Try later</string>
     <string name="settings_title">You can change your current language configuration here. If you proceed, all vocabulary will be deleted.</string>
+    <string name="flashcards_description">Use flash cards to learn vocabulary faster. You will be given a word in either native or foreign language - try to guess its translation before flipping the card!</string>
     <string name="thinking_image">thinking pose</string>
     <string name="your_own_language">This is your own language</string>
     <string name="foreign_language_to_learn">The language you will learn</string>

@@ -1,6 +1,11 @@
 package uk.ac.aber.dcs.cs31620.vocantastic.ui
 
+import uk.ac.aber.dcs.cs31620.vocantastic.model.PreferencesViewModel
 import uk.ac.aber.dcs.cs31620.vocantastic.model.WordPair
+import uk.ac.aber.dcs.cs31620.vocantastic.model.WordPairViewModel
+import uk.ac.aber.dcs.cs31620.vocantastic.storage.FOREIGN_LANGUAGE_KEY
+import uk.ac.aber.dcs.cs31620.vocantastic.storage.NATIVE_LANGUAGE_KEY
+import uk.ac.aber.dcs.cs31620.vocantastic.storage.WELCOME_SCREEN
 
 // Creates an anagram given a word by sorting the letters in descending order.
 fun anagramCreator(originalWord: String): String {
@@ -25,4 +30,11 @@ fun getNumberOfQuestions(list: List<WordPair>): Int {
     } else {
         list.size
     }
+}
+
+fun deleteData(dataViewModel: PreferencesViewModel, wordPairViewModel: WordPairViewModel) {
+    dataViewModel.saveBoolean(false, WELCOME_SCREEN)
+    wordPairViewModel.clearWordList()
+    dataViewModel.saveString("", NATIVE_LANGUAGE_KEY)
+    dataViewModel.saveString("", FOREIGN_LANGUAGE_KEY)
 }

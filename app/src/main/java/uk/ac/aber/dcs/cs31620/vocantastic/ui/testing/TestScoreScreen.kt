@@ -13,20 +13,16 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
-//import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import uk.ac.aber.dcs.cs31620.vocantastic.R
 import uk.ac.aber.dcs.cs31620.vocantastic.model.PreferencesViewModel
 import uk.ac.aber.dcs.cs31620.vocantastic.storage.TEST_SCORE
-// import uk.ac.aber.dcs.cs31620.vocantastic.preferencesStorage.TEST_SCORE
 import uk.ac.aber.dcs.cs31620.vocantastic.ui.navigation.Screen
 import uk.ac.aber.dcs.cs31620.vocantastic.ui.theme.Railway
-
 
 @Composable
 fun TestScoreScreenTopLevel(
     navController: NavHostController,
-
     dataViewModel: PreferencesViewModel = hiltViewModel()
 ) {
     val score = dataViewModel.getInt(TEST_SCORE)
@@ -41,7 +37,6 @@ fun TestScoreScreen(
     score: Int?,
     dataViewModel: PreferencesViewModel = hiltViewModel()
 ) {
-
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = Modifier
@@ -61,6 +56,7 @@ fun TestScoreScreen(
             fontFamily = Railway,
             fontSize = 25.sp
         )
+
         Spacer(modifier = Modifier.height(20.dp))
 
         Card(
@@ -134,13 +130,11 @@ fun TestScoreScreen(
                 }, modifier = modifier
                     .width(220.dp)
                     .height(50.dp)
-
             ) {
                 Text(
                     stringResource(id = R.string.continue_to_next_screen),
                     fontFamily = Railway
                 )
-
             }
         }
     }

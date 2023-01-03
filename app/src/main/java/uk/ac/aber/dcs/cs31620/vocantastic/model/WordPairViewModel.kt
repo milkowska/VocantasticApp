@@ -32,11 +32,6 @@ class WordPairViewModel(application: Application) : AndroidViewModel(application
             repository.delete(wordPair)
         }
     }
-    fun updateWordPair(wordPair: WordPair) {
-        viewModelScope.launch(Dispatchers.IO) {
-            repository.update(wordPair)
-        }
-    }
 
     private fun loadOrderedList(): LiveData<List<WordPair>> {
         return repository.getAlphOrderList()

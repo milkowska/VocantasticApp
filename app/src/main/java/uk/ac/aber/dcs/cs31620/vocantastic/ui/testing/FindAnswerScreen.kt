@@ -82,7 +82,9 @@ fun FindAnswerScreen(
     var hasNextStep by rememberSaveable { mutableStateOf(true) }
 
     val composableScope = rememberCoroutineScope()
+
     if (wordList.isNotEmpty() && hasNextStep) {
+
         // Generate next word pair
         val nextWordPair = randomIndexGenerator(wordList.size - 1, questionBank)
 
@@ -104,8 +106,10 @@ fun FindAnswerScreen(
             multipleChoiceList.add(wordList[wrongAnswer])
             answerBank.add(wrongAnswer)
         }
+
         // Shuffling the list of answers so that the correct answer is not displayed as first option every time
         multipleChoiceList.shuffle()
+
         hasNextStep = false
     }
 
@@ -115,8 +119,10 @@ fun FindAnswerScreen(
         modifier = Modifier
             .fillMaxSize()
     ) {
+
         val progressValue = step / number.toFloat()
         val openAlertDialog = remember { mutableStateOf(false) }
+
         Text(
             text = stringResource(id = R.string.find_correct_answer),
             fontWeight = FontWeight.Bold,
@@ -135,7 +141,8 @@ fun FindAnswerScreen(
             modifier = Modifier
                 .width(278.dp)
                 .height(100.dp)
-        ) {
+        )
+        {
             Row(
                 horizontalArrangement = Arrangement.Center,
                 verticalAlignment = Alignment.CenterVertically,
@@ -161,7 +168,8 @@ fun FindAnswerScreen(
                         start = 20.dp,
                         bottom = 20.dp
                     )
-            ) {
+            )
+            {
                 Checkbox(
                     checked = answer == userAnswer,
                     onCheckedChange = {
@@ -188,13 +196,15 @@ fun FindAnswerScreen(
                     openAlertDialog.value = true
 
                 }
-            ) {
+            )
+            {
                 Text(
                     text = stringResource(id = R.string.quit),
                     fontSize = 16.sp,
                     fontFamily = Railway
                 )
             }
+
             if (openAlertDialog.value) {
                 AlertDialog(
                     onDismissRequest = {
@@ -205,7 +215,6 @@ fun FindAnswerScreen(
                             text = stringResource(R.string.are_you_sure),
                             fontFamily = Railway
                         )
-
                     },
                     text = {
                         Text(
@@ -240,7 +249,6 @@ fun FindAnswerScreen(
                         }
                     }
                 )
-
             }
 
             Spacer(modifier = Modifier.width(30.dp))
@@ -260,6 +268,7 @@ fun FindAnswerScreen(
                         composableScope.launch(Dispatchers.IO) {
                             dataViewModel.saveInt(finalScore, TEST_SCORE)
                         }
+
                         navController.navigate(Screen.TestScore.route)
 
                     } else if (wordList.isNotEmpty() && (step < number)) {
@@ -269,7 +278,8 @@ fun FindAnswerScreen(
                         step++
                         userAnswer = ""
                     }
-                })
+                }
+            )
             {
                 Text(
                     text = stringResource(id = R.string.next),

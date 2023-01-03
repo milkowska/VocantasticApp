@@ -5,7 +5,6 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
-import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
@@ -46,6 +45,7 @@ fun HomeScreen(
                 .padding(innerPadding)
                 .fillMaxSize()
         ) {
+
             val nativeLanguage = dataViewModel.getString(NATIVE_LANGUAGE_KEY)
             val foreignLanguage = dataViewModel.getString(FOREIGN_LANGUAGE_KEY)
 
@@ -82,16 +82,17 @@ fun HomeScreen(
                     text = "I want to learn $foreignLanguage!",
                     fontSize = 22.sp
                 )
+
                 Spacer(modifier = Modifier.height(20.dp))
 
                 SettingsButton(
                     modifier = Modifier
                         .height(50.dp),
                     onClick = {
+
                         navController.navigate(Screen.Settings.route)
                     }
                 )
-
             }
         }
     }
