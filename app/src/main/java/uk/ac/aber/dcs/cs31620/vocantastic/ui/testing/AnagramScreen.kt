@@ -14,6 +14,10 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
+import kotlinx.coroutines.DelicateCoroutinesApi
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import uk.ac.aber.dcs.cs31620.vocantastic.R
 import uk.ac.aber.dcs.cs31620.vocantastic.model.WordPair
 import uk.ac.aber.dcs.cs31620.vocantastic.model.WordPairViewModel
@@ -47,7 +51,7 @@ fun AnagramScreenTopLevel(
     )
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class, DelicateCoroutinesApi::class)
 @Composable
 fun AnagramScreen(
     navController: NavHostController,
@@ -264,8 +268,13 @@ fun AnagramScreen(
                     }
                     if (step >= number) {
                         val finalScore = (resultScore * 100) / number
-                        dataViewModel.saveInt(finalScore, TEST_SCORE)
+                        GlobalScope.launch {
+                            dataViewModel.saveInt(finalScore, TEST_SCORE)
+                            delay(1000)
+                        }
+
                         navController.navigate(Screen.TestScore.route)
+
                     } else if (wordList.isNotEmpty() && (step < number)) {
                         hasNextStep = true
                         step++

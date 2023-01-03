@@ -15,8 +15,7 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
 import uk.ac.aber.dcs.cs31620.vocantastic.R
 import uk.ac.aber.dcs.cs31620.vocantastic.model.WordPair
 import uk.ac.aber.dcs.cs31620.vocantastic.model.WordPairViewModel
@@ -49,7 +48,7 @@ fun FindAnswerScreenTopLevel(
     )
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class, DelicateCoroutinesApi::class)
 @Composable
 fun FindAnswerScreen(
     navController: NavHostController,
@@ -188,7 +187,7 @@ fun FindAnswerScreen(
             verticalAlignment = Alignment.CenterVertically,
             modifier = Modifier.padding(all = 35.dp)
         ) {
-            Button(modifier = Modifier
+            FilledTonalButton(modifier = Modifier
                 .height(60.dp)
                 .width(200.dp)
                 .weight(0.5f),
@@ -253,7 +252,7 @@ fun FindAnswerScreen(
 
             Spacer(modifier = Modifier.width(30.dp))
 
-            Button(modifier = Modifier
+            FilledTonalButton(modifier = Modifier
                 .height(60.dp)
                 .width(200.dp)
                 .weight(0.5f),
@@ -264,9 +263,9 @@ fun FindAnswerScreen(
                     }
                     if (step >= number) {
                         val finalScore = (resultScore * 100) / number
-
-                        composableScope.launch(Dispatchers.IO) {
+                        GlobalScope.launch {
                             dataViewModel.saveInt(finalScore, TEST_SCORE)
+                            delay(1000)
                         }
 
                         navController.navigate(Screen.TestScore.route)

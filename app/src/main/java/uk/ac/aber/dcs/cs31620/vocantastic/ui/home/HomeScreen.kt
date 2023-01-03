@@ -10,6 +10,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.capitalize
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -20,6 +21,7 @@ import uk.ac.aber.dcs.cs31620.vocantastic.storage.*
 import uk.ac.aber.dcs.cs31620.vocantastic.ui.components.TopLevelScaffold
 import uk.ac.aber.dcs.cs31620.vocantastic.ui.navigation.Screen
 import uk.ac.aber.dcs.cs31620.vocantastic.ui.theme.Railway
+import java.util.*
 
 
 @SuppressLint("CoroutineCreationDuringComposition")
@@ -71,17 +73,20 @@ fun HomeScreen(
                     contentScale = ContentScale.Crop
                 )
 
-                Text(
-                    text = "I speak $nativeLanguage, and",
-                    fontSize = 22.sp
-                )
+                if (nativeLanguage != null) {
+                    Text(
+                        text = "I speak ${nativeLanguage.capitalize(Locale.ROOT)}, and",
+                        fontSize = 22.sp
+                    )
+                }
 
                 Spacer(modifier = Modifier.height(15.dp))
-
-                Text(
-                    text = "I want to learn $foreignLanguage!",
-                    fontSize = 22.sp
-                )
+                if (foreignLanguage != null) {
+                    Text(
+                        text = "I want to learn ${foreignLanguage.capitalize(Locale.ROOT)}!",
+                        fontSize = 22.sp
+                    )
+                }
 
                 Spacer(modifier = Modifier.height(20.dp))
 
