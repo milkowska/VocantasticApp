@@ -30,7 +30,9 @@ import androidx.compose.material.icons.rounded.Search
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.style.TextAlign
 import uk.ac.aber.dcs.cs31620.vocantastic.model.ListViewModel
+import uk.ac.aber.dcs.cs31620.vocantastic.ui.navigation.Screen
 import uk.ac.aber.dcs.cs31620.vocantastic.ui.theme.Railway
 
 @Composable
@@ -76,7 +78,7 @@ fun ViewListScreen(
             }
 
             val context = LocalContext.current
-
+            val openAlertDialog = remember { mutableStateOf(false) }
             // the empty screen is displayed if the word list is empty.
             if (wordList.isEmpty()) {
                 EmptyScreenContent()
@@ -158,24 +160,73 @@ fun ViewListScreen(
                                                 .width(100.dp),
 
                                             onClick = {
-                                                doDelete(
-                                                    WordPair(
-                                                        entryWord = word.entryWord,
-                                                        translatedWord = word.translatedWord,
-                                                        id = word.id
-                                                    )
-                                                )
-                                                Toast.makeText(
-                                                    context,
-                                                    "Word pair has been removed.",
-                                                    Toast.LENGTH_SHORT
-                                                ).show()
+
+                                                openAlertDialog.value = true
+
                                             }
                                         )
                                         {
                                             Text(
                                                 text = stringResource(id = R.string.delete),
                                                 fontFamily = Railway
+                                            )
+                                        }
+                                        if (openAlertDialog.value) {
+                                            AlertDialog(
+                                                onDismissRequest = {
+                                                    openAlertDialog.value = false
+                                                },
+                                                title = {
+                                                    Text(
+                                                        text = stringResource(R.string.are_you_sure),
+                                                        fontFamily = Railway
+                                                    )
+                                                },
+                                                text = {
+                                                    Text(
+                                                        stringResource(R.string.delete_alert),
+                                                        fontFamily = Railway,
+                                                        fontSize = 15.sp
+                                                    )
+                                                },
+                                                confirmButton = {
+                                                    TextButton(
+                                                        onClick = {
+                                                            openAlertDialog.value = false
+
+                                                            doDelete(
+                                                                WordPair(
+                                                                    entryWord = word.entryWord,
+                                                                    translatedWord = word.translatedWord,
+                                                                    id = word.id
+                                                                )
+                                                            )
+
+                                                            Toast.makeText(
+                                                                context,
+                                                                "Word pair has been removed.",
+                                                                Toast.LENGTH_SHORT
+                                                            ).show()
+                                                        },
+                                                    ) {
+                                                        Text(
+                                                            stringResource(R.string.delete),
+                                                            fontFamily = Railway
+                                                        )
+                                                    }
+                                                },
+                                                dismissButton = {
+                                                    TextButton(
+                                                        onClick = {
+                                                            openAlertDialog.value = false
+                                                        },
+                                                    ) {
+                                                        Text(
+                                                            stringResource(R.string.dismiss),
+                                                            fontFamily = Railway
+                                                        )
+                                                    }
+                                                }
                                             )
                                         }
 
@@ -221,7 +272,8 @@ fun EmptyScreenContent(
                     " tab to note a new word. ",
             lineHeight = 1.2.em,
             fontSize = 27.sp,
-            modifier = modifier
+            modifier = modifier,
+            textAlign = TextAlign.Center
         )
     }
 }

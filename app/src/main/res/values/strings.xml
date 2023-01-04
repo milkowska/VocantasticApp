@@ -65,4 +65,5 @@
     <string name="flashcard_info">Tap the flashcard to reveal the translation!</string>
     <string name="alternatively">or learn with flashcards</string>
     <string name="home_title">Welcome to Vocantasic!</string>
+    <string name="delete_alert">This word pair will be removed from the list if you continue.</string>
 </resources>

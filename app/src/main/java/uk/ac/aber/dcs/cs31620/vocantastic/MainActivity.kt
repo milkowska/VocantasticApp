@@ -54,13 +54,12 @@ private fun BuildNavigationGraph(
     dataViewModel: PreferencesViewModel = hiltViewModel(),
     listViewModel: ListViewModel = viewModel()
 ) {
-
     val configSet = dataViewModel.getBoolean(WELCOME_SCREEN)
     val navController = rememberNavController()
 
     var startRoute = Screen.Home.route
 
-    if (configSet == false) {
+    if (configSet == false || configSet == null) {
         startRoute = Screen.Welcome.route
     }
 
