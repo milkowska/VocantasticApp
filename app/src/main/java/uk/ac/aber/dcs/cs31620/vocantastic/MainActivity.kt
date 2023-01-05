@@ -29,6 +29,9 @@ import uk.ac.aber.dcs.cs31620.vocantastic.ui.welcome.WelcomeScreen
 
 import uk.ac.aber.dcs.cs31620.vocantastic.ui.words.AddWordScreenTopLevel
 
+/**
+ *  it is the entry point for the app.
+ */
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
