@@ -6,6 +6,9 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 
+/**
+ * A view model that manages the search functionality in the vocabulary list.
+ */
 class ListViewModel : ViewModel() {
 
     var state by mutableStateOf(ListState())

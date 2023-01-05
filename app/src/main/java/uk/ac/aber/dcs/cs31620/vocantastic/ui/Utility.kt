@@ -31,8 +31,10 @@ fun getNumberOfQuestions(list: List<WordPair>): Int {
         list.size
     }
 }
-
-fun deleteData(dataViewModel: PreferencesViewModel, wordPairViewModel: WordPairViewModel) {
+/*
+    Using this function for debugging purpose.
+ */
+ fun deleteData(dataViewModel: PreferencesViewModel, wordPairViewModel: WordPairViewModel) {
     dataViewModel.saveBoolean(false, WELCOME_SCREEN)
     wordPairViewModel.clearWordList()
     dataViewModel.saveString("", NATIVE_LANGUAGE_KEY)

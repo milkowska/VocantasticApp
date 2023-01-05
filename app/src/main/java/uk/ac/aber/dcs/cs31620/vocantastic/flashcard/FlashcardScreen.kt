@@ -21,6 +21,10 @@ import uk.ac.aber.dcs.cs31620.vocantastic.ui.navigation.Screen
 import uk.ac.aber.dcs.cs31620.vocantastic.ui.randomIndexGenerator
 import uk.ac.aber.dcs.cs31620.vocantastic.ui.theme.Railway
 
+/**
+ * Flashcards are a way for the user to revise the vocabulary. It uses CardFace enum and a FlipCard file which is responsible for flipping the
+ * word, where a flipped word of the original word is its translation (word pair).
+ */
 @Composable
 fun FlashcardScreenTopLevel(
     navController: NavHostController,

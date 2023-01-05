@@ -23,6 +23,9 @@ import uk.ac.aber.dcs.cs31620.vocantastic.model.WordPair
 import uk.ac.aber.dcs.cs31620.vocantastic.model.WordPairViewModel
 import uk.ac.aber.dcs.cs31620.vocantastic.ui.theme.Railway
 
+/**
+ * The screen that allows the user to enter word pairs that will be added to the vocabulary list.
+ */
 @Composable
 fun AddWordScreenTopLevel(
     navController: NavHostController,

@@ -53,7 +53,7 @@ fun AnagramScreenTopLevel(
 
 @OptIn(ExperimentalMaterial3Api::class, DelicateCoroutinesApi::class)
 @Composable
-fun AnagramScreen(
+private fun AnagramScreen(
     navController: NavHostController,
     wordList: List<WordPair>,
     number: Int,

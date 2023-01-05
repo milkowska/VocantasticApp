@@ -50,7 +50,7 @@ fun FindAnswerScreenTopLevel(
 
 @OptIn(ExperimentalMaterial3Api::class, DelicateCoroutinesApi::class)
 @Composable
-fun FindAnswerScreen(
+private fun FindAnswerScreen(
     navController: NavHostController,
     wordList: List<WordPair>,
     number: Int,

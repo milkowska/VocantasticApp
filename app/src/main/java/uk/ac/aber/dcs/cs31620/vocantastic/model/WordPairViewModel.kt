@@ -8,6 +8,9 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import uk.ac.aber.dcs.cs31620.vocantastic.datasource.VocantasticRepository
 
+/**
+ * a View Model to cope with the data storing in the database.
+ */
 class WordPairViewModel(application: Application) : AndroidViewModel(application) {
     private val repository: VocantasticRepository = VocantasticRepository(application)
 

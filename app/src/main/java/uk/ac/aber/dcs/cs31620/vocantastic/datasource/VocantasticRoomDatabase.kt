@@ -6,8 +6,10 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import uk.ac.aber.dcs.cs31620.vocantastic.model.WordPair
 import uk.ac.aber.dcs.cs31620.vocantastic.model.WordPairDao
-import java.util.*
 
+/**
+ * Implementation of the Room Database
+ */
 @Database(entities = [WordPair::class], version = 1)
 abstract class VocantasticRoomDatabase : RoomDatabase() {
     abstract fun wordPairDao(): WordPairDao

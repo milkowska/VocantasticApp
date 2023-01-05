@@ -58,7 +58,7 @@ fun TestScreen(
 }
 
 @Composable
-fun TestScreenContent(
+private fun TestScreenContent(
     modifier: Modifier = Modifier,
     navController: NavHostController,
     wordList: List<WordPair>

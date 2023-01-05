@@ -23,7 +23,9 @@ import uk.ac.aber.dcs.cs31620.vocantastic.ui.navigation.Screen
 import uk.ac.aber.dcs.cs31620.vocantastic.ui.theme.Railway
 import java.util.*
 
-
+/**
+ * The Home screen of the application that is loaded first unless it is the absolute first app launch.
+ */
 @SuppressLint("CoroutineCreationDuringComposition")
 @Composable
 fun HomeScreenTopLevel(
@@ -47,7 +49,6 @@ fun HomeScreen(
                 .padding(innerPadding)
                 .fillMaxSize()
         ) {
-
             val nativeLanguage = dataViewModel.getString(NATIVE_LANGUAGE_KEY)
             val foreignLanguage = dataViewModel.getString(FOREIGN_LANGUAGE_KEY)
 
@@ -94,6 +95,7 @@ fun HomeScreen(
                     modifier = Modifier
                         .height(50.dp),
                     onClick = {
+
                         navController.navigate(Screen.Settings.route)
                     }
                 )
@@ -103,7 +105,7 @@ fun HomeScreen(
 }
 
 @Composable
-fun SettingsButton(
+private fun SettingsButton(
     modifier: Modifier = Modifier,
     onClick: () -> Unit = {}
 ) {

@@ -29,6 +29,9 @@ import uk.ac.aber.dcs.cs31620.vocantastic.model.PreferencesViewModel
 import uk.ac.aber.dcs.cs31620.vocantastic.ui.navigation.Screen
 import uk.ac.aber.dcs.cs31620.vocantastic.ui.theme.Railway
 
+/**
+ * This is the screen where the user can change their language preference.
+ */
 @Composable
 fun SettingsScreenTopLevel(
     navController: NavHostController,

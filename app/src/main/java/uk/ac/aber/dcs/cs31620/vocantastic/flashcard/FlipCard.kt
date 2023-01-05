@@ -8,7 +8,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import uk.ac.aber.dcs.cs31620.vocantastic.flashcard.CardFace
 
-
+/**
+ * Rotates the card when it is clicked.
+ */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun FlipCard(

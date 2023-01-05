@@ -3,6 +3,9 @@ package uk.ac.aber.dcs.cs31620.vocantastic.model
 import androidx.lifecycle.LiveData
 import androidx.room.*
 
+/**
+ * a Design pattern to interact with a database.
+ */
 @Dao
 interface WordPairDao {
     @Insert

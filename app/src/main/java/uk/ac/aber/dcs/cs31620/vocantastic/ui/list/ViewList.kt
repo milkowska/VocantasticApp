@@ -35,6 +35,9 @@ import uk.ac.aber.dcs.cs31620.vocantastic.model.ListViewModel
 import uk.ac.aber.dcs.cs31620.vocantastic.ui.navigation.Screen
 import uk.ac.aber.dcs.cs31620.vocantastic.ui.theme.Railway
 
+/**
+ * The screen for displaying either an empty list or already created list.
+ */
 @Composable
 fun ViewListScreenTopLevel(
     navController: NavHostController,
@@ -242,9 +245,8 @@ fun ViewListScreen(
     }
 }
 
-
 @Composable
-fun EmptyScreenContent(
+private fun EmptyScreenContent(
     modifier: Modifier = Modifier
 ) {
     Column(
@@ -278,9 +280,8 @@ fun EmptyScreenContent(
     }
 }
 
-
 @Composable
-fun SearchBar(
+private fun SearchBar(
     onCloseIconClick: () -> Unit,
     searchText: String,
     onTextChange: (String) -> Unit
@@ -315,7 +316,7 @@ fun SearchBar(
 }
 
 @Composable
-fun TopAppBar(
+private fun TopAppBar(
     onSearchIconClick: () -> Unit,
 ) {
     Row(

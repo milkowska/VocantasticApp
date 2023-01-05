@@ -18,7 +18,9 @@ import uk.ac.aber.dcs.cs31620.vocantastic.ui.navigation.Screen
 import uk.ac.aber.dcs.cs31620.vocantastic.ui.navigation.screens
 import uk.ac.aber.dcs.cs31620.vocantastic.ui.theme.Railway
 
-
+/**
+ * Implementation of the navigation bar.
+ */
 @Composable
 fun MainPageNavigationBar(
     navController: NavController

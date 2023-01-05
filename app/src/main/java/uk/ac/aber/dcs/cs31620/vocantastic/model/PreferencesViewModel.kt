@@ -8,6 +8,9 @@ import kotlinx.coroutines.runBlocking
 import uk.ac.aber.dcs.cs31620.vocantastic.storage.Storage
 import javax.inject.Inject
 
+/**
+ *  Responsible for preparing and managing the data for activity. It is a part of dataStore preferences.
+ */
 @HiltViewModel
 class PreferencesViewModel @Inject constructor(
     private val storage: Storage

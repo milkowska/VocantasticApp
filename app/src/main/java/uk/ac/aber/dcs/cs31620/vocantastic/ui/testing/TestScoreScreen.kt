@@ -20,6 +20,9 @@ import uk.ac.aber.dcs.cs31620.vocantastic.storage.TEST_SCORE
 import uk.ac.aber.dcs.cs31620.vocantastic.ui.navigation.Screen
 import uk.ac.aber.dcs.cs31620.vocantastic.ui.theme.Railway
 
+/**
+ * This screen is loaded anytime when the test is finished. The user gets the information regarding the score.
+ */
 @Composable
 fun TestScoreScreenTopLevel(
     navController: NavHostController,
@@ -31,7 +34,7 @@ fun TestScoreScreenTopLevel(
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun TestScoreScreen(
+private fun TestScoreScreen(
     navController: NavHostController,
     modifier: Modifier = Modifier,
     score: Int?,

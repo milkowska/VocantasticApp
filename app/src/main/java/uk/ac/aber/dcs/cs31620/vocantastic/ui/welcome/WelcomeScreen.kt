@@ -26,6 +26,9 @@ import uk.ac.aber.dcs.cs31620.vocantastic.ui.navigation.Screen
 import uk.ac.aber.dcs.cs31620.vocantastic.ui.theme.Railway
 import java.util.*
 
+/**
+ * The Screen that is loaded only on the first application launch to allow the user enter their language preference.
+ */
 @Composable
 fun WelcomeScreen(
     navController: NavHostController,
