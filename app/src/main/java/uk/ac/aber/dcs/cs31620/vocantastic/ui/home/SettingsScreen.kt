@@ -16,6 +16,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.toLowerCase
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -136,7 +137,7 @@ fun SettingsScreen(
             placeholder = {
                 Text(text = stringResource(id = R.string.foreign_language_to_learn))
             },
-            )
+        )
 
         Spacer(modifier = Modifier.height(35.dp))
 
@@ -150,6 +151,14 @@ fun SettingsScreen(
                     } else if (foreignLanguage.trim() == "") {
                         isErrorInForeignTextField = true
                     }
+                } else if (nativeLanguage.trim().lowercase() == foreignLanguage.trim().lowercase()) {
+                    Toast.makeText(
+                        context,
+                        "The languages must not be the same!",
+                        Toast.LENGTH_LONG,
+                    ).show()
+                    isErrorInNativeTextField = true
+                    isErrorInForeignTextField = true
                 } else {
                     dataViewModel.saveString(
                         nativeLanguage.capitalize(),

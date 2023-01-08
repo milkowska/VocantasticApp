@@ -145,6 +145,16 @@ private fun WelcomeScreenContent(
                     } else if (foreignLanguage.trim() == "") {
                         isErrorInForeignTextField = true
                     }
+                } else if (nativeLanguage.trim().lowercase() == foreignLanguage.trim()
+                        .lowercase()
+                ) {
+                    Toast.makeText(
+                        context,
+                        "The languages must not be the same!",
+                        Toast.LENGTH_LONG,
+                    ).show()
+                    isErrorInNativeTextField = true
+                    isErrorInForeignTextField = true
                 } else {
 
                     dataViewModel.saveString(

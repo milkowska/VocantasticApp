@@ -95,6 +95,7 @@ fun HomeScreen(
                     modifier = Modifier
                         .height(50.dp),
                     onClick = {
+
                         navController.navigate(Screen.Settings.route)
                     }
                 )
