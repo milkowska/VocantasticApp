@@ -17,7 +17,7 @@ To install the app, simply download the APK file.
 To use the app, simply open it on your Android device. The app will ask you to set the two languages for learning. After that, you can add word pairs, search for words, and take the tests. The flashcard and test score are available in the app's settings.
 
 # Credits
-The Language Learning App was created by [Your Name Here]. The app's UI design follows Material Design 3 guidelines.
+The Language Learning App was created by @milkowska. The app's UI design follows Material Design 3 guidelines.
 
 # Future Improvements
 Possible improvements for this app include:
